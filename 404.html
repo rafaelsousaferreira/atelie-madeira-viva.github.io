@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página não encontrada - Ateliê Madeira Viva</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .error-page {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    
+    .error-content {
+      max-width: 600px;
+    }
+    
+    .error-code {
+      font-size: 8rem;
+      font-family: var(--fonte-titulo);
+      color: var(--madeira-media);
+      line-height: 1;
+    }
+    
+    .error-message {
+      font-size: 2rem;
+      margin: 2rem 0;
+      color: var(--madeira-escura);
+    }
+    
+    .wood-divider {
+      width: 100px;
+      height: 4px;
+      background: var(--madeira-media);
+      margin: 2rem auto;
+    }
+    
+    .btn-home {
+      display: inline-block;
+      background: var(--madeira-media);
+      color: white;
+      padding: 1rem 2.5rem;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    
+    .btn-home:hover {
+      background: var(--madeira-escura);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="logo">
+        <i class="fas fa-tree"></i>
+        <span>Ateliê Madeira Viva</span>
+      </a>
+    </div>
+  </nav>
+  
+  <main class="error-page">
+    <div class="error-content">
+      <div class="error-code">404</div>
+      <h1 class="error-message">Página não encontrada</h1>
+      <div class="wood-divider"></div>
+      <p style="font-size: 1.2rem; margin-bottom: 2rem;">A madeira que você procura não está aqui...<br>mas temos muitas outras esperando por você.</p>
+      <a href="/" class="btn-home">
+        <i class="fas fa-home"></i> Voltar para Home
+      </a>
+    </div>
+  </main>
+  
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
