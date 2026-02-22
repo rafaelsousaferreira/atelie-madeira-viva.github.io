@@ -44,11 +44,613 @@
       .portfolio-container { box-shadow: none; padding: 0; }
       .no-print { display: none; }
     }
+
+      /* RESET E ESTILOS PARA PDF */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Variáveis da paleta amadeirada */
+    :root {
+      --madeira-clara: #e8d9cc;
+      --madeira-media: #b48c6c;
+      --madeira-escura: #634832;
+      --fundo: #faf3ea;
+      --texto: #3a2a1e;
+      --cinza-quente: #d4c0b0;
+      --dourado: #c4a27a;
+    }
+
+    body {
+      font-family: 'Georgia', 'Times New Roman', 'Playfair Display', serif;
+      background: var(--fundo);
+      color: var(--texto);
+      line-height: 1.5;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Container principal do portfolio */
+    .portfolio-pdf {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    /* Cada página do portfolio */
+    .page {
+      page-break-after: always;
+      position: relative;
+      background: white;
+      padding: 2.5cm 2cm;
+      min-height: 29.7cm; /* Altura A4 */
+      background-image: 
+        linear-gradient(90deg, rgba(180,140,108,0.03) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(180,140,108,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* Elementos decorativos de madeira */
+    .wood-border-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 25px;
+      background: repeating-linear-gradient(
+        45deg,
+        var(--madeira-media),
+        var(--madeira-media) 15px,
+        var(--madeira-escura) 15px,
+        var(--madeira-escura) 30px
+      );
+      opacity: 0.3;
+    }
+
+    .wood-border-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 25px;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--madeira-media),
+        var(--madeira-media) 15px,
+        var(--madeira-escura) 15px,
+        var(--madeira-escura) 30px
+      );
+      opacity: 0.3;
+    }
+
+    /* Cabeçalho com textura de madeira */
+    .header-wood {
+      background: linear-gradient(145deg, var(--madeira-clara) 0%, var(--cinza-quente) 100%);
+      padding: 2rem 0;
+      text-align: center;
+      border-radius: 100px 20px 100px 20px;
+      margin-bottom: 3rem;
+      box-shadow: inset 0 2px 10px rgba(99, 72, 50, 0.2);
+      border: 1px solid var(--madeira-media);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-wood::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><path d="M20 20 L30 15 L40 25 L50 15 L60 25 L70 15 L80 20 L75 35 L85 45 L70 50 L80 65 L65 70 L70 85 L50 80 L30 85 L35 70 L20 65 L30 50 L15 45 L25 35 Z" fill="%23634832"/></svg>');
+      background-size: 60px;
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    /* Tipografia */
+    h1 {
+      font-size: 4rem;
+      font-weight: normal;
+      letter-spacing: 0.05em;
+      color: var(--madeira-escura);
+      text-shadow: 2px 2px 0 var(--madeira-clara);
+      font-family: 'Playfair Display', 'Georgia', serif;
+      position: relative;
+      display: inline-block;
+      padding: 0 40px;
+    }
+
+    h1::before, h1::after {
+      content: "✽";
+      font-size: 2rem;
+      color: var(--madeira-media);
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    h1::before { left: -10px; }
+    h1::after { right: -10px; }
+
+    h2 {
+      font-size: 2.8rem;
+      font-weight: 300;
+      color: var(--madeira-escura);
+      border-bottom: 3px double var(--madeira-media);
+      padding-bottom: 0.5rem;
+      margin-bottom: 2rem;
+      font-family: 'Playfair Display', serif;
+    }
+
+    h3 {
+      font-size: 2rem;
+      color: var(--madeira-media);
+      margin-bottom: 1rem;
+      font-weight: 400;
+    }
+
+    h4 {
+      font-size: 1.4rem;
+      color: var(--madeira-escura);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .wood-subtitle {
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--madeira-escura);
+      background: rgba(180, 140, 108, 0.1);
+      display: inline-block;
+      padding: 0.5rem 2rem;
+      border-radius: 40px;
+    }
+
+    /* Grid para produtos */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5rem;
+      margin: 3rem 0;
+    }
+
+    .product-card {
+      background: white;
+      border: 1px solid var(--madeira-clara);
+      border-radius: 30px 8px 30px 8px;
+      overflow: hidden;
+      box-shadow: 0 15px 30px rgba(99, 72, 50, 0.1);
+      transition: transform 0.3s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .product-image {
+      height: 220px;
+      background-color: var(--cinza-quente);
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .product-tag {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--madeira-media);
+      color: white;
+      padding: 0.4rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .product-info {
+      padding: 1.8rem;
+      background: #fffaf4;
+    }
+
+    .product-info h4 {
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .product-styles {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+
+    .style-badge {
+      background: var(--madeira-clara);
+      color: var(--madeira-escura);
+      padding: 0.3rem 1.2rem;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* Tabela de estilos */
+    .styles-showcase {
+      display: flex;
+      gap: 2rem;
+      margin: 3rem 0;
+      justify-content: center;
+    }
+
+    .style-item {
+      flex: 1;
+      text-align: center;
+      background: linear-gradient(135deg, #fff8f0, #f5e8d9);
+      padding: 2rem;
+      border-radius: 80px 20px 80px 20px;
+      border: 2px solid var(--madeira-clara);
+    }
+
+    .style-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .style-item h4 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .style-item p {
+      color: #5a4a3a;
+    }
+
+    /* Selo artesanal */
+    .handmade-seal {
+      display: inline-block;
+      background: var(--madeira-escura);
+      color: var(--madeira-clara);
+      padding: 1rem 2.5rem;
+      border-radius: 100px 20px 100px 20px;
+      transform: rotate(-2deg);
+      font-size: 1.4rem;
+      font-weight: bold;
+      border: 3px solid var(--dourado);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      margin: 2rem 0;
+    }
+
+    /* Rodapé com textura */
+    .page-footer {
+      position: absolute;
+      bottom: 1.5cm;
+      left: 2cm;
+      right: 2cm;
+      text-align: center;
+      color: var(--madeira-media);
+      font-size: 0.9rem;
+      border-top: 2px solid var(--madeira-clara);
+      padding-top: 1rem;
+    }
+
+    .page-footer span {
+      background: white;
+      padding: 0 20px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+
+    /* Lista de materiais */
+    .materials-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .material-item {
+      background: var(--madeira-clara);
+      padding: 0.8rem 1.8rem;
+      border-radius: 40px;
+      font-size: 1.2rem;
+      border: 1px solid var(--madeira-media);
+      color: var(--madeira-escura);
+    }
+
+    /* Diferenciais */
+    .differentials {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+
+    .differential {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: #fcf6ef;
+      border-radius: 40px 10px 40px 10px;
+    }
+
+    .differential i {
+      font-size: 3rem;
+      color: var(--madeira-media);
+      margin-bottom: 1rem;
+    }
+
+    /* Imagens para portfolio (via url) */
+    .img-mesa { background-image: linear-gradient(145deg, #ac8e78, #7c6048), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60" fill="%23ffffff" opacity="0.2"><rect x="5" y="30" width="90" height="8" /><rect x="20" y="10" width="60" height="25" /><circle cx="35" cy="45" r="5"/><circle cx="65" cy="45" r="5"/></svg>'); background-blend-mode: overlay; }
+    .img-pia { background-image: linear-gradient(145deg, #b89c84, #6b4f38), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60" fill="%23ffffff" opacity="0.2"><rect x="15" y="20" width="70" height="30" rx="10" /><circle cx="35" cy="40" r="8"/><circle cx="65" cy="40" r="8"/></svg>'); background-blend-mode: overlay; }
+    .img-bancada { background-image: linear-gradient(145deg, #a58367, #5a4030), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60" fill="%23ffffff" opacity="0.2"><rect x="0" y="40" width="100" height="10" /><rect x="10" y="10" width="80" height="30" /></svg>'); background-blend-mode: overlay; }
+    .img-plantas { background-image: linear-gradient(145deg, #9f846c, #5e4a38), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60" fill="%23ffffff" opacity="0.2"><circle cx="50" cy="30" r="15" /><path d="M35 45 L50 30 L65 45" /></svg>'); background-blend-mode: overlay; }
+    .img-banheiro { background-image: linear-gradient(145deg, #b49474, #5c4432), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60" fill="%23ffffff" opacity="0.2"><rect x="25" y="15" width="50" height="35" rx="5" /><circle cx="50" cy="40" r="5"/></svg>'); background-blend-mode: overlay; }
+    .img-decor { background-image: linear-gradient(145deg, #c7aa8e, #6f5540), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60" fill="%23ffffff" opacity="0.2"><polygon points="30,45 50,15 70,45" /><rect x="42" y="30" width="16" height="20" /></svg>'); background-blend-mode: overlay; }
+
+    /* Garantir quebra de página */
+    @media print {
+      body { background: white; }
+      .page { box-shadow: none; page-break-after: always; }
+    }
   </style>
 </head>
 <body>
   <div class="portfolio-container">
     <!-- Conteúdo do portfolio (copiar do portfolio anterior) -->
+     <!-- Portfolio PDF - Página 1: Capa -->
+  <div class="page" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+    <div class="wood-border-top"></div>
+    <div style="margin-bottom: 3rem;">
+      <div style="font-size: 1.2rem; color: var(--madeira-media); letter-spacing: 6px; margin-bottom: 2rem;">✦  A R T E  ✦  E M  ✦  M A D E I R A  ✦</div>
+      <div class="header-wood" style="transform: scale(1.2); margin: 3rem 0;">
+        <h1 style="font-size: 5rem;">MADEIRA VIVA</h1>
+      </div>
+      <p style="font-size: 1.8rem; color: var(--madeira-escura); font-style: italic;">ateliê de marcenaria sob medida</p>
+      <div style="height: 4px; width: 150px; background: var(--madeira-media); margin: 2rem auto;"></div>
+      <p style="font-size: 1.2rem; color: #6b4f3a;">RÚSTICO · MINIMALISTA · NATURAL</p>
+    </div>
+    
+    <div style="margin-top: 5rem;">
+      <div class="handmade-seal">✻ 100% ARTESANAL ✻</div>
+    </div>
+    
+    <div style="position: absolute; bottom: 3cm; left: 0; right: 0;">
+      <div style="display: flex; justify-content: center; gap: 40px; color: var(--madeira-media);">
+        <span>✦ suportes para pia</span>
+        <span>✦ mesas rústicas</span>
+        <span>✦ bancadas</span>
+      </div>
+    </div>
+    <div class="wood-border-bottom"></div>
+    <div class="page-footer"><span>PORTFOLIO 2025</span></div>
+  </div>
+
+  <!-- Página 2: Quem somos e filosofias -->
+  <div class="page">
+    <div class="wood-border-top"></div>
+    <h2>✦ A madeira como linguagem</h2>
+    <div style="display: flex; gap: 3rem; margin-top: 2rem;">
+      <div style="flex: 1.2;">
+        <p style="font-size: 1.2rem; line-height: 1.8; color: #2a1f17;">Cada peça do Ateliê Madeira Viva nasce da escuta atenta e do respeito absoluto pela matéria. Trabalhamos com madeiras certificadas e reutilizadas, transformando troncos, tábuas e lascas em móveis que carregam a alma da floresta.</p>
+        <p style="font-size: 1.2rem; line-height: 1.8; margin-top: 1.5rem;">Nossa assinatura é o equilíbrio entre o rústico autêntico e o minimalismo contemporâneo – porque a madeira não precisa de excessos para brilhar.</p>
+        <div style="margin-top: 3rem;">
+          <div class="material-item" style="display: inline-block; margin-right: 1rem;">✧ freijó</div>
+          <div class="material-item" style="display: inline-block; margin-right: 1rem;">✧ carvalho</div>
+          <div class="material-item" style="display: inline-block;">✧ imbuia</div>
+        </div>
+      </div>
+      <div style="flex: 0.8; background: var(--madeira-clara); border-radius: 80px 20px; padding: 2rem; border: 10px solid var(--madeira-media);">
+        <h3 style="color: var(--madeira-escura);">propósito</h3>
+        <p style="font-size: 1.5rem; font-style: italic; color: #3d2e22;">"fazer qualquer coisa em madeira, desde que conte uma história."</p>
+        <div style="margin-top: 2rem;">— Helena Tavares, marceneira</div>
+      </div>
+    </div>
+
+    <div class="differentials">
+      <div class="differential">
+        <div style="font-size: 3rem;">🌳</div>
+        <h4>madeira de demolição</h4>
+        <p>peças únicas com história</p>
+      </div>
+      <div class="differential">
+        <div style="font-size: 3rem;">✋</div>
+        <h4>talhe artesanal</h4>
+        <p>encaixes e acabamento manuais</p>
+      </div>
+      <div class="differential">
+        <div style="font-size: 3rem;">📏</div>
+        <h4>sob medida total</h4>
+        <p>seu espaço, sua peça</p>
+      </div>
+    </div>
+    <div class="wood-border-bottom"></div>
+    <div class="page-footer"><span>ATELIÊ MADEIRA VIVA</span></div>
+  </div>
+
+  <!-- Página 3: Estilos que imprimimos -->
+  <div class="page">
+    <div class="wood-border-top"></div>
+    <h2>✦ nossas três almas</h2>
+    
+    <div class="styles-showcase">
+      <div class="style-item">
+        <div class="style-icon">🪵</div>
+        <h4>RÚSTICO</h4>
+        <p>texturas marcantes, nós aparentes, arestas vivas. A madeira como ela é: forte e original.</p>
+        <div style="margin-top: 1rem; font-size: 0.9rem;">mesas de tora · suportes orgânicos</div>
+      </div>
+      <div class="style-item">
+        <div class="style-icon">▣</div>
+        <h4>MINIMALISTA</h4>
+        <p>linhas puras, superfícies lisas, nada além do essencial. A madeira em silêncio.</p>
+        <div style="margin-top: 1rem; font-size: 0.9rem;">bancadas · móveis para banheiro</div>
+      </div>
+      <div class="style-item">
+        <div class="style-icon">🍃</div>
+        <h4>NATURAL</h4>
+        <p>integração com plantas, curvas suaves, acabamentos que imitam a natureza.</p>
+        <div style="margin-top: 1rem; font-size: 0.9rem;">suportes para plantas · decoração</div>
+      </div>
+    </div>
+
+    <div style="background: #d9c5b0; padding: 2rem; border-radius: 60px 20px; margin: 3rem 0;">
+      <h3 style="text-align: center;">madeira que respira com você</h3>
+      <div style="display: flex; justify-content: center; gap: 3rem; margin-top: 2rem;">
+        <span>✦ bancos rústicos</span>
+        <span>✦ prateleiras flutuantes</span>
+        <span>✦ nichos para banheiro</span>
+      </div>
+    </div>
+    <div class="wood-border-bottom"></div>
+    <div class="page-footer"><span>ESTILOS</span></div>
+  </div>
+
+  <!-- Página 4: Galeria de produtos -->
+  <div class="page">
+    <div class="wood-border-top"></div>
+    <h2>✦ peças em destaque</h2>
+    
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-image img-pia">
+          <span class="product-tag">rústico</span>
+        </div>
+        <div class="product-info">
+          <h4>Suporte para pia</h4>
+          <p>Tronco de imbúia com acabamento natural. Suporta cubas de até 70cm.</p>
+          <div class="product-styles">
+            <span class="style-badge">rústico</span>
+            <span class="style-badge">banheiro</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="product-card">
+        <div class="product-image img-mesa">
+          <span class="product-tag">rústico/minimal</span>
+        </div>
+        <div class="product-info">
+          <h4>Mesa de tora</h4>
+          <p>Tampo em cedro com base em aço corten. 2,20m x 1,00m.</p>
+          <div class="product-styles">
+            <span class="style-badge">rústico</span>
+            <span class="style-badge">mesa</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image img-bancada">
+          <span class="product-tag">minimalista</span>
+        </div>
+        <div class="product-info">
+          <h4>Bancada flutuante</h4>
+          <p>Carvalho natural com estrutura invisível. 1,80m de comprimento.</p>
+          <div class="product-styles">
+            <span class="style-badge">minimalista</span>
+            <span class="style-badge">bancada</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image img-plantas">
+          <span class="product-tag">natural</span>
+        </div>
+        <div class="product-info">
+          <h4>Suporte para plantas</h4>
+          <p>Estrutura em freijó com três níveis para vasos.</p>
+          <div class="product-styles">
+            <span class="style-badge">natural</span>
+            <span class="style-badge">plantas</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image img-banheiro">
+          <span class="product-tag">minimalista</span>
+        </div>
+        <div class="product-info">
+          <h4>Móvel para banheiro</h4>
+          <p>Com gavetas e acabamento à prova d'água. 90cm.</p>
+          <div class="product-styles">
+            <span class="style-badge">minimalista</span>
+            <span class="style-badge">banheiro</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image img-decor">
+          <span class="product-tag">natural</span>
+        </div>
+        <div class="product-info">
+          <h4>Decoração em madeira</h4>
+          <p>Conjunto de bandejas, esculturas e sousplats.</p>
+          <div class="product-styles">
+            <span class="style-badge">natural</span>
+            <span class="style-badge">decoração</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wood-border-bottom"></div>
+    <div class="page-footer"><span>PORTFOLIO · PEÇAS</span></div>
+  </div>
+
+  <!-- Página 5: Contato e ficha técnica -->
+  <div class="page">
+    <div class="wood-border-top"></div>
+    <h2>✦ crie sua peça sob medida</h2>
+    
+    <div style="display: flex; gap: 3rem; margin: 3rem 0;">
+      <div style="flex: 1; background: #f4e8dd; padding: 2.5rem; border-radius: 60px 20px;">
+        <h3 style="color: var(--madeira-escura);">(11) 97532-1894</h3>
+        <p style="font-size: 1.3rem; margin: 1rem 0;">madeira.viva@atelie.com</p>
+        <p>Rua das Oficinas, 245 – Vila Madalena<br>SP</p>
+        <div style="margin-top: 2rem; border-top: 2px solid var(--madeira-media); padding-top: 2rem;">
+          <p><strong>atendimento:</strong> Seg–Sex 9h–18h | Sáb sob consulta</p>
+        </div>
+      </div>
+      <div style="flex: 1; background: var(--madeira-media); padding: 2.5rem; border-radius: 20px 60px; color: white;">
+        <h3 style="color: white;">como pedir?</h3>
+        <ol style="margin-left: 1.5rem; font-size: 1.2rem;">
+          <li style="margin-bottom: 1rem;">Escolha o estilo (rústico, minimalista ou natural)</li>
+          <li style="margin-bottom: 1rem;">Tire medidas do espaço</li>
+          <li style="margin-bottom: 1rem;">Envie fotos de referência</li>
+          <li>Receba orçamento em 48h</li>
+        </ol>
+        <div style="margin-top: 2rem; font-size: 1.5rem;">✻</div>
+      </div>
+    </div>
+
+    <div style="background: #e3cfbd; padding: 2rem; border-radius: 40px; text-align: center;">
+      <p style="font-size: 1.3rem;">"cada peça é única como a madeira que a gerou"</p>
+      <div class="handmade-seal" style="margin: 2rem auto;">ATELIÊ MADEIRA VIVA</div>
+    </div>
+
+    <!-- Tabela de madeiras -->
+    <div style="margin: 3rem 0;">
+      <h4>madeiras que utilizamos</h4>
+      <div class="materials-list">
+        <span class="material-item">freijó</span>
+        <span class="material-item">carvalho</span>
+        <span class="material-item">imbuia</span>
+        <span class="material-item">cedro</span>
+        <span class="material-item">peroba</span>
+        <span class="material-item">demolição</span>
+      </div>
+    </div>
+
+    <div class="wood-border-bottom"></div>
+    <div class="page-footer"><span>✻ FAÇA PARTE DESSA HISTÓRIA ✻</span></div>
+
     <!-- ... -->
   </div>
   
