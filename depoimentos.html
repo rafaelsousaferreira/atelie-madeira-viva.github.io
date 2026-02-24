@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Depoimentos - Wood & Art</title>
+  <meta name="description" content="Veja o que nossos clientes dizem sobre as peças artesanais da Wood & Art">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/depoimentos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <!-- WhatsApp Flutuante -->
+  <div class="whatsapp-float">
+    <a href="https://wa.me/55718180-4578" target="_blank" rel="noopener noreferrer">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="index.html" class="logo">
+          <i class="fas fa-tree"></i>
+          <span>Wood & Art</span>
+        </a>
+        
+        <button class="mobile-menu-btn" aria-label="Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        
+        <ul class="menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="produtos.html">Produtos</a></li>
+          <li><a href="depoimentos.html" class="active">Depoimentos</a></li>
+          <li><a href="index.html#orcamento">Orçamento</a></li>
+          <li><a href="index.html#contato">Contato</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="breadcrumb">
+      <div class="container">
+        <a href="index.html">Home</a> &gt; 
+        <span>Depoimentos</span>
+      </div>
+    </div>
+
+    <section class="page-header">
+      <h1>Depoimentos de Clientes</h1>
+      <p>Compartilhe sua experiência com nossas peças artesanais</p>
+    </section>
+
+    <!-- Formulário de Novo Depoimento -->
+    <section class="new-testimonial">
+      <div class="container">
+        <div class="testimonial-form-card">
+          <h2><i class="fas fa-pen"></i> Deixe seu depoimento</h2>
+          
+          <form id="testimonial-form" class="testimonial-form" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nome" class="required">Nome</label>
+                <input type="text" id="nome-dep" name="nome" required minlength="3" maxlength="80">
+              </div>
+              
+              <div class="form-group">
+                <label for="cidade">Cidade</label>
+                <input type="text" id="cidade-dep" name="cidade">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="produto" class="required">Produto adquirido</label>
+              <select id="produto-dep" name="produto" required>
+                <option value="">Selecione um produto</option>
+                <option value="tabua-corte">Tábua de corte</option>
+                <option value="tabua-servir">Tábua de servir</option>
+                <option value="poltrona">Poltrona</option>
+                <option value="banco">Banco</option>
+                <option value="mesa">Mesa</option>
+                <option value="cadeira">Cadeira</option>
+                <option value="prateleira">Prateleira</option>
+                <option value="moveis">Móveis sob medida</option>
+                <option value="nicho">Nicho</option>
+                <option value="suporte-planta">Suporte para planta</option>
+                <option value="casa-passaro">Casa de pássaro</option>
+                <option value="vaso-gesso">Vaso de gesso</option>
+                <option value="vaso-argamassa">Vaso de argamassa</option>
+                <option value="arranjo-vivo">Arranjo de planta viva</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="avaliacao" class="required">Avaliação</label>
+              <div class="rating-input">
+                <div class="stars">
+                  <i class="far fa-star" data-rating="1"></i>
+                  <i class="far fa-star" data-rating="2"></i>
+                  <i class="far fa-star" data-rating="3"></i>
+                  <i class="far fa-star" data-rating="4"></i>
+                  <i class="far fa-star" data-rating="5"></i>
+                </div>
+                <input type="hidden" id="avaliacao" name="avaliacao" required>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="comentario" class="required">Comentário</label>
+              <textarea id="comentario" name="comentario" rows="4" required minlength="10" maxlength="500"></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="fotos">Fotos do produto (opcional)</label>
+              <div class="file-upload">
+                <input type="file" id="fotos" name="fotos" accept="image/*" multiple>
+                <div class="upload-area">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  <p>Arraste fotos ou clique para enviar</p>
+                  <small>Máximo 5 fotos · PNG, JPG até 5MB cada</small>
+                </div>
+              </div>
+              <div class="preview-fotos" id="preview-fotos"></div>
+            </div>
+            
+            <!-- Honeypot anti-spam -->
+            <div class="honeypot">
+              <label for="website-dep">Não preencher</label>
+              <input type="text" id="website-dep" name="website" tabindex="-1" autocomplete="off">
+            </div>
+            
+            <div class="form-consent">
+              <label>
+                <input type="checkbox" name="consent" required>
+                <span>Concordo em compartilhar meu depoimento e fotos no site</span>
+              </label>
+            </div>
+            
+            <button type="submit" class="btn-enviar">
+              <i class="fas fa-paper-plane"></i> Enviar depoimento
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filtros de Depoimentos -->
+    <section class="testimonials-filter">
+      <div class="container">
+        <div class="filter-bar">
+          <div class="filter-group">
+            <label for="filter-produto">Filtrar por produto:</label>
+            <select id="filter-produto" class="filter-select">
+              <option value="">Todos os produtos</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label for="filter-rating">Nota mínima:</label>
+            <select id="filter-rating" class="filter-select">
+              <option value="0">Todas</option>
+              <option value="3">3+ estrelas</option>
+              <option value="4">4+ estrelas</option>
+              <option value="5">5 estrelas</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label for="filter-photos">Com fotos:</label>
+            <select id="filter-photos" class="filter-select">
+              <option value="all">Todos</option>
+              <option value="with-photos">Com fotos</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grid de Depoimentos -->
+    <section class="testimonials-grid-section">
+      <div class="container">
+        <div class="testimonials-stats">
+          <div class="rating-summary">
+            <div class="average-rating">
+              <span class="rating-value" id="avg-rating">4.8</span>
+              <div class="stars" id="avg-stars"></div>
+              <span class="total-reviews" id="total-reviews">0 avaliações</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonials-grid" id="testimonials-grid">
+          <!-- Depoimentos carregados via JS -->
+          <div class="loading-spinner">Carregando depoimentos...</div>
+        </div>
+        
+        <div class="pagination" id="testimonials-pagination"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <!-- ... footer ... -->
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/depoimentos.js"></script>
+</body>
+</html>

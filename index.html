@@ -3,48 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Ateliê de marcenaria sob medida - Peças artesanais em madeira nos estilos rústico, minimalista e natural">
-  <meta name="keywords" content="marcenaria, madeira sob medida, móveis rústicos, bancadas, decoração em madeira">
+  <meta name="description" content="Ateliê de marcenaria e artesanato sob medida - Peças únicas em madeira, gesso e argamassa">
+  <meta name="keywords" content="marcenaria, madeira sob medida, tabua de corte, moveis, suporte para plantas, casa de passaro, vasos de gesso">
   <meta name="author" content="Ateliê Madeira Viva">
   <meta name="theme-color" content="#b28b6f">
   
-  <!-- Open Graph / Facebook -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://seuusuario.github.io/atelie-madeira-viva/">
-  <meta property="og:title" content="Ateliê Madeira Viva - Marcenaria Artesanal">
-  <meta property="og:description" content="Peças únicas em madeira sob medida - rústico, minimalista e natural">
-  <meta property="og:image" content="https://seuusuario.github.io/atelie-madeira-viva/assets/images/og-image.jpg">
-
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://seuusuario.github.io/atelie-madeira-viva/">
-  <meta property="twitter:title" content="Ateliê Madeira Viva">
-  <meta property="twitter:description" content="Peças únicas em madeira sob medida">
-  <meta property="twitter:image" content="https://seuusuario.github.io/atelie-madeira-viva/assets/images/og-image.jpg">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23b28b6f'><path d='M50 10 L90 35 L90 70 L50 90 L10 70 L10 35 Z'/></svg>">
+  <meta property="og:title" content="Ateliê Madeira Viva - Artesanato em Madeira">
+  <meta property="og:description" content="Peças únicas em madeira, gesso e argamassa feitas à mão">
   
-  <!-- Preconnect e CSS -->
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/icons/favicon.svg">
+  
+  <!-- Fonts e CSS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
   
-  <title>Ateliê Madeira Viva - Marcenaria Artesanal Sob Medida</title>
+  <title>Wood & Art - Artesanato em Madeira Sob Medida</title>
 </head>
 <body>
-  <!-- Link de pular para conteúdo principal -->
+  <!-- Link de pular para conteúdo -->
   <a href="#main-content" class="skip-link">Pular para conteúdo principal</a>
+
+  <!-- WhatsApp Flutuante -->
+  <div class="whatsapp-float">
+    <a href="https://wa.me/557181804578?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20produtos%20da%20Wood%20e%20Art" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       aria-label="Conversar pelo WhatsApp">
+      <i class="fab fa-whatsapp"></i>
+      <span class="whatsapp-tooltip">Fale conosco</span>
+    </a>
+  </div>
 
   <!-- HEADER / NAVBAR -->
   <header>
     <nav class="navbar" aria-label="Menu principal">
       <div class="nav-container">
-        <a href="#home" class="logo" aria-label="Página inicial">
+        <a href="index.html" class="logo" aria-label="Página inicial">
           <i class="fas fa-tree" aria-hidden="true"></i>
-          <span>Ateliê Madeira Viva</span>
+          <span>Wood & Art</span>
         </a>
         
         <button class="mobile-menu-btn" aria-label="Menu" aria-expanded="false">
@@ -52,8 +54,9 @@
         </button>
         
         <ul class="menu" role="menubar">
-          <li role="none"><a href="#home" role="menuitem" class="active">Home</a></li>
-          <li role="none"><a href="#galeria" role="menuitem">Galeria</a></li>
+          <li role="none"><a href="index.html" role="menuitem" class="active">Home</a></li>
+          <li role="none"><a href="produtos.html" role="menuitem">Produtos</a></li>
+          <li role="none"><a href="depoimentos.html" role="menuitem">Depoimentos</a></li>
           <li role="none"><a href="#orcamento" role="menuitem">Orçamento</a></li>
           <li role="none"><a href="#contato" role="menuitem">Contato</a></li>
           <li role="none"><a href="portfolio.html" role="menuitem" target="_blank">Portfolio PDF</a></li>
@@ -62,9 +65,8 @@
     </nav>
   </header>
 
-  <!-- CONTEÚDO PRINCIPAL -->
   <main id="main-content">
-    <!-- HOME com slider -->
+    <!-- HOME com slider (mesmo código anterior) -->
     <section id="home" aria-label="Home e destaques">
       <div class="slider-container">
         <div class="slider" id="slider" role="region" aria-label="Destaques em madeira">
@@ -75,7 +77,7 @@
                  alt="Mesa de madeira rústica com detalhes artesanais" 
                  loading="eager">
             <div class="slide-caption">
-              <h2>Artesania em madeira</h2>
+              <h2>Artigos em madeira</h2>
               <p>Rústico · minimalista · natural</p>
             </div>
           </div>
@@ -97,7 +99,7 @@
                  alt="Peças de decoração em madeira com plantas" 
                  loading="lazy">
             <div class="slide-caption">
-              <h2>Decoração & plantas</h2>
+              <h2>Decoração e plantas</h2>
               <p>suportes, bancadas, banheiro</p>
             </div>
           </div>
@@ -116,78 +118,91 @@
       </div>
       
       <div class="dots" id="dotsContainer" role="tablist" aria-label="Indicadores de slide"></div>
+      <!-- ... slider existente ... -->
     </section>
 
-    <!-- ESPECIALIDADES em chips -->
-    <div class="chip-container" aria-label="Especialidades">
-      <span class="chip"><i class="fas fa-axe" aria-hidden="true"></i> estilo rústico</span>
-      <span class="chip"><i class="fas fa-circle-minus" aria-hidden="true"></i> estilo minimalista</span>
-      <span class="chip"><i class="fas fa-leaf" aria-hidden="true"></i> estilo natural</span>
-      <span class="chip"><i class="fas fa-sink" aria-hidden="true"></i> suportes pia rústicos</span>
-      <span class="chip"><i class="fas fa-chair" aria-hidden="true"></i> mesas rústicas</span>
-      <span class="chip"><i class="fas fa-trowel" aria-hidden="true"></i> bancadas</span>
-      <span class="chip"><i class="fas fa-toilet" aria-hidden="true"></i> móveis p/ banheiro</span>
-      <span class="chip"><i class="fas fa-seedling" aria-hidden="true"></i> suportes p/ plantas</span>
-      <span class="chip"><i class="fas fa-paint-brush" aria-hidden="true"></i> decoração com madeira</span>
-    </div>
-
-    <!-- GALERIA -->
-    <section id="galeria" aria-labelledby="galeria-titulo">
-      <h2 id="galeria-titulo" class="section-title"><span>🍂 peças em destaque</span></h2>
+    <!-- Categorias em destaque (novo) -->
+    <section class="featured-categories">
+      <h2 class="section-title"><span>🌳 nossas categorias</span></h2>
       
-      <div class="gallery-grid">
-        <article class="gallery-item">
-          <div class="gallery-img lazy-bg" data-bg="assets/images/suporte-pia.jpg" 
-               role="img" aria-label="Suporte rústico para pia"></div>
-          <div class="gallery-info">
-            <h3>Suporte pia rústico</h3>
-            <div class="gallery-tags">
-              <span>rústico</span>
-              <span>banheiro</span>
-            </div>
+      <div class="categories-grid">
+        <a href="produtos.html?categoria=utensilios" class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-utensils"></i>
           </div>
-        </article>
+          <h3>Utensílios</h3>
+          <p>Tabuas de corte, servir e mais</p>
+        </a>
+        
+        <a href="produtos.html?categoria=mobiliario" class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-chair"></i>
+          </div>
+          <h3>Mobiliário</h3>
+          <p>Mesas, cadeiras, bancos, poltronas</p>
+        </a>
+        
+        <a href="produtos.html?categoria=organizacao" class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-book"></i>
+          </div>
+          <h3>Organização</h3>
+          <p>Prateleiras, nichos, móveis</p>
+        </a>
+        
+        <a href="produtos.html?categoria=jardinagem" class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-seedling"></i>
+          </div>
+          <h3>Jardinagem</h3>
+          <p>Suportes, vasos, casas de pássaro</p>
+        </a>
+        
+        <a href="produtos.html?categoria=decoracao" class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-paint-brush"></i>
+          </div>
+          <h3>Decoração</h3>
+          <p>Peças em gesso e argamassa</p>
+        </a>
+        
+        <a href="produtos.html?categoria=plantas-vivas" class="category-card" id="plantas-vivas-link">
+          <div class="category-icon">
+            <i class="fas fa-leaf"></i>
+          </div>
+          <h3>Plantas Vivas</h3>
+          <p>Arranjos - apenas região</p>
+          <span class="region-badge">📍 consultar CEP</span>
+        </a>
+      </div>
+    </section>
 
-        <article class="gallery-item">
-          <div class="gallery-img lazy-bg" data-bg="assets/images/mesa-rustica.jpg" 
-               role="img" aria-label="Mesa de tora rústica"></div>
-          <div class="gallery-info">
-            <h3>Mesa de tora</h3>
-            <div class="gallery-tags">
-              <span>rústico</span>
-              <span>mesa</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="gallery-item">
-          <div class="gallery-img lazy-bg" data-bg="assets/images/bancada.jpg" 
-               role="img" aria-label="Bancada flutuante minimalista"></div>
-          <div class="gallery-info">
-            <h3>Bancada flutuante</h3>
-            <div class="gallery-tags">
-              <span>minimalista</span>
-              <span>natural</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="gallery-item">
-          <div class="gallery-img lazy-bg" data-bg="assets/images/suporte-plantas.jpg" 
-               role="img" aria-label="Suporte para plantas em madeira"></div>
-          <div class="gallery-info">
-            <h3>Suporte para plantas</h3>
-            <div class="gallery-tags">
-              <span>natural</span>
-              <span>decoração</span>
-            </div>
-          </div>
-        </article>
+    <!-- Produtos em Destaque -->
+    <section class="featured-products">
+      <h2 class="section-title"><span>✨ produtos em destaque</span></h2>
+      
+      <div class="products-grid" id="featured-products">
+        <!-- Produtos serão carregados via JavaScript -->
       </div>
       
       <div class="view-more">
-        <a href="portfolio.html" class="btn-secondary" target="_blank">
-          <i class="fas fa-file-pdf"></i> Ver portfolio completo (PDF)
+        <a href="produtos.html" class="btn-secondary">
+          <i class="fas fa-search"></i> Ver todos os produtos
+        </a>
+      </div>
+    </section>
+
+    <!-- Depoimentos na Home -->
+    <section class="home-depoimentos">
+      <h2 class="section-title"><span>💬 o que nossos clientes dizem</span></h2>
+      
+      <div class="depoimentos-slider" id="home-depoimentos">
+        <!-- Depoimentos serão carregados via JavaScript -->
+      </div>
+      
+      <div class="view-more">
+        <a href="depoimentos.html" class="btn-secondary">
+          <i class="fas fa-star"></i> Ver todos os depoimentos
         </a>
       </div>
     </section>
@@ -198,6 +213,7 @@
       
       <div class="form-container">
         <form id="quoteForm" class="quote-form" novalidate>
+          <!-- ... formulário existente ... -->
           <div class="form-group">
             <label for="nome">
               <i class="fas fa-user" aria-hidden="true"></i>
@@ -274,6 +290,29 @@
           </p>
         </form>
       </div>
+          <!-- Campo CEP adicionado -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cep">
+                <i class="fas fa-map-marker-alt"></i>
+                CEP
+              </label>
+              <input type="text" id="cep" name="cep" placeholder="00000-000" 
+                     pattern="[0-9]{5}-?[0-9]{3}" maxlength="9">
+            </div>
+            
+            <div class="form-group">
+              <label for="cidade">
+                <i class="fas fa-city"></i>
+                Cidade
+              </label>
+              <input type="text" id="cidade" name="cidade" readonly>
+            </div>
+          </div>
+          
+          <!-- Restante do formulário -->
+        </form>
+      </div>
     </section>
 
     <!-- CONTATO -->
@@ -282,26 +321,26 @@
       
       <div class="contact-panel">
         <div class="contact-info">
-          <h3>Ateliê Madeira Viva</h3>
+          <h3>Wood & Art</h3>
           
           <div class="info-line">
             <i class="fas fa-phone-alt" aria-hidden="true"></i>
             <div>
-              <a href="tel:+5511975321894">(11) 97532-1894</a>
+              <a href="tel:+5511975321894">(71) 9 8180-4578</a>
             </div>
           </div>
           
           <div class="info-line">
             <i class="fas fa-envelope-open-text" aria-hidden="true"></i>
             <div>
-              <a href="mailto:madeira.viva@atelie.com">madeira.viva@atelie.com</a>
+              <a href="mailto:madeira.viva@atelie.com">woodeart@woodeart.com.br</a>
             </div>
           </div>
           
           <div class="info-line">
             <i class="fas fa-map-pin" aria-hidden="true"></i>
             <div>
-              <address>Rua das Oficinas, 245 – São Paulo/SP</address>
+              <address>Vilas de Abrantes – Camaçari/BA</address>
             </div>
           </div>
           
@@ -309,6 +348,7 @@
             <i class="fas fa-clock" aria-hidden="true"></i>
             <div>Seg–Sex 9h–18h | Sáb sob consulta</div>
           </div>
+          
           
           <div class="social-links">
             <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -325,21 +365,23 @@
             style="border:0;" 
             allowfullscreen="" 
             loading="lazy"
-            title="Localização do Ateliê Madeira Viva">
+            title="Localização da Wood & Art">
           </iframe>
         </div>
       </div>
+      <!-- ... contato existente ... -->
     </section>
   </main>
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-content">
+    <!-- ... footer existente ... -->
+      <div class="footer-content">
       <div class="footer-logo">
-        <i class="fas fa-tree"></i> Ateliê Madeira Viva
+        <i class="fas fa-tree"></i> WOOD & ART
       </div>
       <div class="footer-info">
-        <p>© 2025 Todos os direitos reservados</p>
+        <p>© 2026 Todos os direitos reservados</p>
         <p>Desenvolvido com <i class="fas fa-heart" style="color: #b28b6f;"></i> para marcenaria artesanal</p>
       </div>
       <div class="footer-links">
@@ -357,7 +399,8 @@
     <span id="toast-message"></span>
   </div>
 
-  <!-- Script principal -->
+  <!-- Scripts -->
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/home.js"></script>
 </body>
 </html>
