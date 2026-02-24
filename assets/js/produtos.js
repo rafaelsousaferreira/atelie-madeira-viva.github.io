@@ -643,7 +643,7 @@ Preço: R$ ${product.preco.toFixed(2)}
 
 Poderia me passar mais informações?`.replace(/\n/g, '%0A');
   
-  window.open(`https://wa.me/557181804580?text=${mensagem}`, '_blank');
+  window.open(`https://wa.me/557181804578?text=${mensagem}`, '_blank');
 };
 
 // Helpers
