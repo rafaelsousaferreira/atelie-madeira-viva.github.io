@@ -7,7 +7,7 @@ const productsDB = [
     categoria: "utensilios",
     subcategoria: "tabuas-corte",
     descricao: "Tábua de corte em madeira de demolição, ideal para cozinha profissional",
-    imagem: "assets/images/produtos/tabua-corte-1.png",
+    imagem: "assets/images/produtos/tabua-corte-1.jpg",
     tags: ["madeira", "corte", "cozinha"],
     preco: 89.90,
     destaque: true
