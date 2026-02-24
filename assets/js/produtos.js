@@ -252,6 +252,7 @@ function loadProducts() {
 }
 
 // Renderiza produtos
+// Renderiza produtos - VERSÃO CORRIGIDA COM FALLBACK
 function renderProducts(grid, products) {
   grid.innerHTML = products.map(product => {
     const regionalWarning = product.regional ? 
@@ -260,14 +261,39 @@ function renderProducts(grid, products) {
         <span>Produto disponível apenas para região metropolitana de SP</span>
        </div>` : '';
     
+    // Gera um placeholder SVG baseado no produto
+    const placeholderSVG = generatePlaceholderSVG(product);
+    
     return `
       <article class="product-card" data-id="${product.id}">
         ${product.destaque ? '<span class="product-badge">Destaque</span>' : ''}
         ${product.regional ? '<span class="product-badge region">📍 Regional</span>' : ''}
         
-        <div class="product-image lazy-bg" data-bg="${product.imagem}" 
-             style="background-color: #d9c5b0;" 
-             role="img" aria-label="${product.nome}"></div>
+        <div class="product-image-container">
+          <!-- Tentativa 1: Imagem via <img> (mais confiável) -->
+          <img 
+            class="product-img" 
+            src="${product.imagem}" 
+            alt="${product.nome}"
+            onerror="this.onerror=null; this.style.display='none'; 
+                     this.parentElement.querySelector('.product-img-fallback').style.display='block';
+                     this.parentElement.querySelector('.product-img-placeholder').style.display='block';"
+            loading="lazy"
+          >
+          
+          <!-- Tentativa 2: Fallback com SVG inline (escondido inicialmente) -->
+          <div class="product-img-fallback" style="display:none;">
+            ${placeholderSVG}
+          </div>
+          
+          <!-- Tentativa 3: Fallback com div estilizada (escondido inicialmente) -->
+          <div class="product-img-placeholder" style="display:none;">
+            <div class="placeholder-content">
+              <i class="fas ${getProductIcon(product.categoria)}"></i>
+              <span>${product.nome}</span>
+            </div>
+          </div>
+        </div>
         
         <div class="product-info">
           <div class="product-category">${getCategoriaNome(product.categoria)}</div>
@@ -293,6 +319,54 @@ function renderProducts(grid, products) {
       </article>
     `;
   }).join('');
+}
+
+// Função para gerar placeholder SVG específico para cada produto
+function generatePlaceholderSVG(product) {
+  const cores = {
+    'utensilios': '#d9c5b0',
+    'mobiliario': '#b28b6f',
+    'organizacao': '#c4a27a',
+    'jardinagem': '#9cb08b',
+    'decoracao': '#c7aa8e',
+    'plantas-vivas': '#8ba88b'
+  };
+  
+  const cor = cores[product.categoria] || '#d9c5b0';
+  const icon = getProductIcon(product.categoria);
+  
+  return `
+    <svg width="100%" height="100%" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+      <rect width="400" height="300" fill="${cor}"/>
+      <rect width="400" height="300" fill="url(#wood-${product.id})" opacity="0.3"/>
+      <defs>
+        <pattern id="wood-${product.id}" patternUnits="userSpaceOnUse" width="40" height="40">
+          <path d="M0 0 L40 40" stroke="#634832" stroke-width="1" opacity="0.2"/>
+          <path d="M40 0 L0 40" stroke="#634832" stroke-width="1" opacity="0.2"/>
+        </pattern>
+      </defs>
+      <text x="200" y="150" font-family="'Font Awesome 6 Free', 'Segoe UI', Arial" 
+            font-size="60" text-anchor="middle" fill="#3e2e23" opacity="0.8">${icon}</text>
+      <text x="200" y="200" font-family="Arial" font-size="16" 
+            text-anchor="middle" fill="#3e2e23" font-weight="bold">${product.nome}</text>
+      <text x="200" y="240" font-family="Arial" font-size="12" 
+            text-anchor="middle" fill="#634832">Clique para orçamento</text>
+    </svg>
+  `;
+}
+
+// Função para obter ícone baseado na categoria
+function getProductIcon(categoria) {
+  const icons = {
+    'utensilios': 'fa-utensils',
+    'mobiliario': 'fa-chair',
+    'organizacao': 'fa-boxes',
+    'jardinagem': 'fa-seedling',
+    'decoracao': 'fa-paint-brush',
+    'plantas-vivas': 'fa-leaf'
+  };
+  return icons[categoria] || 'fa-tree';
+}
   
   // Inicializa lazy loading para novas imagens
   initLazyLoading();
