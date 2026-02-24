@@ -46,7 +46,7 @@
   background: white;
   padding: 1.5rem 6%;
   box-shadow: 0 4px 10px var(--sombra);
-  position: sticky;
+  position: initial;
   top: 80px;
   z-index: 90;
 }
