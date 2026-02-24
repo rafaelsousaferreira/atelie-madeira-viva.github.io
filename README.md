@@ -1,4 +1,4 @@
-# Ateliê Madeira Viva - Site Oficial
+# Wood & Art - Site Oficial
 
 Site institucional para marcenaria artesanal sob medida, com foco em peças de madeira nos estilos rústico, minimalista e natural.
 
