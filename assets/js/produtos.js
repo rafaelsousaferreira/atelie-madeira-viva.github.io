@@ -186,12 +186,15 @@ let currentState = {
   cepInfo: null
 };
 
+// Cache para imagens que falharam
+const imageErrorCache = new Set();
+
 // Inicialização
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('Página de produtos iniciada');
   loadProducts();
   setupEventListeners();
   loadSubcategorias();
-  checkCEPFromLocalStorage();
 });
 
 // Carrega produtos baseado nos filtros
@@ -199,8 +202,40 @@ function loadProducts() {
   const grid = document.getElementById('products-grid');
   const countElement = document.getElementById('products-total');
   
+  if (!grid) {
+    console.error('Grid de produtos não encontrado');
+    return;
+  }
+  
+  // Mostra loading
+  grid.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Carregando produtos...</div>';
+  
   // Filtra produtos
-  let filtered = productsDB.filter(product => {
+  setTimeout(() => {
+    let filtered = filterProducts();
+    
+    // Atualiza contador
+    if (countElement) countElement.textContent = filtered.length;
+    
+    // Paginação
+    const start = (currentState.page - 1) * currentState.itemsPerPage;
+    const paginated = filtered.slice(start, start + currentState.itemsPerPage);
+    
+    // Renderiza
+    if (filtered.length === 0) {
+      renderNoResults(grid);
+    } else {
+      renderProducts(grid, paginated);
+    }
+    
+    // Renderiza paginação
+    renderPagination(filtered.length);
+  }, 300); // Pequeno delay para mostrar loading
+}
+
+// Filtra produtos
+function filterProducts() {
+  return productsDB.filter(product => {
     // Filtro de busca
     if (currentState.searchTerm) {
       const term = currentState.searchTerm.toLowerCase();
@@ -220,39 +255,11 @@ function loadProducts() {
       return false;
     }
     
-    // Filtro regional para plantas vivas
-    if (product.regional && currentState.cepInfo) {
-      // Verifica se o CEP está na região permitida
-      const cepPermitido = verificarCEPRestricao(product.regioes, currentState.cepInfo);
-      if (!cepPermitido) return false;
-    }
-    
     return true;
   });
-  
-  // Ordena
-  filtered = sortProducts(filtered, currentState.sortBy);
-  
-  // Atualiza contador
-  countElement.textContent = filtered.length;
-  
-  // Paginação
-  const start = (currentState.page - 1) * currentState.itemsPerPage;
-  const paginated = filtered.slice(start, start + currentState.itemsPerPage);
-  
-  // Renderiza
-  if (filtered.length === 0) {
-    renderNoResults(grid);
-  } else {
-    renderProducts(grid, paginated);
-  }
-  
-  // Renderiza paginação
-  renderPagination(filtered.length);
 }
 
-// Renderiza produtos
-// Renderiza produtos - VERSÃO CORRIGIDA COM FALLBACK
+// Renderiza produtos com <img src>
 function renderProducts(grid, products) {
   grid.innerHTML = products.map(product => {
     const regionalWarning = product.regional ? 
@@ -261,8 +268,9 @@ function renderProducts(grid, products) {
         <span>Produto disponível apenas para região metropolitana de SP</span>
        </div>` : '';
     
-    // Gera um placeholder SVG baseado no produto
+    // Gera placeholder SVG para fallback
     const placeholderSVG = generatePlaceholderSVG(product);
+    const placeholderDataURL = `data:image/svg+xml,${encodeURIComponent(placeholderSVG)}`;
     
     return `
       <article class="product-card" data-id="${product.id}">
@@ -270,38 +278,27 @@ function renderProducts(grid, products) {
         ${product.regional ? '<span class="product-badge region">📍 Regional</span>' : ''}
         
         <div class="product-image-container">
-          <!-- Tentativa 1: Imagem via <img> (mais confiável) -->
+          <!-- Imagem principal com fallback em camadas -->
           <img 
             class="product-img" 
             src="${product.imagem}" 
             alt="${product.nome}"
-            onerror="this.onerror=null; this.style.display='none'; 
-                     this.parentElement.querySelector('.product-img-fallback').style.display='block';
-                     this.parentElement.querySelector('.product-img-placeholder').style.display='block';"
             loading="lazy"
+            onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='block';"
           >
-          
-          <!-- Tentativa 2: Fallback com SVG inline (escondido inicialmente) -->
+          <!-- Fallback SVG (escondido inicialmente) -->
           <div class="product-img-fallback" style="display:none;">
-            ${placeholderSVG}
-          </div>
-          
-          <!-- Tentativa 3: Fallback com div estilizada (escondido inicialmente) -->
-          <div class="product-img-placeholder" style="display:none;">
-            <div class="placeholder-content">
-              <i class="fas ${getProductIcon(product.categoria)}"></i>
-              <span>${product.nome}</span>
-            </div>
+            <img src="${placeholderDataURL}" alt="${product.nome} - placeholder" class="product-img-placeholder">
           </div>
         </div>
         
         <div class="product-info">
           <div class="product-category">${getCategoriaNome(product.categoria)}</div>
           <h3 class="product-title">${product.nome}</h3>
-          <p class="product-description">${product.descricao}</p>
+          <p class="product-description">${escapeHTML(product.descricao)}</p>
           
           <div class="product-tags">
-            ${product.tags.map(tag => `<span class="product-tag">${tag}</span>`).join('')}
+            ${product.tags.map(tag => `<span class="product-tag">${escapeHTML(tag)}</span>`).join('')}
           </div>
           
           ${regionalWarning}
@@ -321,7 +318,7 @@ function renderProducts(grid, products) {
   }).join('');
 }
 
-// Função para gerar placeholder SVG específico para cada produto
+// Gera placeholder SVG
 function generatePlaceholderSVG(product) {
   const cores = {
     'utensilios': '#d9c5b0',
@@ -335,41 +332,35 @@ function generatePlaceholderSVG(product) {
   const cor = cores[product.categoria] || '#d9c5b0';
   const icon = getProductIcon(product.categoria);
   
-  return `
-    <svg width="100%" height="100%" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-      <rect width="400" height="300" fill="${cor}"/>
-      <rect width="400" height="300" fill="url(#wood-${product.id})" opacity="0.3"/>
-      <defs>
-        <pattern id="wood-${product.id}" patternUnits="userSpaceOnUse" width="40" height="40">
-          <path d="M0 0 L40 40" stroke="#634832" stroke-width="1" opacity="0.2"/>
-          <path d="M40 0 L0 40" stroke="#634832" stroke-width="1" opacity="0.2"/>
-        </pattern>
-      </defs>
-      <text x="200" y="150" font-family="'Font Awesome 6 Free', 'Segoe UI', Arial" 
-            font-size="60" text-anchor="middle" fill="#3e2e23" opacity="0.8">${icon}</text>
-      <text x="200" y="200" font-family="Arial" font-size="16" 
-            text-anchor="middle" fill="#3e2e23" font-weight="bold">${product.nome}</text>
-      <text x="200" y="240" font-family="Arial" font-size="12" 
-            text-anchor="middle" fill="#634832">Clique para orçamento</text>
-    </svg>
-  `;
+  return `<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="300" fill="${cor}"/>
+    <rect width="400" height="300" fill="url(#wood)" opacity="0.3"/>
+    <defs>
+      <pattern id="wood" patternUnits="userSpaceOnUse" width="40" height="40">
+        <path d="M0 0 L40 40" stroke="#634832" stroke-width="1" opacity="0.2"/>
+        <path d="M40 0 L0 40" stroke="#634832" stroke-width="1" opacity="0.2"/>
+      </pattern>
+    </defs>
+    <text x="200" y="150" font-family="'Font Awesome 6 Free', 'Segoe UI', Arial" 
+          font-size="60" text-anchor="middle" fill="#3e2e23" opacity="0.8">${icon}</text>
+    <text x="200" y="200" font-family="Arial" font-size="14" 
+          text-anchor="middle" fill="#3e2e23" font-weight="bold">${escapeHTML(product.nome)}</text>
+    <text x="200" y="230" font-family="Arial" font-size="11" 
+          text-anchor="middle" fill="#634832">Clique para orçamento</text>
+  </svg>`;
 }
 
-// Função para obter ícone baseado na categoria
+// Retorna ícone baseado na categoria
 function getProductIcon(categoria) {
   const icons = {
-    'utensilios': 'fa-utensils',
-    'mobiliario': 'fa-chair',
-    'organizacao': 'fa-boxes',
-    'jardinagem': 'fa-seedling',
-    'decoracao': 'fa-paint-brush',
-    'plantas-vivas': 'fa-leaf'
+    'utensilios': '🔪',
+    'mobiliario': '🪑',
+    'organizacao': '📦',
+    'jardinagem': '🌱',
+    'decoracao': '🏺',
+    'plantas-vivas': '🌿'
   };
-  return icons[categoria] || 'fa-tree';
-}
-  
-  // Inicializa lazy loading para novas imagens
-  initLazyLoading();
+  return icons[categoria] || '🪵';
 }
 
 // Renderiza "sem resultados"
@@ -388,8 +379,10 @@ function renderNoResults(grid) {
 
 // Renderiza paginação
 function renderPagination(totalItems) {
-  const totalPages = Math.ceil(totalItems / currentState.itemsPerPage);
   const pagination = document.getElementById('pagination');
+  if (!pagination) return;
+  
+  const totalPages = Math.ceil(totalItems / currentState.itemsPerPage);
   
   if (totalPages <= 1) {
     pagination.innerHTML = '';
@@ -421,18 +414,19 @@ function renderPagination(totalItems) {
   pagination.innerHTML = html;
 }
 
-// Carrega subcategorias baseado na categoria selecionada
+// Carrega subcategorias
 function loadSubcategorias() {
   const categoria = currentState.categoria;
   const subGroup = document.getElementById('subcategoria-group');
   const subSelect = document.getElementById('subcategoria-filter');
+  
+  if (!subGroup || !subSelect) return;
   
   if (!categoria) {
     subGroup.style.display = 'none';
     return;
   }
   
-  // Mapeia subcategorias
   const subcategorias = [...new Set(
     productsDB
       .filter(p => p.categoria === categoria)
@@ -462,9 +456,7 @@ function sortProducts(products, sortBy) {
     case 'nome-desc':
       sorted.sort((a, b) => b.nome.localeCompare(a.nome));
       break;
-    case 'recentes':
     default:
-      // Assume que IDs maiores são mais recentes
       sorted.sort((a, b) => b.id - a.id);
       break;
   }
@@ -472,98 +464,77 @@ function sortProducts(products, sortBy) {
   return sorted;
 }
 
-// Verifica restrição de CEP
-function verificarCEPRestricao(regioesPermitidas, cepInfo) {
-  // Simula verificação de CEP
-  // Em produção, isso seria feito via API ou regras de negócio reais
-  if (!cepInfo) return false;
-  
-  const cep = cepInfo.replace(/\D/g, '');
-  const faixaSP = ['01000-000', '09999-999']; // Faixa de CEP de SP
-  
-  // Verifica se CEP está na faixa de SP
-  return cep >= '01000000' && cep <= '09999999';
-}
-
-// Verifica CEP via API (ViaCEP)
-async function verificarCEP(cep) {
-  const cepLimpo = cep.replace(/\D/g, '');
-  
-  if (cepLimpo.length !== 8) {
-    return null;
-  }
-  
-  try {
-    const response = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
-    const data = await response.json();
-    
-    if (!data.erro) {
-      return {
-        cep: cep,
-        cidade: data.localidade,
-        uf: data.uf,
-        regiao: `${data.uf}-${data.localidade}`
-      };
-    }
-  } catch (error) {
-    console.error('Erro ao consultar CEP:', error);
-  }
-  
-  return null;
-}
-
 // Event Listeners
 function setupEventListeners() {
   // Busca
-  document.getElementById('search-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const searchInput = document.getElementById('product-search');
-    currentState.searchTerm = searchInput.value;
-    currentState.page = 1;
-    loadProducts();
-    updateActiveFilters();
-  });
+  const searchForm = document.getElementById('search-form');
+  if (searchForm) {
+    searchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const searchInput = document.getElementById('product-search');
+      if (searchInput) {
+        currentState.searchTerm = searchInput.value;
+        currentState.page = 1;
+        loadProducts();
+        updateActiveFilters();
+      }
+    });
+  }
   
   // Categoria
-  document.getElementById('categoria-filter').addEventListener('change', (e) => {
-    currentState.categoria = e.target.value;
-    currentState.subcategoria = ''; // Reseta subcategoria
-    currentState.page = 1;
-    loadSubcategorias();
-    loadProducts();
-    updateActiveFilters();
-  });
+  const categoriaFilter = document.getElementById('categoria-filter');
+  if (categoriaFilter) {
+    categoriaFilter.addEventListener('change', (e) => {
+      currentState.categoria = e.target.value;
+      currentState.subcategoria = '';
+      currentState.page = 1;
+      loadSubcategorias();
+      loadProducts();
+      updateActiveFilters();
+    });
+  }
   
   // Subcategoria
-  document.getElementById('subcategoria-filter').addEventListener('change', (e) => {
-    currentState.subcategoria = e.target.value;
-    currentState.page = 1;
-    loadProducts();
-    updateActiveFilters();
-  });
-  
-  // Ordenação
-  document.getElementById('sort-filter').addEventListener('change', (e) => {
-    currentState.sortBy = e.target.value;
-    loadProducts();
-  });
-  
-  // Input de busca com debounce
-  let searchTimeout;
-  document.getElementById('product-search').addEventListener('input', (e) => {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(() => {
-      currentState.searchTerm = e.target.value;
+  const subcategoriaFilter = document.getElementById('subcategoria-filter');
+  if (subcategoriaFilter) {
+    subcategoriaFilter.addEventListener('change', (e) => {
+      currentState.subcategoria = e.target.value;
       currentState.page = 1;
       loadProducts();
       updateActiveFilters();
-    }, 500);
-  });
+    });
+  }
+  
+  // Ordenação
+  const sortFilter = document.getElementById('sort-filter');
+  if (sortFilter) {
+    sortFilter.addEventListener('change', (e) => {
+      currentState.sortBy = e.target.value;
+      loadProducts();
+    });
+  }
+  
+  // Input de busca com debounce
+  const searchInput = document.getElementById('product-search');
+  if (searchInput) {
+    let searchTimeout;
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        currentState.searchTerm = e.target.value;
+        currentState.page = 1;
+        loadProducts();
+        updateActiveFilters();
+      }, 500);
+    });
+  }
 }
 
-// Atualiza tags de filtros ativos
+// Atualiza filtros ativos
 function updateActiveFilters() {
   const container = document.getElementById('active-filters');
+  if (!container) return;
+  
   const filters = [];
   
   if (currentState.searchTerm) {
@@ -572,7 +543,8 @@ function updateActiveFilters() {
       value: currentState.searchTerm,
       remove: () => {
         currentState.searchTerm = '';
-        document.getElementById('product-search').value = '';
+        const input = document.getElementById('product-search');
+        if (input) input.value = '';
         loadProducts();
         updateActiveFilters();
       }
@@ -586,7 +558,8 @@ function updateActiveFilters() {
       remove: () => {
         currentState.categoria = '';
         currentState.subcategoria = '';
-        document.getElementById('categoria-filter').value = '';
+        const select = document.getElementById('categoria-filter');
+        if (select) select.value = '';
         loadSubcategorias();
         loadProducts();
         updateActiveFilters();
@@ -600,21 +573,26 @@ function updateActiveFilters() {
       value: getSubcategoriaNome(currentState.subcategoria),
       remove: () => {
         currentState.subcategoria = '';
-        document.getElementById('subcategoria-filter').value = '';
+        const select = document.getElementById('subcategoria-filter');
+        if (select) select.value = '';
         loadProducts();
         updateActiveFilters();
       }
     });
   }
   
-  container.innerHTML = filters.map(filter => `
-    <span class="filter-tag">
-      ${filter.type}: ${filter.value}
-      <button onclick="(${filter.remove})()" aria-label="Remover filtro">
-        <i class="fas fa-times"></i>
-      </button>
-    </span>
-  `).join('');
+  if (filters.length === 0) {
+    container.innerHTML = '';
+  } else {
+    container.innerHTML = filters.map(filter => `
+      <span class="filter-tag">
+        ${filter.type}: ${escapeHTML(filter.value)}
+        <button onclick="(${filter.remove})()" aria-label="Remover filtro">
+          <i class="fas fa-times"></i>
+        </button>
+      </span>
+    `).join('');
+  }
 }
 
 // Funções globais
@@ -635,11 +613,20 @@ window.resetFilters = function() {
     cepInfo: currentState.cepInfo
   };
   
-  document.getElementById('search-form').reset();
-  document.getElementById('categoria-filter').value = '';
-  document.getElementById('subcategoria-filter').innerHTML = '';
-  document.getElementById('sort-filter').value = 'recentes';
-  document.getElementById('subcategoria-group').style.display = 'none';
+  const searchInput = document.getElementById('product-search');
+  if (searchInput) searchInput.value = '';
+  
+  const categoriaSelect = document.getElementById('categoria-filter');
+  if (categoriaSelect) categoriaSelect.value = '';
+  
+  const subcategoriaSelect = document.getElementById('subcategoria-filter');
+  if (subcategoriaSelect) subcategoriaSelect.innerHTML = '';
+  
+  const sortSelect = document.getElementById('sort-filter');
+  if (sortSelect) sortSelect.value = 'recentes';
+  
+  const subGroup = document.getElementById('subcategoria-group');
+  if (subGroup) subGroup.style.display = 'none';
   
   loadProducts();
   updateActiveFilters();
@@ -656,7 +643,7 @@ Preço: R$ ${product.preco.toFixed(2)}
 
 Poderia me passar mais informações?`.replace(/\n/g, '%0A');
   
-  window.open(`https://wa.me/557181804578?text=${mensagem}`, '_blank');
+  window.open(`https://wa.me/5511975321894?text=${mensagem}`, '_blank');
 };
 
 // Helpers
@@ -692,31 +679,25 @@ function getSubcategoriaNome(subcategoria) {
   return nomes[subcategoria] || subcategoria;
 }
 
-// Lazy loading
-function initLazyLoading() {
-  const lazyImages = document.querySelectorAll('.lazy-bg');
-  
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          const bg = img.dataset.bg;
-          if (bg) {
-            img.style.backgroundImage = `url(${bg})`;
-            img.classList.add('loaded');
-          }
-          observer.unobserve(img);
-        }
-      });
-    }, { rootMargin: '50px' });
-    
-    lazyImages.forEach(img => observer.observe(img));
-  } else {
-    lazyImages.forEach(img => {
-      if (img.dataset.bg) {
-        img.style.backgroundImage = `url(${img.dataset.bg})`;
-      }
-    });
-  }
+function escapeHTML(str) {
+  if (!str) return '';
+  return str.replace(/[&<>"]/g, function(match) {
+    if (match === '&') return '&amp;';
+    if (match === '<') return '&lt;';
+    if (match === '>') return '&gt;';
+    if (match === '"') return '&quot;';
+    return match;
+  });
 }
+
+// Função para pré-carregar e verificar imagens (útil para debug)
+window.verificarImagens = function() {
+  console.group('🔍 Verificação de Imagens');
+  productsDB.forEach(product => {
+    const img = new Image();
+    img.onload = () => console.log(`✅ ${product.nome}: imagem OK`);
+    img.onerror = () => console.warn(`❌ ${product.nome}: imagem NÃO encontrada em ${product.imagem}`);
+    img.src = product.imagem;
+  });
+  console.groupEnd();
+};
