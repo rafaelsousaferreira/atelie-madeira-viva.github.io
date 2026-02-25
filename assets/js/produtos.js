@@ -158,7 +158,7 @@ const productsDB = [
     tags: ["suculentas", "vivas", "arranjo"],
     preco: 120.00,
     regional: true,
-    regioes: ["BA", "Salvador", "Região Metropolitana"]],
+    regioes: ["BA", "Salvador", "Região Metropolitana"],
     destaque: true
   },
   {
