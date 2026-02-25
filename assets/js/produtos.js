@@ -158,7 +158,7 @@ const productsDB = [
     tags: ["suculentas", "vivas", "arranjo"],
     preco: 120.00,
     regional: true,
-    regioes: ["SP", "SP-Capital", "SP-Grande"],
+    regioes: ["BA", "Salvador", "Região Metropolitana"]],
     destaque: true
   },
   {
@@ -171,7 +171,7 @@ const productsDB = [
     tags: ["terrário", "jardim", "mini"],
     preco: 150.00,
     regional: true,
-    regioes: ["SP", "SP-Capital", "SP-Grande"]
+    regioes: ["BA", "Salvador", "Região Metropolitana"]
   }
 ];
 
@@ -265,7 +265,7 @@ function renderProducts(grid, products) {
     const regionalWarning = product.regional ? 
       `<div class="regional-warning">
         <i class="fas fa-map-marker-alt"></i>
-        <span>Produto disponível apenas para região metropolitana de SP</span>
+        <span>Produto disponível apenas para  Salvador e Região Metropolitana/span>
        </div>` : '';
     
     // Gera placeholder SVG para fallback
