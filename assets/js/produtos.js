@@ -16,7 +16,7 @@ const productsDB = [
       "assets/images/produtos/tabua-corte-4.jpg"
     ],
     tags: ["madeira", "corte", "cozinha", "demolição"],
-    preco: 89.90,
+    preco: 139.90,
     destaque: true,
     mercado_livre_url: "https://produto.mercadolivre.com.br/MLB-4361324291-tabua-de-madeira-macica-50x155x2cm-cazulejo-personalizado-_JM?matt_tool=38524122#origin=share&sid=share",
     estoque: 15,
