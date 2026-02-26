@@ -13,7 +13,8 @@ const productsDB = [
       "assets/images/produtos/tabua-corte-1.jpg",
       "assets/images/produtos/tabua-corte-2.jpg",
       "assets/images/produtos/tabua-corte-3.jpg",
-      "assets/images/produtos/tabua-corte-4.jpg"
+      "assets/images/produtos/tabua-corte-4.jpg",
+      "assets/images/produtos/tabua-corte-5.jpg"
     ],
     tags: ["madeira", "corte", "cozinha", "demolição"],
     preco: 139.90,
