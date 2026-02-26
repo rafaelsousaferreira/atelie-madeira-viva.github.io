@@ -18,7 +18,7 @@ const productsDB = [
     tags: ["madeira", "corte", "cozinha", "demolição"],
     preco: 89.90,
     destaque: true,
-    mercado_livre_url: "https://produto.mercadolivre.com.br/MLB-1234567890-tabua-corte-madeira-demolicao-_JM",
+    mercado_livre_url: "https://produto.mercadolivre.com.br/MLB-4361324291-tabua-de-madeira-macica-50x155x2cm-cazulejo-personalizado-_JM?matt_tool=38524122#origin=share&sid=share",
     estoque: 15,
     sku: "TC-001",
     peso: "1.2kg",
