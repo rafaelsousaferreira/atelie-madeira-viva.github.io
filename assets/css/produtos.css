@@ -572,3 +572,91 @@
 .product-card .btn-mercado-livre {
   pointer-events: auto;
 }
+
+/* Slider de imagens nos cards */
+.product-image-container {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  background-color: #f5e9de;
+}
+
+.product-images-slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.product-slider-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Indicadores do slider */
+.slider-indicators {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.slider-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s;
+  pointer-events: auto;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.slider-dot.active {
+  background: var(--madeira-media);
+  transform: scale(1.2);
+  width: 20px;
+  border-radius: 10px;
+}
+
+.slider-dot:hover {
+  background: white;
+}
+
+/* Pausar slider no hover */
+.product-image-container:hover .product-slider-img {
+  animation-play-state: paused;
+}
+
+/* Badges sobre o slider */
+.product-badge {
+  z-index: 10;
+}
+
+/* Transição suave */
+.product-slider-img {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .slider-dot {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .slider-dot.active {
+    width: 16px;
+  }
+}
