@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produto - Wood & Art</title>
+  <meta name="description" content="Detalhes do produto artesanal">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/produtos.css">
+  <link rel="stylesheet" href="assets/css/produto.css">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- WhatsApp Flutuante -->
+  <div class="whatsapp-float">
+    <a href="https://wa.me/557181804578" 
+       target="_blank" 
+       rel="noopener noreferrer">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="index.html" class="logo">
+          <i class="fas fa-tree"></i>
+          <span>Wood & Art</span>
+        </a>
+        
+        <button class="mobile-menu-btn" aria-label="Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        
+        <ul class="menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="produtos.html">Produtos</a></li>
+          <li><a href="depoimentos.html">Depoimentos</a></li>
+          <li><a href="index.html#orcamento">Orçamento</a></li>
+          <li><a href="index.html#contato">Contato</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <div class="container">
+        <a href="index.html">Home</a> &gt; 
+        <a href="produtos.html">Produtos</a> &gt;
+        <span id="product-name-breadcrumb">Carregando...</span>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="product-loading">
+      <i class="fas fa-spinner fa-spin"></i> Carregando produto...
+    </div>
+
+    <!-- Conteúdo do Produto (inicialmente oculto) -->
+    <div id="product-content" style="display: none;">
+      <!-- Seção do Produto -->
+      <section class="product-detail">
+        <div class="container">
+          <div class="product-detail-grid">
+            <!-- Galeria de Imagens -->
+            <div class="product-gallery">
+              <div class="main-image-container">
+                <img id="main-image" src="" alt="Imagem principal" class="main-image">
+                <button class="zoom-btn" id="zoom-btn">
+                  <i class="fas fa-search-plus"></i>
+                </button>
+              </div>
+              
+              <div class="thumbnail-slider" id="thumbnail-slider">
+                <!-- Thumbnails serão inseridos via JS -->
+              </div>
+            </div>
+            
+            <!-- Informações do Produto -->
+            <div class="product-info-detail">
+              <div class="product-header">
+                <span class="product-category-detail" id="product-category"></span>
+                <h1 id="product-title" class="product-title-detail"></h1>
+                
+                <div class="product-tags-detail" id="product-tags"></div>
+              </div>
+              
+              <div class="product-price-box">
+                <div class="product-price-detail" id="product-price"></div>
+                <div class="product-installments" id="product-installments"></div>
+                <div class="product-stock" id="product-stock"></div>
+              </div>
+              
+              <div class="product-description-detail">
+                <h3>Descrição do produto</h3>
+                <div id="product-description"></div>
+              </div>
+              
+              <div class="product-specs" id="product-specs"></div>
+              
+              <div class="product-actions">
+                <button class="btn-product-large btn-whatsapp" id="btn-orcamento">
+                  <i class="fab fa-whatsapp"></i> Solicitar Orçamento
+                </button>
+                
+                <a href="#" id="btn-mercado-livre" class="btn-product-large btn-mercado-livre" target="_blank" rel="noopener noreferrer">
+                  <i class="fas fa-store"></i> Ver no Mercado Livre
+                </a>
+              </div>
+              
+              <div class="product-share">
+                <span>Compartilhar:</span>
+                <button class="share-btn" onclick="shareProduct('facebook')" aria-label="Compartilhar no Facebook">
+                  <i class="fab fa-facebook-f"></i>
+                </button>
+                <button class="share-btn" onclick="shareProduct('twitter')" aria-label="Compartilhar no Twitter">
+                  <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-btn" onclick="shareProduct('pinterest')" aria-label="Compartilhar no Pinterest">
+                  <i class="fab fa-pinterest"></i>
+                </button>
+                <button class="share-btn" onclick="shareProduct('whatsapp')" aria-label="Compartilhar no WhatsApp">
+                  <i class="fab fa-whatsapp"></i>
+                </button>
+                <button class="share-btn" onclick="copyLink()" aria-label="Copiar link">
+                  <i class="fas fa-link"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Produtos Relacionados -->
+      <section class="related-products">
+        <div class="container">
+          <h2 class="section-title"><span>Produtos Relacionados</span></h2>
+          <div class="products-grid" id="related-products"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">
+        <i class="fas fa-tree"></i> Wood & Art
+      </div>
+      <div class="footer-info">
+        <p>© 2026 Todos os direitos reservados</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a> | 
+        <a href="produtos.html">Produtos</a> | 
+        <a href="depoimentos.html">Depoimentos</a> | 
+        <a href="index.html#contato">Contato</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal de Zoom -->
+  <div id="zoom-modal" class="zoom-modal">
+    <span class="zoom-modal-close">&times;</span>
+    <div class="zoom-modal-content">
+      <img id="zoom-modal-image" src="" alt="Zoom">
+      <button class="zoom-modal-prev" id="zoom-prev"><i class="fas fa-chevron-left"></i></button>
+      <button class="zoom-modal-next" id="zoom-next"><i class="fas fa-chevron-right"></i></button>
+    </div>
+  </div>
+
+  <!-- Toast de notificação -->
+  <div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toast-message">Link copiado!</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/produtos.js"></script>
+  <script src="assets/js/produto.js"></script>
+</body>
+</html>
