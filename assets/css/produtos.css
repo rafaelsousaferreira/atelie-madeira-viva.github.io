@@ -526,3 +526,49 @@
 .product-card {
   animation: fadeIn 0.5s ease-out;
 }
+/* Botões de produto */
+.product-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-product {
+  background: var(--madeira-media);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  text-decoration: none;
+}
+
+.btn-product:hover {
+  background: var(--madeira-escura);
+}
+
+.btn-mercado-livre {
+  background: #2e7d32;
+}
+
+.btn-mercado-livre:hover {
+  background: #1b5e20;
+}
+
+/* Card do produto como link */
+.product-card {
+  cursor: pointer;
+}
+
+.product-card * {
+  pointer-events: none;
+}
+
+.product-card .btn-product,
+.product-card .btn-mercado-livre {
+  pointer-events: auto;
+}
