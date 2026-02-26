@@ -481,6 +481,164 @@ function renderProducts(grid, products) {
   }).join('');
 }
 
+// Slider automático para cards de produtos
+function initProductSliders() {
+  const productCards = document.querySelectorAll('.product-card');
+  
+  productCards.forEach(card => {
+    const imagesContainer = card.querySelector('.product-images-slider');
+    if (!imagesContainer) return;
+    
+    const images = imagesContainer.querySelectorAll('img');
+    if (images.length <= 1) return;
+    
+    let currentIndex = 0;
+    let interval;
+    
+    // Função para mostrar imagem específica
+    function showImage(index) {
+      images.forEach((img, i) => {
+        img.style.opacity = i === index ? '1' : '0';
+      });
+      
+      // Atualiza indicadores
+      const indicators = card.querySelector('.slider-indicators');
+      if (indicators) {
+        const dots = indicators.querySelectorAll('.slider-dot');
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === index);
+        });
+      }
+    }
+    
+    // Avança para próxima imagem
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      showImage(currentIndex);
+    }
+    
+    // Inicia slider automático
+    function startSlider() {
+      if (interval) clearInterval(interval);
+      interval = setInterval(nextImage, 3000); // Muda a cada 3 segundos
+    }
+    
+    // Para slider
+    function stopSlider() {
+      if (interval) {
+        clearInterval(interval);
+        interval = null;
+      }
+    }
+    
+    // Eventos de hover
+    card.addEventListener('mouseenter', stopSlider);
+    card.addEventListener('mouseleave', startSlider);
+    
+    // Cria indicadores se não existirem
+    if (!card.querySelector('.slider-indicators')) {
+      const indicators = document.createElement('div');
+      indicators.className = 'slider-indicators';
+      
+      for (let i = 0; i < images.length; i++) {
+        const dot = document.createElement('span');
+        dot.className = `slider-dot ${i === 0 ? 'active' : ''}`;
+        dot.addEventListener('click', (e) => {
+          e.stopPropagation();
+          currentIndex = i;
+          showImage(i);
+        });
+        indicators.appendChild(dot);
+      }
+      
+      card.querySelector('.product-image-container').appendChild(indicators);
+    }
+    
+    // Inicia slider
+    showImage(0);
+    startSlider();
+  });
+}
+
+// Modificar a função renderProducts para incluir o slider
+function renderProducts(grid, products) {
+  grid.innerHTML = products.map(product => {
+    const regionalWarning = product.regional ? 
+      `<div class="regional-warning">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>Produto disponível apenas para Salvador e Região Metropolitana</span>
+       </div>` : '';
+    
+    // Pega todas as imagens do produto
+    const productImages = product.imagens || [product.imagem].filter(Boolean);
+    
+    // Gera placeholder SVG para fallback
+    const placeholderSVG = generatePlaceholderSVG(product);
+    const placeholderDataURL = `data:image/svg+xml,${encodeURIComponent(placeholderSVG)}`;
+    
+    return `
+      <article class="product-card" data-id="${product.id}" onclick="window.location.href='produto.html?id=${product.id}'" style="cursor: pointer;">
+        ${product.destaque ? '<span class="product-badge">Destaque</span>' : ''}
+        ${product.regional ? '<span class="product-badge region">📍 Regional</span>' : ''}
+        
+        <div class="product-image-container">
+          <!-- Slider de imagens -->
+          <div class="product-images-slider">
+            ${productImages.map((img, index) => `
+              <img 
+                class="product-slider-img" 
+                src="${img}" 
+                alt="${product.nome} - Imagem ${index + 1}"
+                style="opacity: ${index === 0 ? '1' : '0'}; position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s ease;"
+                loading="lazy"
+                onerror="this.onerror=null; this.src='${placeholderDataURL}';"
+              >
+            `).join('')}
+          </div>
+          
+          <!-- Fallback para quando não há imagens -->
+          ${productImages.length === 0 ? `
+            <img class="product-img" src="${placeholderDataURL}" alt="${product.nome} - placeholder">
+          ` : ''}
+        </div>
+        
+        <div class="product-info">
+          <div class="product-category">${getCategoriaNome(product.categoria)}</div>
+          <h3 class="product-title">${product.nome}</h3>
+          <p class="product-description">${escapeHTML(product.descricao.substring(0, 100))}...</p>
+          
+          <div class="product-tags">
+            ${product.tags.slice(0, 3).map(tag => `<span class="product-tag">${escapeHTML(tag)}</span>`).join('')}
+          </div>
+          
+          ${regionalWarning}
+          
+          <div class="product-footer">
+            <div class="product-price">
+              R$ ${product.preco.toFixed(2)} 
+              <small>à vista</small>
+            </div>
+            <div class="product-buttons">
+              <button class="btn-product" onclick="event.stopPropagation(); solicitarOrcamento(${product.id})">
+                <i class="fab fa-whatsapp"></i>
+              </button>
+              ${product.mercado_livre_url ? `
+                <a href="${product.mercado_livre_url}" target="_blank" rel="noopener noreferrer" class="btn-product btn-mercado-livre" onclick="event.stopPropagation();">
+                  <i class="fas fa-store"></i>
+                </a>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+  
+  // Inicializa lazy loading e sliders
+  initLazyLoading();
+  initProductSliders();
+}
+
 // Gera placeholder SVG
 function generatePlaceholderSVG(product) {
   const cores = {
