@@ -46,7 +46,8 @@ const productsDB = [
     estoque: 8,
     sku: "TS-002",
     peso: "0.9kg",
-    dimensoes: "35x20x2cm"
+    dimensoes: "35x20x2cm",
+    prazo_fabricacao: "12 dias"
   },
   
   // Mobiliário
@@ -70,7 +71,8 @@ const productsDB = [
     estoque: 3,
     sku: "PL-003",
     peso: "15kg",
-    dimensoes: "80x70x75cm"
+    dimensoes: "80x70x75cm",
+    prazo_fabricacao: "12 dias"
   },
   {
     id: 4,
@@ -90,7 +92,8 @@ const productsDB = [
     estoque: 2,
     sku: "BN-004",
     peso: "8kg",
-    dimensoes: "45x35x35cm"
+    dimensoes: "45x35x35cm",
+    prazo_fabricacao: "12 dias"
   },
   {
     id: 5,
@@ -112,7 +115,8 @@ const productsDB = [
     estoque: 2,
     sku: "MS-005",
     peso: "45kg",
-    dimensoes: "200x100x76cm"
+    dimensoes: "200x100x76cm",
+    prazo_fabricacao: "12 dias"
   },
   {
     id: 6,
@@ -132,7 +136,8 @@ const productsDB = [
     estoque: 12,
     sku: "CD-006",
     peso: "5kg",
-    dimensoes: "85x45x50cm"
+    dimensoes: "85x45x50cm",
+    prazo_fabricacao: "12 dias"
   },
   
   // Organização
@@ -155,7 +160,8 @@ const productsDB = [
     estoque: 10,
     sku: "PR-007",
     peso: "3.5kg",
-    dimensoes: "120x20x2.5cm"
+    dimensoes: "120x20x2.5cm",
+    prazo_fabricacao: "12 dias"
   },
   {
     id: 8,
@@ -176,7 +182,8 @@ const productsDB = [
     estoque: 3,
     sku: "MV-008",
     peso: "35kg",
-    dimensoes: "150x40x80cm"
+    dimensoes: "150x40x80cm",
+    prazo_fabricacao: "12 dias"
   },
   {
     id: 9,
@@ -196,7 +203,8 @@ const productsDB = [
     estoque: 20,
     sku: "NC-009",
     peso: "2.8kg",
-    dimensoes: "Varia por peça"
+    dimensoes: "Varia por peça",
+    prazo_fabricacao: "12 dias"
   },
   
   // Jardinagem
@@ -219,7 +227,8 @@ const productsDB = [
     estoque: 7,
     sku: "SP-010",
     peso: "4.2kg",
-    dimensoes: "50x50x120cm"
+    dimensoes: "50x50x120cm",
+    prazo_fabricacao: "12 dias"
   },
   {
     id: 11,
@@ -238,7 +247,8 @@ const productsDB = [
     estoque: 15,
     sku: "CP-011",
     peso: "0.8kg",
-    dimensoes: "25x20x20cm"
+    dimensoes: "25x20x20cm",
+    prazo_fabricacao: "12 dias"
   },
   
   // Decoração
@@ -261,7 +271,8 @@ const productsDB = [
     estoque: 25,
     sku: "VG-012",
     peso: "0.5kg",
-    dimensoes: "15x12cm"
+    dimensoes: "15x12cm",
+    prazo_fabricacao: "12 dias"
   },
   {
     id: 13,
@@ -281,7 +292,8 @@ const productsDB = [
     estoque: 18,
     sku: "VA-013",
     peso: "1.2kg",
-    dimensoes: "18x15cm"
+    dimensoes: "18x15cm",
+    prazo_fabricacao: "12 dias"
   },
   
   // Plantas Vivas (com restrição regional)
@@ -307,7 +319,8 @@ const productsDB = [
     estoque: 5,
     sku: "AS-014",
     peso: "0.8kg",
-    dimensoes: "10x10x15cm"
+    dimensoes: "10x10x15cm",
+    prazo_fabricacao: "12 dias"
   },
   {
     id: 15,
@@ -329,7 +342,8 @@ const productsDB = [
     estoque: 3,
     sku: "TJ-015",
     peso: "1.5kg",
-    dimensoes: "20x15cm"
+    dimensoes: "20x15cm",
+    prazo_fabricacao: "12 dias"
   }
 ];
 
