@@ -24,7 +24,7 @@ const productsDB = [
     sku: "TC-001",
     peso: "1.2kg",
     dimensoes: "40x30x2cm",
-    prazo_fabricacao: "5 a 7 dias úteis"
+    prazo_fabricacao: "12 dias"
   },
   {
     id: 2,
