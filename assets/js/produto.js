@@ -84,6 +84,55 @@ function renderProduct() {
     stockElement.innerHTML = '<i class="fas fa-times-circle"></i> Fora de estoque';
     stockElement.className = 'product-stock out-of-stock';
   }
+
+  // Prazo de fabricação
+const prazoElement = document.createElement('div');
+prazoElement.className = 'product-delivery';
+
+let prazoHTML = '';
+if (currentProduct.prazo_fabricacao) {
+  if (currentProduct.prazo_fabricacao.includes('Pronta')) {
+    prazoHTML = `
+      <div class="delivery-info ready">
+        <i class="fas fa-check-circle"></i>
+        <div>
+          <strong>Pronta entrega</strong>
+          <span>Produto disponível para envio imediato</span>
+        </div>
+      </div>
+    `;
+  } else {
+    prazoHTML = `
+      <div class="delivery-info custom">
+        <i class="fas fa-clock"></i>
+        <div>
+          <strong>Prazo de fabricação</strong>
+          <span>${currentProduct.prazo_fabricacao}</span>
+          <small>Produzido artesanalmente sob encomenda</small>
+        </div>
+      </div>
+    `;
+  }
+} else {
+  prazoHTML = `
+    <div class="delivery-info custom">
+      <i class="fas fa-clock"></i>
+      <div>
+        <strong>Prazo de fabricação</strong>
+        <span>Consulte-nos</span>
+        <small>Produzido artesanalmente sob encomenda</small>
+      </div>
+    </div>
+  `;
+}
+
+prazoElement.innerHTML = prazoHTML;
+
+// Insere após o preço/estoque
+const priceBox = document.querySelector('.product-price-box');
+if (priceBox) {
+  priceBox.appendChild(prazoElement);
+}
   
   // Descrição
   document.getElementById('product-description').innerHTML = currentProduct.descricao_completa || 
