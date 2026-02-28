@@ -496,3 +496,84 @@
     font-size: 1rem;
   }
 }
+
+/* Prazo de fabricação */
+.product-delivery {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--madeira-clara);
+}
+
+.delivery-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 20px;
+}
+
+.delivery-info i {
+  font-size: 1.8rem;
+}
+
+.delivery-info strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+  color: var(--madeira-escura);
+}
+
+.delivery-info span {
+  display: block;
+  font-size: 1rem;
+  color: #5a4a3a;
+  font-weight: 500;
+}
+
+.delivery-info small {
+  display: block;
+  font-size: 0.85rem;
+  color: #8b6f58;
+  margin-top: 0.3rem;
+}
+
+/* Pronta entrega */
+.delivery-info.ready {
+  background: #e8f5e9;
+  border: 1px solid #a5d6a7;
+}
+
+.delivery-info.ready i {
+  color: #2e7d32;
+}
+
+.delivery-info.ready strong {
+  color: #1b5e20;
+}
+
+/* Sob encomenda */
+.delivery-info.custom {
+  background: #fff3e0;
+  border: 1px solid #ffe0b2;
+}
+
+.delivery-info.custom i {
+  color: #ed6c02;
+}
+
+.delivery-info.custom strong {
+  color: #b85e00;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .delivery-info {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .delivery-info i {
+    margin-bottom: 0.5rem;
+  }
+}
