@@ -2,7 +2,7 @@
 (function() {
   // Configurações
   window.komentasSettings = {
-    siteId: 'SEU_SITE_ID_AQUI', // ← SUBSTITUA AQUI
+    siteId: '882248f3-f36f-4c8c-b578-640fc0852d53', // ← SUBSTITUA AQUI
     theme: 'wood',
     language: 'pt-BR',
     moderation: 'auto',
