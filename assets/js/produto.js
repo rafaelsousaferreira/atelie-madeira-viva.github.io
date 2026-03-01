@@ -3,9 +3,37 @@ let currentProduct = null;
 let currentImageIndex = 0;
 let productImages = [];
 
+// Configurar Komentas com os dados do produto atual
+function setupKomentas() {
+  if (!currentProduct) return;
+  
+  const komentasContainer = document.getElementById('komentas-container');
+  if (!komentasContainer) return;
+  
+  // Atualizar atributos com dados do produto
+  komentasContainer.dataset.pageId = `produto-${currentProduct.id}`;
+  komentasContainer.dataset.pageTitle = currentProduct.nome;
+  komentasContainer.dataset.pageUrl = window.location.href;
+  komentasContainer.dataset.pageImage = currentProduct.imagens && currentProduct.imagens.length > 0 
+    ? currentProduct.imagens[0] 
+    : currentProduct.imagem || '';
+  
+  // Se o widget já foi carregado, recarregar
+  if (window.Komentas && window.Komentas.reload) {
+    window.Komentas.reload(komentasContainer);
+  }
+}
 // Inicialização
+// Chamar no carregamento do produto
 document.addEventListener('DOMContentLoaded', function() {
+  // ... seu código existente ...
   loadProduct();
+  // Aguardar produto carregar
+  setTimeout(() => {
+    if (currentProduct) {
+      setupKomentas();
+    }
+  }, 500);
 });
 
 // Carrega produto baseado no ID da URL
