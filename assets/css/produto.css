@@ -577,3 +577,15 @@
     margin-bottom: 0.5rem;
   }
 }
+
+.product-reviews {
+  background: white;
+  border-radius: 30px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px var(--sombra);
+  margin-bottom: 3rem;
+}
+
+#disqus_thread {
+  min-height: 200px;
+}
