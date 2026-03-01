@@ -118,26 +118,43 @@
                 <div id="product-description"></div>
               </div>
               <div class="product-specs" id="product-specs"></div>
-              <!-- Adicione após a descrição do produto -->
-              <section class="product-reviews" style="margin-top: 0rem;">
-                <h2 class="section-title"><span>💬 Avaliações</span></h2>
-                
-                <div id="disqus_thread"></div>
-                <script>
-                  var disqus_config = function () {
-                    this.page.url = window.location.href;
-                    this.page.identifier = 'produto-' + currentProduct.id;
-                  };
+                            <!-- Seção de Avaliações com Komentas -->
+              <section class="product-reviews-section">
+                <div class="container">
+                  <h2 class="section-title"><span>💬 Avaliações dos Clientes</span></h2>
                   
-                  (function() {
-                    var d = document, s = d.createElement('script');
-                    s.src = 'https://https-rafaelsousaferreira-github-io.disqus.com/embed.js'; // Substitua pelo seu shortname
-                    s.setAttribute('data-timestamp', +new Date());
-                    (d.head || d.body).appendChild(s);
-                  })();
-                </script>
-                <noscript>Ative o JavaScript para ver os comentários.</noscript>
-              </section>                            
+                  <!-- Container onde o Komentas vai renderizar -->
+                  <div id="komentas-container" 
+                       data-page-id="produto-{{productId}}"
+                       data-page-title="{{productName}}"
+                       data-page-url="{{productUrl}}"
+                       data-page-image="{{productImage}}"
+                       data-rating-enabled="true"
+                       data-rating-type="stars"
+                       data-theme="wood"
+                       data-moderation="auto"
+                       data-allow-guests="true"
+                       data-sort-by="top"
+                       data-max-rating="5"
+                       data-language="pt-BR">
+                  </div>
+                  
+                  <!-- Loading enquanto carrega -->
+                  <div id="komentas-loading" class="komentas-loading">
+                    <i class="fas fa-spinner fa-spin"></i> Carregando avaliações...
+                  </div>
+                </div>
+              </section>
+              
+              <!-- Scripts do Komentas (adicione no final do body) -->
+              <script src="assets/js/komentas-config.js"></script>
+              <script src="https://cdn.komentas.com/widget.js" async></script>
+              <script>
+                // Inicialização quando o widget carregar
+                document.addEventListener('komentas:ready', function() {
+                  document.getElementById('komentas-loading').style.display = 'none';
+                });
+              </script>                          
               
               
               
