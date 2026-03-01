@@ -579,9 +579,10 @@
 }
 
 .product-reviews {
+  margin-top: 0;
   background: white;
   border-radius: 30px;
-  padding: 2rem;
+  padding: 0;
   box-shadow: 0 10px 30px var(--sombra);
   margin-bottom: 3rem;
 }
