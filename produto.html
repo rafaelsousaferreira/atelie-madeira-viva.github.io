@@ -157,7 +157,48 @@
                   </div>
                 </div>
               </section>                          
-                
+
+              <!-- Add this to your HTML page -->
+<div id="komentas-widget"></div>
+
+<!-- Load Komentas Widget with cache-busting -->
+<script>
+  (function() {
+    // Generate hourly cache-busting version
+    const v = new Date().toISOString().slice(0,13).replace(/[-T:]/g,'') + '00';
+    const script = document.createElement('script');
+    script.src = 'https://cdn.komentas.com/komentas-widget.umd.js?v=' + v;
+    script.onload = function() {
+      // Initialize the widget
+      window.KomentasWidget.init({
+        apiUrl: 'https://api.komentas.com',
+        portalUrl: 'https://portal.komentas.com',
+        projectId: '882248f3-f36f-4c8c-b578-640fc0852d53',
+        articleUrl: window.location.href,
+        articleTitle: document.title,
+        theme: {
+          primaryColor: '#6b4f3a',
+          backgroundColor: '#b28b6f',
+          borderRadius: '8px'
+        },
+        allowAnonymous: true,
+        enableReactions: true,
+        reactionsOnlyMode: false,
+        showArticleReactions: true,
+        availableEmotions: ["like","dislike","love","sad"],
+        sortBy: 'popular',
+        showLogoutButton: true,
+        oauthProviders: ["google","github","microsoft-entra-id","apple","linkedin"],
+        enableStarRatings: true,
+        starRatingDisplayMode: 'medium',
+        allowStarRatingUpdate: true,
+        enableCommentStarRatings: true,
+        allowCommentStarRatingUpdate: true,
+      });
+    };
+    document.head.appendChild(script);
+  })();
+</script>
               
               <div class="product-share">
                 <span>Compartilhar:</span>
