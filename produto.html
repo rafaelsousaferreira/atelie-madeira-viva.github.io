@@ -118,12 +118,17 @@
                 <div id="product-description"></div>
               </div>
               <div class="product-specs" id="product-specs"></div>
-                            <!-- Seção de Avaliações com Komentas -->
+                           <!-- Seção de Avaliações -->
               <section class="product-reviews-section">
                 <div class="container">
                   <h2 class="section-title"><span>💬 Avaliações dos Clientes</span></h2>
                   
-                  <!-- Container onde o Komentas vai renderizar -->
+                  <!-- Loading -->
+                  <div id="komentas-loading" class="komentas-loading">
+                    <i class="fas fa-spinner fa-spin"></i> Carregando avaliações...
+                  </div>
+                  
+                  <!-- Container do Komentas -->
                   <div id="komentas-container" 
                        data-page-id="produto-{{productId}}"
                        data-page-title="{{productName}}"
@@ -136,29 +141,17 @@
                        data-allow-guests="true"
                        data-sort-by="top"
                        data-max-rating="5"
-                       data-language="pt-BR">
+                       data-language="pt-BR"
+                       data-custom-css="true">
                   </div>
                   
-                  <!-- Loading enquanto carrega -->
-                  <div id="komentas-loading" class="komentas-loading">
-                    <i class="fas fa-spinner fa-spin"></i> Carregando avaliações...
+                  <!-- Instruções para quem nunca comentou -->
+                  <div class="komentas-info">
+                    <p><i class="fas fa-info-circle"></i> Sua opinião é muito importante! Comente e avalie com estrelas.</p>
                   </div>
                 </div>
-              </section>
-              
-              <!-- Scripts do Komentas (adicione no final do body) -->
-              <script src="assets/js/komentas-config.js"></script>
-              <script src="https://cdn.komentas.com/widget.js" async></script>
-              <script>
-                // Inicialização quando o widget carregar
-                document.addEventListener('komentas:ready', function() {
-                  document.getElementById('komentas-loading').style.display = 'none';
-                });
-              </script>                          
-              
-              
-              
-              
+              </section>                          
+                
               
               <div class="product-share">
                 <span>Compartilhar:</span>
