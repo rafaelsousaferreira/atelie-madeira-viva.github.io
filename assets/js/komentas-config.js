@@ -1,6 +1,6 @@
 // Configuração global do Komentas
 window.KOMENTAS_CONFIG = {
-  siteId: 'SEU_SITE_ID_AQUI', // Substitua pelo ID da sua conta
+  siteId: '882248f3-f36f-4c8c-b578-640fc0852d53', // Substitua pelo ID da sua conta
   theme: 'wood', // Tema personalizado (vamos criar)
   language: 'pt-BR',
   moderation: 'auto', // Auto-moderação de spam
