@@ -87,6 +87,27 @@
                 <!-- Thumbnails serão inseridos via JS -->
               </div>
             </div>
+
+            <!-- Adicione após a descrição do produto -->
+              <section class="product-reviews" style="margin-top: 4rem;">
+                <h2 class="section-title"><span>💬 Avaliações</span></h2>
+                
+                <div id="disqus_thread"></div>
+                <script>
+                  var disqus_config = function () {
+                    this.page.url = window.location.href;
+                    this.page.identifier = 'produto-' + currentProduct.id;
+                  };
+                  
+                  (function() {
+                    var d = document, s = d.createElement('script');
+                    s.src = 'https://https-rafaelsousaferreira-github-io.disqus.com/embed.js'; // Substitua pelo seu shortname
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                  })();
+                </script>
+                <noscript>Ative o JavaScript para ver os comentários.</noscript>
+              </section>
             
             <!-- Informações do Produto -->
             <div class="product-info-detail">
@@ -108,26 +129,7 @@
                 <div id="product-description"></div>
               </div>
 
-                            <!-- Adicione após a descrição do produto -->
-              <section class="product-reviews" style="margin-top: 4rem;">
-                <h2 class="section-title"><span>💬 Avaliações</span></h2>
-                
-                <div id="disqus_thread"></div>
-                <script>
-                  var disqus_config = function () {
-                    this.page.url = window.location.href;
-                    this.page.identifier = 'produto-' + currentProduct.id;
-                  };
-                  
-                  (function() {
-                    var d = document, s = d.createElement('script');
-                    s.src = 'https://https-rafaelsousaferreira-github-io.disqus.com/embed.js'; // Substitua pelo seu shortname
-                    s.setAttribute('data-timestamp', +new Date());
-                    (d.head || d.body).appendChild(s);
-                  })();
-                </script>
-                <noscript>Ative o JavaScript para ver os comentários.</noscript>
-              </section>
+                            
               
               <div class="product-specs" id="product-specs"></div>
               
