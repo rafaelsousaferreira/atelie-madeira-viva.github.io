@@ -124,44 +124,28 @@
                 <div id="product-description"></div>
               </div>
               <div class="product-specs" id="product-specs"></div>
-             
-
-               <!-- Add this to your HTML page -->
-<div id="komentas-widget"></div>
-
-<!-- Load Komentas Widget with cache-busting -->
-<script>
+             <div id="komentas-comments"></div>
+              <script>
   (function() {
     // Generate hourly cache-busting version
     const v = new Date().toISOString().slice(0,13).replace(/[-T:]/g,'') + '00';
     const script = document.createElement('script');
-    script.src = 'https://cdn.komentas.com/komentas-widget.umd.js?v=' + v;
+    script.src = 'https://cdn.komentas.com/widget.js?v=' + v;
     script.onload = function() {
-      // Initialize the widget
-      window.KomentasWidget.init({
+      new Komentas('#komentas-comments', {
         apiUrl: 'https://api.komentas.com',
         portalUrl: 'https://portal.komentas.com',
-        projectId: 'YOUR_PROJECT_ID',
-        articleUrl: window.location.href,
-        articleTitle: document.title,
-        theme: {
-          primaryColor: '#3e2e23',
-          backgroundColor: '#5c4030',
-          borderRadius: '24px'
-        },
+        projectId: '882248f3-f36f-4c8c-b578-640fc0852d53',
         allowAnonymous: true,
         enableReactions: true,
-        reactionsOnlyMode: true,
-        showArticleReactions: false,
-        availableEmotions: ["like","dislike","love","laugh"],
-        sortBy: 'newest',
-        showLogoutButton: false,
-        oauthProviders: [],
+        enableStarRatings: true
       });
     };
     document.head.appendChild(script);
   })();
 </script>
+
+               
 
       <!-- Produtos Relacionados -->
       <section class="related-products">
