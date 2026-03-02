@@ -126,24 +126,23 @@
               <div class="product-specs" id="product-specs"></div>
              
               <script>
-  (function() {
-    // Generate hourly cache-busting version
-    const v = new Date().toISOString().slice(0,13).replace(/[-T:]/g,'') + '00';
-    const script = document.createElement('script');
-    script.src = 'https://cdn.komentas.com/widget.js?v=' + v;
-    script.onload = function() {
-      new Komentas('#komentas-comments', {
-        apiUrl: 'https://api.komentas.com',
-        portalUrl: 'https://portal.komentas.com',
-        projectId: '882248f3-f36f-4c8c-b578-640fc0852d53',
-        allowAnonymous: true,
-        enableReactions: true,
-        enableStarRatings: true
-      });
-    };
-    document.head.appendChild(script);
-  })();
-</script>
+              (function() {
+                // Generate hourly cache-busting version
+                const v = new Date().toISOString().slice(0,13).replace(/[-T:]/g,'') + '00';
+                const script = document.createElement('script');
+                script.src = 'https://cdn.komentas.com/widget.js?v=' + v;
+                script.onload = function() {
+                  new Komentas('#komentas-comments', {
+                    apiUrl: 'https://api.komentas.com',
+                    projectId: '882248f3-f36f-4c8c-b578-640fc0852d53',
+                    allowAnonymous: true,
+                    enableReactions: true,
+                    enableStarRatings: true
+                  });
+                };
+                document.head.appendChild(script);
+              })();
+            </script>
 
                
 
