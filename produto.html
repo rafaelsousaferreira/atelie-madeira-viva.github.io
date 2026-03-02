@@ -125,6 +125,9 @@
               </div>
               <div class="product-specs" id="product-specs"></div>
                            <!-- Seção de Avaliações -->
+                                        
+
+                           <!-- Seção de Avaliações Komentas -->
               <section class="product-reviews-section">
                 <div class="container">
                   <h2 class="section-title"><span>💬 Avaliações dos Clientes</span></h2>
@@ -134,130 +137,96 @@
                     <i class="fas fa-spinner fa-spin"></i> Carregando avaliações...
                   </div>
                   
-                  <!-- Container do Komentas -->
-                  <div id="komentas-container" 
-                       data-page-id="produto-{{productId}}"
-                       data-page-title="{{productName}}"
-                       data-page-url="{{productUrl}}"
-                       data-page-image="{{productImage}}"
-                       data-rating-enabled="true"
-                       data-rating-type="stars"
-                       data-theme="wood"
-                       data-moderation="auto"
-                       data-allow-guests="true"
-                       data-sort-by="top"
-                       data-max-rating="5"
-                       data-language="pt-BR"
-                       data-custom-css="true">
-                  </div>
-                  
-                  <!-- Instruções para quem nunca comentou -->
-                  <div class="komentas-info">
-                    <p><i class="fas fa-info-circle"></i> Sua opinião é muito importante! Comente e avalie com estrelas.</p>
-                  </div>
+                  <!-- Container do Widget -->
+                  <div id="komentas-widget"></div>
                 </div>
-              </section>                          
-
-             <!-- Seção de Avaliações Komentas -->
-<section class="product-reviews-section">
-  <div class="container">
-    <h2 class="section-title"><span>💬 Avaliações dos Clientes</span></h2>
-    
-    <!-- Loading -->
-    <div id="komentas-loading" class="komentas-loading">
-      <i class="fas fa-spinner fa-spin"></i> Carregando avaliações...
-    </div>
-    
-    <!-- Container do Widget -->
-    <div id="komentas-widget"></div>
-  </div>
-</section>
-
-<!-- Script do Komentas com cache-busting -->
-<script>
-  (function() {
-    // Verificar se o produto já carregou
-    function initKomentas() {
-      if (!currentProduct) {
-        setTimeout(initKomentas, 200);
-        return;
-      }
-      
-      // Gerar versão com cache-busting (a cada hora)
-      const v = new Date().toISOString().slice(0,13).replace(/[-T:]/g,'') + '00';
-      
-      // Carregar script
-      const script = document.createElement('script');
-      script.src = 'https://cdn.komentas.com/komentas-widget.umd.js?v=' + v;
-      
-      script.onload = function() {
-        // Inicializar widget com dados do produto
-        window.KomentasWidget.init({
-          apiUrl: 'https://api.komentas.com',
-          portalUrl: 'https://portal.komentas.com',
-          projectId: '882248f3-f36f-4c8c-b578-640fc0852d53', // ← SUBSTITUA
-          articleUrl: window.location.href,
-          articleTitle: currentProduct.nome,
-          articleId: `produto-${currentProduct.id}`,
-          articleImage: currentProduct.imagens && currentProduct.imagens.length > 0 
-            ? window.location.origin + '/' + currentProduct.imagens[0] 
-            : '',
-          theme: {
-            backgroundColor: '#fef9f2',
-            primaryColor: '#b28b6f',
-            textColor: '#3e2e23',
-            borderRadius: '20px',
-            fontFamily: "'Inter', sans-serif"
-          },
-          allowAnonymous: true,
-          enableReactions: true,
-          reactionsOnlyMode: false,
-          showArticleReactions: true,
-          availableEmotions: ["like", "dislike", "love", "laugh"],
-          enableStarRatings: true,
-          starRatingDisplayMode: 'large',
-          allowStarRatingUpdate: false,
-          enableCommentStarRatings: true,
-          commentStarRatingDisplayMode: 'compact',
-          allowCommentStarRatingUpdate: false,
-          maxCommentLength: 500,
-          sortBy: 'popular',
-          showLogoutButton: true,
-          language: 'pt-BR',
-          
-          // Callbacks
-          onLoad: function() {
-            document.getElementById('komentas-loading').style.display = 'none';
-            console.log('Komentas carregado com sucesso');
-          },
-          onError: function(error) {
-            console.error('Erro no Komentas:', error);
-            document.getElementById('komentas-loading').innerHTML = `
-              <i class="fas fa-exclamation-triangle" style="color: #dc3545;"></i>
-              Erro ao carregar avaliações. Tente novamente mais tarde.
-            `;
-          }
-        });
-      };
-      
-      script.onerror = function() {
-        document.getElementById('komentas-loading').innerHTML = `
-          <i class="fas fa-exclamation-triangle" style="color: #dc3545;"></i>
-          Erro ao carregar sistema de avaliações. Verifique sua conexão.
-        `;
-      };
-      
-      document.head.appendChild(script);
-    }
-    
-    // Iniciar quando a página carregar
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initKomentas);
-    } else {
-      initKomentas();
-    }
-  })();
-</script>
+              </section>
+              
+              <!-- Script do Komentas com cache-busting -->
+              <script>
+                (function() {
+                  // Verificar se o produto já carregou
+                  function initKomentas() {
+                    if (!currentProduct) {
+                      setTimeout(initKomentas, 200);
+                      return;
+                    }
+                    
+                    // Gerar versão com cache-busting (a cada hora)
+                    const v = new Date().toISOString().slice(0,13).replace(/[-T:]/g,'') + '00';
+                    
+                    // Carregar script
+                    const script = document.createElement('script');
+                    script.src = 'https://cdn.komentas.com/komentas-widget.umd.js?v=' + v;
+                    
+                    script.onload = function() {
+                      // Inicializar widget com dados do produto
+                      window.KomentasWidget.init({
+                        apiUrl: 'https://api.komentas.com',
+                        portalUrl: 'https://portal.komentas.com',
+                        projectId: '882248f3-f36f-4c8c-b578-640fc0852d53', // ← SUBSTITUA
+                        articleUrl: window.location.href,
+                        articleTitle: currentProduct.nome,
+                        articleId: `produto-${currentProduct.id}`,
+                        articleImage: currentProduct.imagens && currentProduct.imagens.length > 0 
+                          ? window.location.origin + '/' + currentProduct.imagens[0] 
+                          : '',
+                        theme: {
+                          backgroundColor: '#fef9f2',
+                          primaryColor: '#b28b6f',
+                          textColor: '#3e2e23',
+                          borderRadius: '20px',
+                          fontFamily: "'Inter', sans-serif"
+                        },
+                        allowAnonymous: true,
+                        enableReactions: true,
+                        reactionsOnlyMode: false,
+                        showArticleReactions: true,
+                        availableEmotions: ["like", "dislike", "love", "laugh"],
+                        enableStarRatings: true,
+                        starRatingDisplayMode: 'large',
+                        allowStarRatingUpdate: false,
+                        enableCommentStarRatings: true,
+                        commentStarRatingDisplayMode: 'compact',
+                        allowCommentStarRatingUpdate: false,
+                        maxCommentLength: 500,
+                        sortBy: 'popular',
+                        showLogoutButton: true,
+                        language: 'pt-BR',
+                        
+                        // Callbacks
+                        onLoad: function() {
+                          document.getElementById('komentas-loading').style.display = 'none';
+                          console.log('Komentas carregado com sucesso');
+                        },
+                        onError: function(error) {
+                          console.error('Erro no Komentas:', error);
+                          document.getElementById('komentas-loading').innerHTML = `
+                            <i class="fas fa-exclamation-triangle" style="color: #dc3545;"></i>
+                            Erro ao carregar avaliações. Tente novamente mais tarde.
+                          `;
+                        }
+                      });
+                    };
+                    
+                    script.onerror = function() {
+                      document.getElementById('komentas-loading').innerHTML = `
+                        <i class="fas fa-exclamation-triangle" style="color: #dc3545;"></i>
+                        Erro ao carregar sistema de avaliações. Verifique sua conexão.
+                      `;
+                    };
+                    
+                    document.head.appendChild(script);
+                  }
+                  
+                  // Iniciar quando a página carregar
+                  if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', initKomentas);
+                  } else {
+                    initKomentas();
+                  }
+                })();
+              </script>
               
               <div class="product-share">
                 <span>Compartilhar:</span>
