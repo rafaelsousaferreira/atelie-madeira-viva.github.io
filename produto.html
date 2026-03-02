@@ -158,45 +158,104 @@
                 </div>
               </section>                          
 
-              <!-- Add this to your HTML page -->
-<div id="komentas-widget"></div>
+             <!-- Seção de Avaliações Komentas -->
+<section class="product-reviews-section">
+  <div class="container">
+    <h2 class="section-title"><span>💬 Avaliações dos Clientes</span></h2>
+    
+    <!-- Loading -->
+    <div id="komentas-loading" class="komentas-loading">
+      <i class="fas fa-spinner fa-spin"></i> Carregando avaliações...
+    </div>
+    
+    <!-- Container do Widget -->
+    <div id="komentas-widget"></div>
+  </div>
+</section>
 
-<!-- Load Komentas Widget with cache-busting -->
+<!-- Script do Komentas com cache-busting -->
 <script>
   (function() {
-    // Generate hourly cache-busting version
-    const v = new Date().toISOString().slice(0,13).replace(/[-T:]/g,'') + '00';
-    const script = document.createElement('script');
-    script.src = 'https://cdn.komentas.com/komentas-widget.umd.js?v=' + v;
-    script.onload = function() {
-      // Initialize the widget
-      window.KomentasWidget.init({
-        apiUrl: 'https://api.komentas.com',
-        portalUrl: 'https://portal.komentas.com',
-        projectId: '882248f3-f36f-4c8c-b578-640fc0852d53',
-        articleUrl: window.location.href,
-        articleTitle: document.title,
-        theme: {
-          primaryColor: '#6b4f3a',
-          backgroundColor: '#b28b6f',
-          borderRadius: '8px'
-        },
-        allowAnonymous: true,
-        enableReactions: true,
-        reactionsOnlyMode: false,
-        showArticleReactions: true,
-        availableEmotions: ["like","dislike","love","sad"],
-        sortBy: 'popular',
-        showLogoutButton: true,
-        oauthProviders: ["google","github","microsoft-entra-id","apple","linkedin"],
-        enableStarRatings: true,
-        starRatingDisplayMode: 'medium',
-        allowStarRatingUpdate: true,
-        enableCommentStarRatings: true,
-        allowCommentStarRatingUpdate: true,
-      });
-    };
-    document.head.appendChild(script);
+    // Verificar se o produto já carregou
+    function initKomentas() {
+      if (!currentProduct) {
+        setTimeout(initKomentas, 200);
+        return;
+      }
+      
+      // Gerar versão com cache-busting (a cada hora)
+      const v = new Date().toISOString().slice(0,13).replace(/[-T:]/g,'') + '00';
+      
+      // Carregar script
+      const script = document.createElement('script');
+      script.src = 'https://cdn.komentas.com/komentas-widget.umd.js?v=' + v;
+      
+      script.onload = function() {
+        // Inicializar widget com dados do produto
+        window.KomentasWidget.init({
+          apiUrl: 'https://api.komentas.com',
+          portalUrl: 'https://portal.komentas.com',
+          projectId: '882248f3-f36f-4c8c-b578-640fc0852d53', // ← SUBSTITUA
+          articleUrl: window.location.href,
+          articleTitle: currentProduct.nome,
+          articleId: `produto-${currentProduct.id}`,
+          articleImage: currentProduct.imagens && currentProduct.imagens.length > 0 
+            ? window.location.origin + '/' + currentProduct.imagens[0] 
+            : '',
+          theme: {
+            backgroundColor: '#fef9f2',
+            primaryColor: '#b28b6f',
+            textColor: '#3e2e23',
+            borderRadius: '20px',
+            fontFamily: "'Inter', sans-serif"
+          },
+          allowAnonymous: true,
+          enableReactions: true,
+          reactionsOnlyMode: false,
+          showArticleReactions: true,
+          availableEmotions: ["like", "dislike", "love", "laugh"],
+          enableStarRatings: true,
+          starRatingDisplayMode: 'large',
+          allowStarRatingUpdate: false,
+          enableCommentStarRatings: true,
+          commentStarRatingDisplayMode: 'compact',
+          allowCommentStarRatingUpdate: false,
+          maxCommentLength: 500,
+          sortBy: 'popular',
+          showLogoutButton: true,
+          language: 'pt-BR',
+          
+          // Callbacks
+          onLoad: function() {
+            document.getElementById('komentas-loading').style.display = 'none';
+            console.log('Komentas carregado com sucesso');
+          },
+          onError: function(error) {
+            console.error('Erro no Komentas:', error);
+            document.getElementById('komentas-loading').innerHTML = `
+              <i class="fas fa-exclamation-triangle" style="color: #dc3545;"></i>
+              Erro ao carregar avaliações. Tente novamente mais tarde.
+            `;
+          }
+        });
+      };
+      
+      script.onerror = function() {
+        document.getElementById('komentas-loading').innerHTML = `
+          <i class="fas fa-exclamation-triangle" style="color: #dc3545;"></i>
+          Erro ao carregar sistema de avaliações. Verifique sua conexão.
+        `;
+      };
+      
+      document.head.appendChild(script);
+    }
+    
+    // Iniciar quando a página carregar
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initKomentas);
+    } else {
+      initKomentas();
+    }
   })();
 </script>
               
