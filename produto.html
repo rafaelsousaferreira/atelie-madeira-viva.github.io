@@ -124,129 +124,27 @@
                 <div id="product-description"></div>
               </div>
               <div class="product-specs" id="product-specs"></div>
-                           <!-- Seção de Avaliações -->
-                                        
+             
 
-                           <!-- Seção de Avaliações Komentas -->
-              <section class="product-reviews-section">
-                <div class="container">
-                  <h2 class="section-title"><span>💬 Avaliações dos Clientes</span></h2>
-                  
-                  <!-- Loading -->
-                  <div id="komentas-loading" class="komentas-loading">
-                    <i class="fas fa-spinner fa-spin"></i> Carregando avaliações...
-                  </div>
-                  
-                  <!-- Container do Widget -->
-                  <div id="komentas-widget"></div>
-                </div>
-              </section>
-              
-              <!-- Script do Komentas com cache-busting -->
-              <script>
+                <script>
                 (function() {
-                  // Verificar se o produto já carregou
-                  function initKomentas() {
-                    if (!currentProduct) {
-                      setTimeout(initKomentas, 200);
-                      return;
-                    }
-                    
-                    // Gerar versão com cache-busting (a cada hora)
-                    const v = new Date().toISOString().slice(0,13).replace(/[-T:]/g,'') + '00';
-                    
-                    // Carregar script
-                    const script = document.createElement('script');
-                    script.src = 'https://cdn.komentas.com/komentas-widget.umd.js?v=' + v;
-                    
-                    script.onload = function() {
-                      // Inicializar widget com dados do produto
-                      window.KomentasWidget.init({
-                        apiUrl: 'https://api.komentas.com',
-                        projectId: '882248f3-f36f-4c8c-b578-640fc0852d53', // ← SUBSTITUA
-                        allowAnonymous: true,
-                        articleUrl: window.location.href,
-                        articleTitle: currentProduct.nome,
-                        articleId: `produto-${currentProduct.id}`,
-                        articleImage: currentProduct.imagens && currentProduct.imagens.length > 0 
-                          ? window.location.origin + '/' + currentProduct.imagens[0] 
-                          : '',
-                        theme: {
-                          backgroundColor: '#fef9f2',
-                          primaryColor: '#b28b6f',
-                          textColor: '#3e2e23',
-                          borderRadius: '20px',
-                          fontFamily: "'Inter', sans-serif"
-                        },
-                        
-                        enableReactions: true,
-                        reactionsOnlyMode: false,
-                        showArticleReactions: false,
-                        availableEmotions: ["like", "dislike", "love", "laugh"],
-                        enableStarRatings: false,
-                        starRatingDisplayMode: 'medium',
-                        allowStarRatingUpdate: false,
-                        enableCommentStarRatings: false,
-                        commentStarRatingDisplayMode: 'compact',
-                        allowCommentStarRatingUpdate: false,
-                        maxCommentLength: 500,
-                        sortBy: 'popular',
-                        showLogoutButton: false,
-                        language: 'pt-BR',
-                        
-                        // Callbacks
-                        onLoad: function() {
-                          document.getElementById('komentas-loading').style.display = 'none';
-                          console.log('Komentas carregado com sucesso');
-                        },
-                        onError: function(error) {
-                          console.error('Erro no Komentas:', error);
-                          document.getElementById('komentas-loading').innerHTML = `
-                            <i class="fas fa-exclamation-triangle" style="color: #dc3545;"></i>
-                            Erro ao carregar avaliações. Tente novamente mais tarde.
-                          `;
-                        }
-                      });
-                    };
-                    
-                    script.onerror = function() {
-                      document.getElementById('komentas-loading').innerHTML = `
-                        <i class="fas fa-exclamation-triangle" style="color: #dc3545;"></i>
-                        Erro ao carregar sistema de avaliações. Verifique sua conexão.
-                      `;
-                    };
-                    
-                    document.head.appendChild(script);
-                  }
-                  
-                  // Iniciar quando a página carregar
-                  if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', initKomentas);
-                  } else {
-                    initKomentas();
-                  }
+                  // Generate hourly cache-busting version
+                  const v = new Date().toISOString().slice(0,13).replace(/[-T:]/g,'') + '00';
+                  const script = document.createElement('script');
+                  script.src = 'https://cdn.komentas.com/widget.js?v=' + v;
+                  script.onload = function() {
+                    new Komentas('#komentas-comments', {
+                      apiUrl: 'https://api.komentas.com',
+                      portalUrl: 'https://portal.komentas.com',
+                      projectId: '882248f3-f36f-4c8c-b578-640fc0852d53',
+                      allowAnonymous: true,
+                      enableReactions: true,
+                      enableStarRatings: true
+                    });
+                  };
+                  document.head.appendChild(script);
                 })();
               </script>
-
-              <script>
-  (function() {
-    // Generate hourly cache-busting version
-    const v = new Date().toISOString().slice(0,13).replace(/[-T:]/g,'') + '00';
-    const script = document.createElement('script');
-    script.src = 'https://cdn.komentas.com/widget.js?v=' + v;
-    script.onload = function() {
-      new Komentas('#komentas-comments', {
-        apiUrl: 'https://api.komentas.com',
-        portalUrl: 'https://portal.komentas.com',
-        projectId: '882248f3-f36f-4c8c-b578-640fc0852d53',
-        allowAnonymous: true,
-        enableReactions: true,
-        enableStarRatings: true
-      });
-    };
-    document.head.appendChild(script);
-  })();
-</script>
               
               <div class="product-share">
                 <span>Compartilhar:</span>
