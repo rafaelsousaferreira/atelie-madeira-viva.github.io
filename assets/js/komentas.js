@@ -1,6 +1,6 @@
 // Configuração do Komentas para o site
 const KOMENTAS_CONFIG = {
-  projectId: 'SEU_PROJECT_ID_AQUI', // Substitua pelo seu ID
+  projectId: '882248f3-f36f-4c8c-b578-640fc0852d53', // Substitua pelo seu ID
   theme: {
     backgroundColor: '#fef9f2',     // Cor de fundo (seu creme)
     primaryColor: '#b28b6f',         // Cor principal (madeira media)
