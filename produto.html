@@ -126,7 +126,7 @@
               <div class="product-specs" id="product-specs"></div>
              
 
-                <!-- Add this to your HTML page -->
+               <!-- Add this to your HTML page -->
 <div id="komentas-widget"></div>
 
 <!-- Load Komentas Widget with cache-busting -->
@@ -141,22 +141,22 @@
       window.KomentasWidget.init({
         apiUrl: 'https://api.komentas.com',
         portalUrl: 'https://portal.komentas.com',
-        projectId: '882248f3-f36f-4c8c-b578-640fc0852d53',
+        projectId: 'YOUR_PROJECT_ID',
         articleUrl: window.location.href,
         articleTitle: document.title,
         theme: {
           primaryColor: '#3e2e23',
-          backgroundColor: '#b28b6f',
+          backgroundColor: '#5c4030',
           borderRadius: '24px'
         },
         allowAnonymous: true,
-        enableReactions: false,
-        reactionsOnlyMode: false,
+        enableReactions: true,
+        reactionsOnlyMode: true,
         showArticleReactions: false,
         availableEmotions: ["like","dislike","love","laugh"],
-        sortBy: 'popular',
+        sortBy: 'newest',
         showLogoutButton: false,
-        oauthProviders: ["google"],
+        oauthProviders: [],
       });
     };
     document.head.appendChild(script);
