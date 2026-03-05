@@ -1,5 +1,5 @@
 // ========================================
-// HOME.JS - Versão Simplificada
+// HOME.JS - Versão Final com Grid
 // ========================================
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -38,6 +38,12 @@ function initHeroSlider() {
   });
   
   startSlideAutoplay();
+  
+  const slider = document.querySelector('.hero-slider-section');
+  if (slider) {
+    slider.addEventListener('mouseenter', stopSlideAutoplay);
+    slider.addEventListener('mouseleave', startSlideAutoplay);
+  }
 }
 
 function goToSlide(index) {
@@ -59,6 +65,13 @@ function prevSlide() {
 function startSlideAutoplay() {
   if (slideInterval) clearInterval(slideInterval);
   slideInterval = setInterval(nextSlide, 7000);
+}
+
+function stopSlideAutoplay() {
+  if (slideInterval) {
+    clearInterval(slideInterval);
+    slideInterval = null;
+  }
 }
 
 // ========================================
@@ -133,24 +146,34 @@ function toggleMute() {
 loadYouTubeAPI();
 
 // ========================================
-// 3. PRODUTOS EM DESTAQUE - VERSÃO SIMPLIFICADA
+// 3. PRODUTOS EM DESTAQUE - GRID
 // ========================================
 
 function loadFeaturedProducts() {
-  console.log('🔍 Procurando track de produtos...');
+  const grid = document.getElementById('home-products-grid');
+  
+  if (!grid) {
+    console.error('❌ Grid de produtos não encontrado!');
+    return;
+  }
+  
+  console.log('📦 Carregando produtos em destaque...');
   
   // Verifica se productsDB existe
   if (typeof productsDB === 'undefined') {
     console.error('❌ productsDB não está definido!');
+    grid.innerHTML = '<div class="error-message">Erro ao carregar produtos</div>';
     return;
   }
   
-  console.log('📦 productsDB encontrado com', productsDB.length, 'produtos');
+  console.log('✅ productsDB encontrado com', productsDB.length, 'produtos');
   
   // Filtra produtos com destaque = true
   let featuredProducts = productsDB.filter(p => p.destaque === true);
+  
   console.log('✨ Produtos com destaque encontrados:', featuredProducts.length);
   
+  // Se não tiver produtos com destaque, usa os primeiros 4
   if (featuredProducts.length === 0) {
     console.log('📌 Nenhum produto com destaque, usando primeiros 4');
     featuredProducts = productsDB.slice(0, 4);
@@ -158,68 +181,31 @@ function loadFeaturedProducts() {
     featuredProducts = featuredProducts.slice(0, 4);
   }
   
-  // AGORA VAMOS ENCONTRAR O TRACK - Vamos procurar em todo o DOM
-  console.log('🔍 Buscando elemento com ID relacionado a produtos...');
-  
-  // Lista todos os IDs da página para debug
-  const allIds = [];
-  document.querySelectorAll('[id]').forEach(el => allIds.push(el.id));
-  console.log('IDs disponíveis na página:', allIds);
-  
-  // Tenta encontrar o track por diferentes estratégias
-  let track = null;
-  
-  // Estratégia 1: Procurar por ID específico
-  const possibleIds = ['products-carousel-track', 'product-carousel-track', 'featured-products', 'products-track'];
-  
-  for (const id of possibleIds) {
-    const el = document.getElementById(id);
-    if (el) {
-      track = el;
-      console.log('✅ Track encontrado com ID:', id);
-      break;
-    }
-  }
-  
-  // Estratégia 2: Se não encontrou, procura por classe
-  if (!track) {
-    const possibleClasses = ['products-carousel-track', 'product-carousel', 'featured-products'];
-    for (const cls of possibleClasses) {
-      const els = document.getElementsByClassName(cls);
-      if (els.length > 0) {
-        track = els[0];
-        console.log('✅ Track encontrado com classe:', cls);
-        break;
-      }
-    }
-  }
-  
-  // Estratégia 3: Procura por qualquer div que contenha produtos
-  if (!track) {
-    const productSections = document.querySelectorAll('.products-grid, .featured-products, .product-carousel');
-    if (productSections.length > 0) {
-      track = productSections[0];
-      console.log('✅ Track encontrado por seção:', productSections[0].className);
-    }
-  }
-  
-  if (!track) {
-    console.error('❌ Nenhum track de produtos encontrado!');
+  if (featuredProducts.length === 0) {
+    grid.innerHTML = '<div class="empty-message">Nenhum produto disponível</div>';
     return;
   }
   
-  // Renderiza os produtos
-  renderFeaturedProducts(track, featuredProducts);
+  renderFeaturedProducts(grid, featuredProducts);
 }
 
-function renderFeaturedProducts(track, products) {
-  track.innerHTML = products.map(product => {
+function renderFeaturedProducts(grid, products) {
+  grid.innerHTML = products.map(product => {
     const categoriaNome = getCategoriaNome(product.categoria);
+    
+    // Pega a primeira imagem ou usa gradiente
+    const imagem = product.imagens && product.imagens.length > 0 
+      ? product.imagens[0] 
+      : null;
+    
+    const imageStyle = imagem 
+      ? `style="background-image: url('${imagem}'); background-size: cover; background-position: center;"`
+      : `style="background: linear-gradient(145deg, #d9c5b0, #b28b6f);"`;
     
     return `
       <div class="product-card" onclick="window.location.href='produto.html?id=${product.id}'">
         <span class="product-badge">Destaque</span>
-        <div class="product-image" style="background: linear-gradient(145deg, #d9c5b0, #b28b6f);"></div>
+        <div class="product-image" ${imageStyle}></div>
         <div class="product-info">
           <div class="product-category">${categoriaNome}</div>
           <h3 class="product-title">${product.nome}</h3>
@@ -233,20 +219,25 @@ function renderFeaturedProducts(track, products) {
   }).join('');
   
   console.log('✅ Produtos renderizados:', products.length);
-  
-  // Inicializa carrossel (se os botões existirem)
-  initCarousel('products');
 }
 
 // ========================================
-// 4. DEPOIMENTOS - VERSÃO SIMPLIFICADA
+// 4. DEPOIMENTOS - GRID
 // ========================================
 
 function loadHomeTestimonials() {
+  const grid = document.getElementById('home-testimonials-grid');
+  
+  if (!grid) {
+    console.error('❌ Grid de depoimentos não encontrado!');
+    return;
+  }
+  
   console.log('💬 Carregando depoimentos...');
   
   if (typeof testimonialsDB === 'undefined') {
     console.error('❌ testimonialsDB não está definido!');
+    grid.innerHTML = '<div class="error-message">Erro ao carregar depoimentos</div>';
     return;
   }
   
@@ -256,23 +247,15 @@ function loadHomeTestimonials() {
   let recentes = testimonialsDB.slice(0, 3);
   
   if (recentes.length === 0) {
-    console.log('⚠️ Nenhum depoimento encontrado');
+    grid.innerHTML = '<div class="empty-message">Nenhum depoimento ainda</div>';
     return;
   }
   
-  // Encontra o track de depoimentos
-  let track = document.getElementById('testimonials-carousel-track');
-  
-  if (!track) {
-    console.error('❌ Track de depoimentos não encontrado!');
-    return;
-  }
-  
-  renderTestimonials(track, recentes);
+  renderTestimonials(grid, recentes);
 }
 
-function renderTestimonials(track, testimonials) {
-  track.innerHTML = testimonials.map(test => {
+function renderTestimonials(grid, testimonials) {
+  grid.innerHTML = testimonials.map(test => {
     const stars = '★'.repeat(test.avaliacao) + '☆'.repeat(5 - test.avaliacao);
     const avatar = test.nome.charAt(0).toUpperCase();
     
@@ -294,106 +277,10 @@ function renderTestimonials(track, testimonials) {
   }).join('');
   
   console.log('✅ Depoimentos renderizados:', testimonials.length);
-  
-  // Inicializa carrossel
-  initCarousel('testimonials');
 }
 
 // ========================================
-// 5. CARROSSEL SIMPLIFICADO
-// ========================================
-
-function initCarousel(type) {
-  const track = document.getElementById(`${type}-carousel-track`);
-  const prevBtn = document.getElementById(`${type}-carousel-prev`);
-  const nextBtn = document.getElementById(`${type}-carousel-next`);
-  const dotsContainer = document.getElementById(`${type}-carousel-dots`);
-  
-  if (!track || !prevBtn || !nextBtn) return;
-  
-  const cards = track.children;
-  if (cards.length <= 1) return;
-  
-  let currentIndex = 0;
-  const gap = 20;
-  
-  function getCardsPerView() {
-    if (window.innerWidth <= 480) return 1;
-    if (window.innerWidth <= 768) return type === 'products' ? 2 : 1;
-    if (window.innerWidth <= 992) return type === 'products' ? 3 : 2;
-    return type === 'products' ? 4 : 3;
-  }
-  
-  let cardsPerView = getCardsPerView();
-  const maxIndex = Math.max(0, cards.length - cardsPerView);
-  
-  function updateCarousel() {
-    const cardWidth = cards[0].offsetWidth;
-    const translateX = -(currentIndex * (cardWidth + gap));
-    track.style.transform = `translateX(${translateX}px)`;
-  }
-  
-  function createDots() {
-    if (!dotsContainer) return;
-    
-    const totalDots = Math.ceil(cards.length / cardsPerView);
-    dotsContainer.innerHTML = '';
-    
-    for (let i = 0; i < totalDots; i++) {
-      const dot = document.createElement('span');
-      dot.className = `carousel-dot ${i === 0 ? 'active' : ''}`;
-      dot.addEventListener('click', () => {
-        currentIndex = i * cardsPerView;
-        if (currentIndex > maxIndex) currentIndex = maxIndex;
-        updateCarousel();
-        updateDots();
-      });
-      dotsContainer.appendChild(dot);
-    }
-  }
-  
-  function updateDots() {
-    if (!dotsContainer) return;
-    
-    const dots = dotsContainer.children;
-    const page = Math.floor(currentIndex / cardsPerView);
-    
-    for (let i = 0; i < dots.length; i++) {
-      dots[i].classList.toggle('active', i === page);
-    }
-  }
-  
-  createDots();
-  
-  prevBtn.addEventListener('click', () => {
-    if (currentIndex > 0) {
-      currentIndex = Math.max(0, currentIndex - cardsPerView);
-      updateCarousel();
-      updateDots();
-    }
-  });
-  
-  nextBtn.addEventListener('click', () => {
-    if (currentIndex < maxIndex) {
-      currentIndex = Math.min(maxIndex, currentIndex + cardsPerView);
-      updateCarousel();
-      updateDots();
-    }
-  });
-  
-  window.addEventListener('resize', () => {
-    const newPerView = getCardsPerView();
-    if (newPerView !== cardsPerView) {
-      cardsPerView = newPerView;
-      currentIndex = 0;
-      updateCarousel();
-      createDots();
-    }
-  });
-}
-
-// ========================================
-// 6. HELPERS
+// 5. HELPERS
 // ========================================
 
 function getCategoriaNome(cat) {
