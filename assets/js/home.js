@@ -1,17 +1,19 @@
 // ========================================
-// HOME.JS - Versão Corrigida
+// HOME.JS - Versão Corrigida com Acesso Direto
 // ========================================
 
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('🚀 Home.js carregado');
+  console.log('🚀 Home.js iniciado');
+  console.log('📦 productsDB existe?', typeof productsDB !== 'undefined');
+  console.log('📦 productsDB length:', productsDB ? productsDB.length : 0);
   
-  // Inicializa tudo após um pequeno delay
+  // Inicializa após um pequeno delay
   setTimeout(() => {
     initHeroSlider();
     initVideoControls();
     loadFeaturedProducts();
     loadHomeTestimonials();
-  }, 500);
+  }, 300);
 });
 
 // ========================================
@@ -38,18 +40,11 @@ function initHeroSlider() {
   });
   
   startSlideAutoplay();
-  
-  const slider = document.querySelector('.hero-slider-section');
-  if (slider) {
-    slider.addEventListener('mouseenter', stopSlideAutoplay);
-    slider.addEventListener('mouseleave', startSlideAutoplay);
-  }
 }
 
 function goToSlide(index) {
   slides.forEach(slide => slide.classList.remove('active'));
   dots.forEach(dot => dot.classList.remove('active'));
-  
   slides[index].classList.add('active');
   dots[index].classList.add('active');
   currentSlide = index;
@@ -76,7 +71,7 @@ function stopSlideAutoplay() {
 }
 
 // ========================================
-// 2. CONTROLES DE VÍDEO
+// 2. VÍDEO
 // ========================================
 
 let player;
@@ -147,116 +142,109 @@ function toggleMute() {
 loadYouTubeAPI();
 
 // ========================================
-// 3. PRODUTOS EM DESTAQUE
+// 3. PRODUTOS EM DESTAQUE - ACESSO DIRETO
 // ========================================
 
 function loadFeaturedProducts() {
   const track = document.getElementById('products-carousel-track');
   if (!track) {
-    console.error('❌ Track de produtos não encontrado!');
+    console.error('❌ Track de produtos não encontrado');
     return;
   }
   
-  console.log('📦 Buscando produtos em destaque...');
+  console.log('📦 Carregando produtos em destaque...');
   
-  // Tenta acessar o productsDB
-  let products = [];
-  
-  if (typeof productsDB !== 'undefined' && productsDB.length > 0) {
-    products = productsDB;
-    console.log(`✅ productsDB encontrado com ${products.length} produtos`);
-  } else if (window.productsDB && window.productsDB.length > 0) {
-    products = window.productsDB;
-    console.log(`✅ window.productsDB encontrado com ${products.length} produtos`);
-  } else {
-    console.warn('⚠️ Nenhum produto encontrado, usando dados mockados');
-    products = getMockProducts();
+  // ACESSO DIRETO ao productsDB (global)
+  if (typeof productsDB === 'undefined') {
+    console.error('❌ productsDB não está definido!');
+    track.innerHTML = '<div class="error-message">Erro: Banco de produtos não carregado</div>';
+    return;
   }
   
-  // Filtra produtos em destaque
-  let featured = products.filter(p => p.destaque === true);
+  console.log('✅ productsDB encontrado com', productsDB.length, 'produtos');
   
-  if (featured.length === 0) {
-    console.log('📌 Nenhum produto com destaque, mostrando os primeiros');
-    featured = products.slice(0, 6);
+  // Mostra os primeiros produtos no console para debug
+  console.log('Primeiros produtos:', productsDB.slice(0, 3));
+  
+  // Filtra produtos com destaque = true
+  let featuredProducts = productsDB.filter(p => p.destaque === true);
+  
+  console.log('✨ Produtos com destaque:', featuredProducts.length);
+  
+  // Se não tiver produtos com destaque, pega os primeiros
+  if (featuredProducts.length === 0) {
+    console.log('📌 Nenhum com destaque, mostrando primeiros 4');
+    featuredProducts = productsDB.slice(0, 4);
   } else {
-    featured = featured.slice(0, 6);
+    featuredProducts = featuredProducts.slice(0, 4);
   }
   
-  if (featured.length === 0) {
+  if (featuredProducts.length === 0) {
     track.innerHTML = '<div class="empty-message">Nenhum produto disponível</div>';
     return;
   }
   
-  renderProducts(featured);
+  renderFeaturedProducts(featuredProducts);
 }
 
-function getMockProducts() {
-  return [
-    { id: 1, nome: "Tábua de Corte", categoria: "utensilios", descricao: "Tábua em madeira de demolição", preco: 89.90, destaque: true },
-    { id: 2, nome: "Tábua de Servir", categoria: "utensilios", descricao: "Com alça de couro", preco: 129.90, destaque: true },
-    { id: 3, nome: "Poltrona Rústica", categoria: "mobiliario", descricao: "Madeira maciça", preco: 890.00, destaque: true },
-    { id: 4, nome: "Mesa de Jantar", categoria: "mobiliario", descricao: "6 lugares", preco: 1890.00, destaque: true },
-    { id: 5, nome: "Prateleira", categoria: "organizacao", descricao: "Flutuante 1,20m", preco: 249.00, destaque: true },
-    { id: 6, nome: "Suporte para Plantas", categoria: "jardinagem", descricao: "Triplo", preco: 159.00, destaque: true }
-  ];
-}
-
-function renderProducts(products) {
+function renderFeaturedProducts(products) {
   const track = document.getElementById('products-carousel-track');
   
   track.innerHTML = products.map(product => {
-    const catNome = getCategoriaNome(product.categoria);
-    const gradient = `linear-gradient(145deg, #d9c5b0, #b28b6f)`;
+    const categoriaNome = getCategoriaNome(product.categoria);
+    
+    // Usa a primeira imagem se existir, senão gradiente
+    const imagem = product.imagens && product.imagens.length > 0 
+      ? product.imagens[0] 
+      : null;
+    
+    const imageStyle = imagem 
+      ? `background-image: url('${imagem}'); background-size: cover;` 
+      : `background: linear-gradient(145deg, #d9c5b0, #b28b6f);`;
     
     return `
       <div class="product-card" onclick="window.location.href='produto.html?id=${product.id}'">
         <span class="product-badge">Destaque</span>
-        <div class="product-image" style="background: ${gradient};"></div>
+        <div class="product-image" style="${imageStyle}"></div>
         <div class="product-info">
-          <div class="product-category">${catNome}</div>
+          <div class="product-category">${categoriaNome}</div>
           <h3 class="product-title">${product.nome}</h3>
-          <p class="product-description">${product.descricao.substring(0, 50)}...</p>
-          <div class="product-price">R$ ${product.preco.toFixed(2)}</div>
+          <p class="product-description">${product.descricao.substring(0, 60)}...</p>
+          <div class="product-price">
+            R$ ${product.preco.toFixed(2)}
+          </div>
         </div>
       </div>
     `;
   }).join('');
   
-  // Inicializa o carrossel após renderizar
+  // Inicializa carrossel
   initProductsCarousel();
 }
 
 // ========================================
-// 4. DEPOIMENTOS
+// 4. DEPOIMENTOS - ACESSO DIRETO
 // ========================================
 
 function loadHomeTestimonials() {
   const track = document.getElementById('testimonials-carousel-track');
   if (!track) {
-    console.error('❌ Track de depoimentos não encontrado!');
+    console.error('❌ Track de depoimentos não encontrado');
     return;
   }
   
-  console.log('💬 Buscando depoimentos...');
+  console.log('💬 Carregando depoimentos...');
   
-  let testimonials = [];
-  
-  if (typeof testimonialsDB !== 'undefined' && testimonialsDB.length > 0) {
-    testimonials = testimonialsDB;
-    console.log(`✅ testimonialsDB encontrado com ${testimonials.length} depoimentos`);
-  } else if (window.testimonialsDB && window.testimonialsDB.length > 0) {
-    testimonials = window.testimonialsDB;
-    console.log(`✅ window.testimonialsDB encontrado com ${testimonials.length} depoimentos`);
-  } else {
-    console.warn('⚠️ Nenhum depoimento encontrado, usando dados mockados');
-    testimonials = getMockTestimonials();
+  if (typeof testimonialsDB === 'undefined') {
+    console.error('❌ testimonialsDB não está definido!');
+    track.innerHTML = '<div class="error-message">Erro: Banco de depoimentos não carregado</div>';
+    return;
   }
   
-  // Pega os mais recentes
-  let recentes = [...testimonials]
-    .sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0))
-    .slice(0, 4);
+  console.log('✅ testimonialsDB encontrado com', testimonialsDB.length, 'depoimentos');
+  
+  // Pega os 3 primeiros depoimentos
+  let recentes = testimonialsDB.slice(0, 3);
   
   if (recentes.length === 0) {
     track.innerHTML = '<div class="empty-message">Nenhum depoimento ainda</div>';
@@ -264,14 +252,6 @@ function loadHomeTestimonials() {
   }
   
   renderTestimonials(recentes);
-}
-
-function getMockTestimonials() {
-  return [
-    { nome: "Ana Silva", cidade: "Salvador", produtoNome: "Tábua de Corte", avaliacao: 5, comentario: "Produto excelente!", data: "2026-02-15" },
-    { nome: "Carlos Mendes", cidade: "Camaçari", produtoNome: "Mesa de Jantar", avaliacao: 5, comentario: "Mesa linda!", data: "2026-02-10" },
-    { nome: "Mariana Costa", cidade: "Lauro", produtoNome: "Suporte", avaliacao: 5, comentario: "Perfeito!", data: "2026-02-05" }
-  ];
 }
 
 function renderTestimonials(testimonials) {
@@ -285,7 +265,7 @@ function renderTestimonials(testimonials) {
       <div class="testimonial-card">
         <div class="testimonial-header">
           <div class="testimonial-avatar">${avatar}</div>
-          <div>
+          <div class="testimonial-author">
             <h4>${test.nome}</h4>
             <p>${test.cidade || 'Cliente'}</p>
           </div>
@@ -298,7 +278,7 @@ function renderTestimonials(testimonials) {
     `;
   }).join('');
   
-  // Inicializa o carrossel após renderizar
+  // Inicializa carrossel
   initTestimonialsCarousel();
 }
 
@@ -363,6 +343,7 @@ function setupCarousel(trackId, prevId, nextId, dotsId) {
       dot.className = `carousel-dot ${i === 0 ? 'active' : ''}`;
       dot.addEventListener('click', () => {
         currentIndex = i * cardsPerView;
+        if (currentIndex > maxIndex) currentIndex = maxIndex;
         updateCarousel();
         updateDots();
       });
@@ -373,7 +354,8 @@ function setupCarousel(trackId, prevId, nextId, dotsId) {
   function updateCarousel() {
     const cardWidth = getCardWidth();
     if (cardWidth === 0) return;
-    track.style.transform = `translateX(-${currentIndex * (cardWidth + gap)}px)`;
+    const translateX = -(currentIndex * (cardWidth + gap));
+    track.style.transform = `translateX(${translateX}px)`;
   }
   
   function updateDots() {
