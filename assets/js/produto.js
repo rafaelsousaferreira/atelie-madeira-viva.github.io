@@ -462,3 +462,16 @@ Vi no site e me interessei. Poderia me passar mais informações?`.replace(/\n/g
   
   window.open(`https://wa.me/557181804578?text=${mensagem}`, '_blank');
 };
+
+// Garantir que currentProduct é global
+window.currentProduct = currentProduct;
+
+// Se precisar forçar a inicialização do Komentas
+window.forceKomentasReload = function() {
+  if (window.KomentasWidget && window.KomentasWidget.reload) {
+    window.KomentasWidget.reload({
+      articleId: `produto-${currentProduct.id}`,
+      articleTitle: currentProduct.nome
+    });
+  }
+};
