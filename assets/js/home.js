@@ -1,13 +1,11 @@
 // ========================================
-// HOME.JS - Versão Definitiva
+// HOME.JS - Versão Simplificada
 // ========================================
 
 document.addEventListener('DOMContentLoaded', function() {
   console.log('🚀 Home.js iniciado');
-  console.log('📦 productsDB existe?', typeof productsDB !== 'undefined');
-  console.log('📦 productsDB length:', productsDB ? productsDB.length : 0);
   
-  // Aguarda um pouco para garantir que tudo carregou
+  // Inicializa componentes
   setTimeout(() => {
     initHeroSlider();
     initVideoControls();
@@ -40,12 +38,6 @@ function initHeroSlider() {
   });
   
   startSlideAutoplay();
-  
-  const slider = document.querySelector('.hero-slider-section');
-  if (slider) {
-    slider.addEventListener('mouseenter', stopSlideAutoplay);
-    slider.addEventListener('mouseleave', startSlideAutoplay);
-  }
 }
 
 function goToSlide(index) {
@@ -67,13 +59,6 @@ function prevSlide() {
 function startSlideAutoplay() {
   if (slideInterval) clearInterval(slideInterval);
   slideInterval = setInterval(nextSlide, 7000);
-}
-
-function stopSlideAutoplay() {
-  if (slideInterval) {
-    clearInterval(slideInterval);
-    slideInterval = null;
-  }
 }
 
 // ========================================
@@ -148,36 +133,73 @@ function toggleMute() {
 loadYouTubeAPI();
 
 // ========================================
-// 3. PRODUTOS EM DESTAQUE - COM DEBUG
+// 3. PRODUTOS EM DESTAQUE - VERSÃO SIMPLIFICADA
 // ========================================
 
 function loadFeaturedProducts() {
   console.log('🔍 Procurando track de produtos...');
   
-  // Lista todos os elementos com ID que contém 'product' no DOM
-  const allElements = document.querySelectorAll('[id*="product" i]');
-  console.log('Elementos com "product" no ID:', allElements.length);
-  allElements.forEach(el => console.log(' - ID:', el.id));
+  // Verifica se productsDB existe
+  if (typeof productsDB === 'undefined') {
+    console.error('❌ productsDB não está definido!');
+    return;
+  }
   
-  // Tenta encontrar o track de produtos com diferentes IDs possíveis
-  const possibleIds = [
-    'products-carousel-track',
-    'product-carousel-track',
-    'featured-products-track',
-    'products-track',
-    'product-track'
-  ];
+  console.log('📦 productsDB encontrado com', productsDB.length, 'produtos');
   
+  // Filtra produtos com destaque = true
+  let featuredProducts = productsDB.filter(p => p.destaque === true);
+  console.log('✨ Produtos com destaque encontrados:', featuredProducts.length);
+  
+  if (featuredProducts.length === 0) {
+    console.log('📌 Nenhum produto com destaque, usando primeiros 4');
+    featuredProducts = productsDB.slice(0, 4);
+  } else {
+    featuredProducts = featuredProducts.slice(0, 4);
+  }
+  
+  // AGORA VAMOS ENCONTRAR O TRACK - Vamos procurar em todo o DOM
+  console.log('🔍 Buscando elemento com ID relacionado a produtos...');
+  
+  // Lista todos os IDs da página para debug
+  const allIds = [];
+  document.querySelectorAll('[id]').forEach(el => allIds.push(el.id));
+  console.log('IDs disponíveis na página:', allIds);
+  
+  // Tenta encontrar o track por diferentes estratégias
   let track = null;
-  let foundId = '';
+  
+  // Estratégia 1: Procurar por ID específico
+  const possibleIds = ['products-carousel-track', 'product-carousel-track', 'featured-products', 'products-track'];
   
   for (const id of possibleIds) {
-    const element = document.getElementById(id);
-    if (element) {
-      track = element;
-      foundId = id;
+    const el = document.getElementById(id);
+    if (el) {
+      track = el;
       console.log('✅ Track encontrado com ID:', id);
       break;
+    }
+  }
+  
+  // Estratégia 2: Se não encontrou, procura por classe
+  if (!track) {
+    const possibleClasses = ['products-carousel-track', 'product-carousel', 'featured-products'];
+    for (const cls of possibleClasses) {
+      const els = document.getElementsByClassName(cls);
+      if (els.length > 0) {
+        track = els[0];
+        console.log('✅ Track encontrado com classe:', cls);
+        break;
+      }
+    }
+  }
+  
+  // Estratégia 3: Procura por qualquer div que contenha produtos
+  if (!track) {
+    const productSections = document.querySelectorAll('.products-grid, .featured-products, .product-carousel');
+    if (productSections.length > 0) {
+      track = productSections[0];
+      console.log('✅ Track encontrado por seção:', productSections[0].className);
     }
   }
   
@@ -186,35 +208,7 @@ function loadFeaturedProducts() {
     return;
   }
   
-  console.log('📦 Carregando produtos em destaque...');
-  
-  // Verifica se productsDB existe
-  if (typeof productsDB === 'undefined') {
-    console.error('❌ productsDB não está definido!');
-    track.innerHTML = '<div class="error-message">Erro ao carregar produtos</div>';
-    return;
-  }
-  
-  console.log('✅ productsDB encontrado com', productsDB.length, 'produtos');
-  
-  // Filtra produtos com destaque = true
-  let featuredProducts = productsDB.filter(p => p.destaque === true);
-  
-  console.log('✨ Produtos com destaque encontrados:', featuredProducts.length);
-  
-  // Se não tiver produtos com destaque, usa os primeiros
-  if (featuredProducts.length === 0) {
-    console.log('📌 Usando primeiros 4 produtos');
-    featuredProducts = productsDB.slice(0, 4);
-  } else {
-    featuredProducts = featuredProducts.slice(0, 4);
-  }
-  
-  if (featuredProducts.length === 0) {
-    track.innerHTML = '<div class="empty-message">Nenhum produto disponível</div>';
-    return;
-  }
-  
+  // Renderiza os produtos
   renderFeaturedProducts(track, featuredProducts);
 }
 
@@ -222,13 +216,10 @@ function renderFeaturedProducts(track, products) {
   track.innerHTML = products.map(product => {
     const categoriaNome = getCategoriaNome(product.categoria);
     
-    // Usa gradiente em vez de imagem (mais confiável)
-    const gradient = `linear-gradient(145deg, #d9c5b0, #b28b6f)`;
-    
     return `
       <div class="product-card" onclick="window.location.href='produto.html?id=${product.id}'">
         <span class="product-badge">Destaque</span>
-        <div class="product-image" style="background: ${gradient};"></div>
+        <div class="product-image" style="background: linear-gradient(145deg, #d9c5b0, #b28b6f);"></div>
         <div class="product-info">
           <div class="product-category">${categoriaNome}</div>
           <h3 class="product-title">${product.nome}</h3>
@@ -243,54 +234,19 @@ function renderFeaturedProducts(track, products) {
   
   console.log('✅ Produtos renderizados:', products.length);
   
-  // Inicializa carrossel
-  initProductsCarousel(track.id);
+  // Inicializa carrossel (se os botões existirem)
+  initCarousel('products');
 }
 
 // ========================================
-// 4. DEPOIMENTOS - COM DEBUG
+// 4. DEPOIMENTOS - VERSÃO SIMPLIFICADA
 // ========================================
 
 function loadHomeTestimonials() {
-  console.log('🔍 Procurando track de depoimentos...');
-  
-  // Lista todos os elementos com ID que contém 'testimonial' no DOM
-  const allElements = document.querySelectorAll('[id*="testimonial" i]');
-  console.log('Elementos com "testimonial" no ID:', allElements.length);
-  allElements.forEach(el => console.log(' - ID:', el.id));
-  
-  // Tenta encontrar o track de depoimentos com diferentes IDs possíveis
-  const possibleIds = [
-    'testimonials-carousel-track',
-    'testimonial-carousel-track',
-    'testimonials-track',
-    'testimonial-track',
-    'home-depoimentos'
-  ];
-  
-  let track = null;
-  let foundId = '';
-  
-  for (const id of possibleIds) {
-    const element = document.getElementById(id);
-    if (element) {
-      track = element;
-      foundId = id;
-      console.log('✅ Track de depoimentos encontrado com ID:', id);
-      break;
-    }
-  }
-  
-  if (!track) {
-    console.error('❌ Nenhum track de depoimentos encontrado!');
-    return;
-  }
-  
   console.log('💬 Carregando depoimentos...');
   
   if (typeof testimonialsDB === 'undefined') {
     console.error('❌ testimonialsDB não está definido!');
-    track.innerHTML = '<div class="error-message">Erro ao carregar depoimentos</div>';
     return;
   }
   
@@ -300,7 +256,15 @@ function loadHomeTestimonials() {
   let recentes = testimonialsDB.slice(0, 3);
   
   if (recentes.length === 0) {
-    track.innerHTML = '<div class="empty-message">Nenhum depoimento ainda</div>';
+    console.log('⚠️ Nenhum depoimento encontrado');
+    return;
+  }
+  
+  // Encontra o track de depoimentos
+  let track = document.getElementById('testimonials-carousel-track');
+  
+  if (!track) {
+    console.error('❌ Track de depoimentos não encontrado!');
     return;
   }
   
@@ -332,84 +296,41 @@ function renderTestimonials(track, testimonials) {
   console.log('✅ Depoimentos renderizados:', testimonials.length);
   
   // Inicializa carrossel
-  initTestimonialsCarousel(track.id);
+  initCarousel('testimonials');
 }
 
 // ========================================
-// 5. CARROSSÉIS
+// 5. CARROSSEL SIMPLIFICADO
 // ========================================
 
-function initProductsCarousel(trackId) {
-  setupCarousel(
-    trackId,
-    'products-carousel-prev',
-    'products-carousel-next',
-    'products-carousel-dots'
-  );
-}
-
-function initTestimonialsCarousel(trackId) {
-  setupCarousel(
-    trackId,
-    'testimonials-carousel-prev',
-    'testimonials-carousel-next',
-    'testimonials-carousel-dots'
-  );
-}
-
-function setupCarousel(trackId, prevId, nextId, dotsId) {
-  const track = document.getElementById(trackId);
-  const prevBtn = document.getElementById(prevId);
-  const nextBtn = document.getElementById(nextId);
-  const dotsContainer = document.getElementById(dotsId);
+function initCarousel(type) {
+  const track = document.getElementById(`${type}-carousel-track`);
+  const prevBtn = document.getElementById(`${type}-carousel-prev`);
+  const nextBtn = document.getElementById(`${type}-carousel-next`);
+  const dotsContainer = document.getElementById(`${type}-carousel-dots`);
   
-  if (!track) {
-    console.log(`❌ Track ${trackId} não encontrado para carrossel`);
-    return;
-  }
+  if (!track || !prevBtn || !nextBtn) return;
   
   const cards = track.children;
-  if (cards.length === 0) {
-    console.log(`⚠️ Nenhum card no carrossel ${trackId}`);
-    return;
-  }
-  
-  console.log(`🔄 Configurando carrossel ${trackId} com ${cards.length} cards`);
-  
-  if (!prevBtn || !nextBtn) {
-    console.log(`⚠️ Botões do carrossel ${trackId} não encontrados`);
-    return;
-  }
-  
-  // Esconde botões se não houver cards suficientes
-  if (cards.length <= 1) {
-    prevBtn.style.display = 'none';
-    nextBtn.style.display = 'none';
-    if (dotsContainer) dotsContainer.style.display = 'none';
-    return;
-  }
-  
-  prevBtn.style.display = 'flex';
-  nextBtn.style.display = 'flex';
-  if (dotsContainer) dotsContainer.style.display = 'flex';
+  if (cards.length <= 1) return;
   
   let currentIndex = 0;
   const gap = 20;
   
-  // Calcula quantos cards cabem na tela
   function getCardsPerView() {
     if (window.innerWidth <= 480) return 1;
-    if (window.innerWidth <= 768) return trackId.includes('products') ? 2 : 1;
-    if (window.innerWidth <= 992) return trackId.includes('products') ? 3 : 2;
-    return trackId.includes('products') ? 4 : 3;
+    if (window.innerWidth <= 768) return type === 'products' ? 2 : 1;
+    if (window.innerWidth <= 992) return type === 'products' ? 3 : 2;
+    return type === 'products' ? 4 : 3;
   }
   
   let cardsPerView = getCardsPerView();
   const maxIndex = Math.max(0, cards.length - cardsPerView);
   
-  function getCardWidth() {
-    if (cards.length === 0) return 0;
-    return cards[0].offsetWidth;
+  function updateCarousel() {
+    const cardWidth = cards[0].offsetWidth;
+    const translateX = -(currentIndex * (cardWidth + gap));
+    track.style.transform = `translateX(${translateX}px)`;
   }
   
   function createDots() {
@@ -429,13 +350,6 @@ function setupCarousel(trackId, prevId, nextId, dotsId) {
       });
       dotsContainer.appendChild(dot);
     }
-  }
-  
-  function updateCarousel() {
-    const cardWidth = getCardWidth();
-    if (cardWidth === 0) return;
-    const translateX = -(currentIndex * (cardWidth + gap));
-    track.style.transform = `translateX(${translateX}px)`;
   }
   
   function updateDots() {
