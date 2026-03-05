@@ -361,12 +361,23 @@ let currentState = {
 // Cache para imagens que falharam
 const imageErrorCache = new Set();
 
-// Inicialização
+// ========================================
+// INICIALIZAÇÃO - SÓ EXECUTA NA PÁGINA DE PRODUTOS
+// ========================================
+
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('Página de produtos iniciada');
-  loadProducts();
-  setupEventListeners();
-  loadSubcategorias();
+  // Verifica se está na página de produtos
+  const isProdutosPage = window.location.pathname.includes('produtos.html') || 
+                         document.getElementById('products-grid') !== null;
+  
+  if (isProdutosPage) {
+    console.log('📦 Página de produtos detectada, inicializando...');
+    loadProducts();
+    setupEventListeners();
+    loadSubcategorias();
+  } else {
+    console.log('📦 produtos.js carregado, mas não é página de produtos');
+  }
 });
 
 // ========================================
