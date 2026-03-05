@@ -3,13 +3,17 @@
 // ========================================
 
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('Home.js carregado');
-  initHeroSlider();
-  initVideoControls();
-  loadFeaturedProducts();
-  loadHomeTestimonials();
-  initCarousels();
-  setupCEPAutocomplete();
+  console.log('🚀 Home.js carregado');
+  
+  // Aguarda um pouco para garantir que os bancos de dados estejam carregados
+  setTimeout(() => {
+    initHeroSlider();
+    initVideoControls();
+    loadFeaturedProducts();
+    loadHomeTestimonials();
+    initCarousels();
+    setupCEPAutocomplete();
+  }, 300);
 });
 
 // ========================================
@@ -25,7 +29,7 @@ const totalSlides = slides.length;
 function initHeroSlider() {
   if (slides.length === 0) return;
   
-  console.log('Inicializando hero slider');
+  console.log('🎬 Inicializando hero slider');
   
   // Event listeners dos controles
   const prevBtn = document.getElementById('hero-prev');
@@ -87,9 +91,8 @@ function stopSlideAutoplay() {
 
 let player;
 let isPlaying = true;
-let isMuted = true; // Começa mudo para autoplay funcionar
+let isMuted = true;
 
-// Carrega API do YouTube
 function loadYouTubeAPI() {
   if (typeof YT === 'undefined') {
     const tag = document.createElement('script');
@@ -99,9 +102,8 @@ function loadYouTubeAPI() {
   }
 }
 
-// YouTube API ready
 window.onYouTubeIframeAPIReady = function() {
-  console.log('YouTube API ready');
+  console.log('🎥 YouTube API ready');
   const videoElement = document.getElementById('youtube-video');
   if (!videoElement) return;
   
@@ -114,14 +116,13 @@ window.onYouTubeIframeAPIReady = function() {
 };
 
 function onPlayerReady(event) {
-  console.log('Player pronto');
+  console.log('🎥 Player pronto');
   const playPauseBtn = document.getElementById('video-play-pause');
   const muteBtn = document.getElementById('video-mute');
   
   if (playPauseBtn) playPauseBtn.addEventListener('click', togglePlay);
   if (muteBtn) muteBtn.addEventListener('click', toggleMute);
   
-  // Começa mudo
   player.mute();
 }
 
@@ -166,62 +167,119 @@ function toggleMute() {
   }
 }
 
-// Inicia API do YouTube
 loadYouTubeAPI();
 
 // ========================================
-// 3. PRODUTOS EM DESTAQUE (do produtos.js)
+// 3. PRODUTOS EM DESTAQUE (CORRIGIDO)
 // ========================================
 
 function loadFeaturedProducts() {
   const track = document.getElementById('products-track');
   if (!track) {
-    console.error('Track de produtos não encontrado');
+    console.error('❌ Track de produtos não encontrado');
     return;
   }
   
-  console.log('Carregando produtos em destaque');
+  console.log('📦 Carregando produtos em destaque...');
   
-  // Verifica se productsDB existe (vindo do produtos.js)
-  if (typeof productsDB === 'undefined') {
-    console.error('productsDB não encontrado. Verifique se produtos.js foi carregado antes de home.js');
-    track.innerHTML = '<div class="error-message">Erro ao carregar produtos</div>';
-    return;
+  // Tentativa 1: productsDB global
+  let products = [];
+  
+  if (typeof productsDB !== 'undefined') {
+    products = productsDB;
+    console.log('📦 productsDB encontrado com', products.length, 'produtos');
+  } 
+  // Tentativa 2: window.productsDB
+  else if (window.productsDB) {
+    products = window.productsDB;
+    console.log('📦 window.productsDB encontrado com', products.length, 'produtos');
+  }
+  // Tentativa 3: dados mockados (fallback)
+  else {
+    console.warn('⚠️ productsDB não encontrado, usando dados mockados');
+    products = getMockProducts();
   }
   
-  // Filtra apenas produtos com destaque = true
-  const featuredProducts = productsDB.filter(p => p.destaque === true).slice(0, 8);
+  // Verifica produtos com destaque = true
+  let featuredProducts = products.filter(p => p.destaque === true);
   
-  console.log('Produtos em destaque encontrados:', featuredProducts.length);
+  console.log('✨ Produtos com destaque:', featuredProducts.length);
+  
+  // Se não tem produtos com destaque, pega os 8 primeiros
+  if (featuredProducts.length === 0) {
+    console.log('📌 Nenhum produto com destaque, mostrando primeiros 8');
+    featuredProducts = products.slice(0, 8);
+  } else {
+    featuredProducts = featuredProducts.slice(0, 8);
+  }
   
   if (featuredProducts.length === 0) {
-    track.innerHTML = '<div class="empty-message">Nenhum produto em destaque no momento</div>';
+    track.innerHTML = '<div class="empty-message">Nenhum produto disponível no momento</div>';
     return;
   }
   
   renderFeaturedProducts(featuredProducts);
 }
 
+// Fallback de produtos mockados
+function getMockProducts() {
+  return [
+    {
+      id: 1,
+      nome: "Tábua de Corte Profissional",
+      categoria: "utensilios",
+      descricao: "Tábua de corte em madeira de demolição",
+      preco: 89.90,
+      destaque: true,
+      imagens: []
+    },
+    {
+      id: 2,
+      nome: "Tábua de Servir com Alça",
+      categoria: "utensilios",
+      descricao: "Tábua de servir em freijó com alça de couro",
+      preco: 129.90,
+      destaque: true,
+      imagens: []
+    },
+    {
+      id: 3,
+      nome: "Poltrona Rústica",
+      categoria: "mobiliario",
+      descricao: "Poltrona em madeira maciça com assento estofado",
+      preco: 890.00,
+      destaque: true,
+      imagens: []
+    },
+    {
+      id: 5,
+      nome: "Mesa de Jantar 6 lugares",
+      categoria: "mobiliario",
+      descricao: "Mesa em madeira maciça com tampo de 2 metros",
+      preco: 1890.00,
+      destaque: true,
+      imagens: []
+    }
+  ];
+}
+
 function renderFeaturedProducts(products) {
   const track = document.getElementById('products-track');
   
   track.innerHTML = products.map(product => {
-    // Pega a primeira imagem ou usa placeholder
-    const imageUrl = product.imagens && product.imagens.length > 0 
-      ? product.imagens[0] 
-      : (product.imagem || '');
+    // Pega a categoria em português
+    const categoriaNome = getCategoriaNome(product.categoria);
     
-    // Se não tem imagem, usa um gradiente
-    const imageStyle = imageUrl ? 
-      `style="background-image: url('${imageUrl}'); background-size: cover; background-position: center;"` : 
-      `style="background: linear-gradient(145deg, #d9c5b0, #b28b6f);"`;
+    // Gera um gradiente único baseado no ID para variar as cores
+    const hue = (product.id * 30) % 360;
+    const gradient = `linear-gradient(145deg, hsl(${hue}, 30%, 75%), hsl(${hue}, 40%, 55%))`;
     
     return `
       <div class="product-card" onclick="window.location.href='produto.html?id=${product.id}'">
-        ${product.destaque ? '<span class="product-badge">Destaque</span>' : ''}
-        <div class="product-image" ${imageStyle}></div>
+        <span class="product-badge">Destaque</span>
+        <div class="product-image" style="background: ${gradient};"></div>
         <div class="product-info">
-          <div class="product-category">${getCategoriaNome(product.categoria)}</div>
+          <div class="product-category">${categoriaNome}</div>
           <h3 class="product-title">${product.nome}</h3>
           <p class="product-description">${product.descricao.substring(0, 60)}...</p>
           <div class="product-price">
@@ -234,38 +292,49 @@ function renderFeaturedProducts(products) {
 }
 
 // ========================================
-// 4. DEPOIMENTOS NA HOME (do depoimentos.js)
+// 4. DEPOIMENTOS NA HOME (CORRIGIDO)
 // ========================================
 
 function loadHomeTestimonials() {
   const track = document.getElementById('testimonials-track');
   if (!track) {
-    console.error('Track de depoimentos não encontrado');
+    console.error('❌ Track de depoimentos não encontrado');
     return;
   }
   
-  console.log('Carregando depoimentos');
+  console.log('💬 Carregando depoimentos...');
   
-  // Verifica se testimonialsDB existe (vindo do depoimentos.js)
-  if (typeof testimonialsDB === 'undefined') {
-    console.error('testimonialsDB não encontrado. Verifique se depoimentos.js foi carregado antes de home.js');
-    track.innerHTML = '<div class="error-message">Erro ao carregar depoimentos</div>';
-    return;
+  // Tentativa 1: testimonialsDB global
+  let testimonials = [];
+  
+  if (typeof testimonialsDB !== 'undefined') {
+    testimonials = testimonialsDB;
+    console.log('💬 testimonialsDB encontrado com', testimonials.length, 'depoimentos');
+  } 
+  // Tentativa 2: window.testimonialsDB
+  else if (window.testimonialsDB) {
+    testimonials = window.testimonialsDB;
+    console.log('💬 window.testimonialsDB encontrado com', testimonials.length, 'depoimentos');
+  }
+  // Tentativa 3: dados mockados (fallback)
+  else {
+    console.warn('⚠️ testimonialsDB não encontrado, usando dados mockados');
+    testimonials = getMockTestimonials();
   }
   
   // Pega depoimentos destacados ou os mais recentes
-  let featuredTestimonials = testimonialsDB.filter(t => t.destaque === true);
+  let featuredTestimonials = testimonials.filter(t => t.destaque === true);
   
   // Se não tiver destacados, pega os 6 mais recentes
   if (featuredTestimonials.length === 0) {
-    featuredTestimonials = [...testimonialsDB]
+    featuredTestimonials = [...testimonials]
       .sort((a, b) => new Date(b.data) - new Date(a.data))
       .slice(0, 6);
   } else {
     featuredTestimonials = featuredTestimonials.slice(0, 6);
   }
   
-  console.log('Depoimentos encontrados:', featuredTestimonials.length);
+  console.log('✨ Depoimentos selecionados:', featuredTestimonials.length);
   
   if (featuredTestimonials.length === 0) {
     track.innerHTML = '<div class="empty-message">Nenhum depoimento no momento</div>';
@@ -273,6 +342,42 @@ function loadHomeTestimonials() {
   }
   
   renderHomeTestimonials(featuredTestimonials);
+}
+
+// Fallback de depoimentos mockados
+function getMockTestimonials() {
+  return [
+    {
+      id: 1,
+      nome: "Ana Silva",
+      cidade: "Salvador, BA",
+      produtoNome: "Tábua de Corte",
+      avaliacao: 5,
+      comentario: "Produto excelente! Superou todas as expectativas.",
+      data: "2026-02-15",
+      destaque: true
+    },
+    {
+      id: 2,
+      nome: "Carlos Mendes",
+      cidade: "Camaçari, BA",
+      produtoNome: "Mesa de Jantar",
+      avaliacao: 5,
+      comentario: "Mesa linda e muito bem feita. Atendimento nota 10.",
+      data: "2026-02-10",
+      destaque: true
+    },
+    {
+      id: 3,
+      nome: "Mariana Costa",
+      cidade: "Lauro de Freitas, BA",
+      produtoNome: "Suporte para Plantas",
+      avaliacao: 5,
+      comentario: "O suporte ficou perfeito na minha varanda.",
+      data: "2026-02-05",
+      destaque: false
+    }
+  ];
 }
 
 function renderHomeTestimonials(testimonials) {
@@ -303,11 +408,11 @@ function renderHomeTestimonials(testimonials) {
 }
 
 // ========================================
-// 5. CONTROLES DOS CARROSSÉIS
+// 5. CONTROLES DOS CARROSSÉIS (CORRIGIDO)
 // ========================================
 
 function initCarousels() {
-  // Aguarda um pouco para os tracks serem preenchidos
+  // Aguarda a renderização dos cards
   setTimeout(() => {
     setupCarousel('products');
     setupCarousel('testimonials');
@@ -320,16 +425,27 @@ function setupCarousel(type) {
   const nextBtn = document.getElementById(`${type}-next`);
   const dotsContainer = document.getElementById(`${type}-dots`);
   
-  if (!track || !prevBtn || !nextBtn) {
-    console.log(`Carrossel ${type} não configurado: elementos faltando`);
+  if (!track) {
+    console.log(`❌ Track ${type} não encontrado`);
     return;
   }
   
-  let currentIndex = 0;
   const cards = track.children;
   
-  if (cards.length === 0 || cards.length === 1) {
-    // Esconde botões se não houver cards suficientes
+  if (cards.length === 0) {
+    console.log(`⚠️ Nenhum card no carrossel ${type}`);
+    return;
+  }
+  
+  console.log(`🔄 Configurando carrossel ${type} com ${cards.length} cards`);
+  
+  if (!prevBtn || !nextBtn) {
+    console.log(`⚠️ Botões do carrossel ${type} não encontrados`);
+    return;
+  }
+  
+  // Esconde botões se não houver cards suficientes para rolar
+  if (cards.length <= getCardsPerView(type)) {
     prevBtn.style.display = 'none';
     nextBtn.style.display = 'none';
     if (dotsContainer) dotsContainer.style.display = 'none';
@@ -340,7 +456,8 @@ function setupCarousel(type) {
   nextBtn.style.display = 'flex';
   if (dotsContainer) dotsContainer.style.display = 'flex';
   
-  const gap = 20; // gap entre cards
+  let currentIndex = 0;
+  const gap = 20;
   
   // Calcula quantos cards cabem na tela
   function getCardsPerView() {
@@ -353,13 +470,11 @@ function setupCarousel(type) {
   let cardsPerView = getCardsPerView();
   const maxIndex = Math.max(0, cards.length - cardsPerView);
   
-  // Calcula a largura do card (incluindo gap)
+  // Calcula a largura do card
   function getCardWidth() {
     if (cards.length === 0) return 0;
     const firstCard = cards[0];
-    const style = window.getComputedStyle(firstCard);
-    const width = firstCard.offsetWidth;
-    return width;
+    return firstCard.offsetWidth;
   }
   
   // Cria dots
@@ -387,6 +502,7 @@ function setupCarousel(type) {
   
   function updateCarousel() {
     const cardWidth = getCardWidth();
+    if (cardWidth === 0) return;
     const translateX = -(currentIndex * (cardWidth + gap));
     track.style.transform = `translateX(${translateX}px)`;
   }
