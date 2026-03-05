@@ -118,7 +118,7 @@
                 <div id="product-description"></div>
               </div>
               <div class="product-specs" id="product-specs"></div>
-                            <!-- Seção de Avaliações Komentas -->
+                <!-- Seção de Avaliações Komentas -->
 <section class="product-reviews-section">
   <div class="container">
     <h2 class="section-title"><span>💬 Avaliações dos Clientes</span></h2>
@@ -128,96 +128,153 @@
       <i class="fas fa-spinner fa-spin"></i> Carregando avaliações...
     </div>
     
+    <!-- Mensagem de erro (invisível inicialmente) -->
+    <div id="komentas-error" class="komentas-error" style="display: none;">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span>Não foi possível carregar as avaliações. Tente novamente mais tarde.</span>
+    </div>
+    
     <!-- Container do Widget -->
     <div id="komentas-widget"></div>
   </div>
 </section>
 
-<!-- Script do Komentas com cache-busting -->
+<!-- Script do Komentas com configurações anônimas -->
 <script>
-  (function() {
-    // Verificar se o produto já carregou
-    function initKomentas() {
-      if (!currentProduct) {
-        setTimeout(initKomentas, 200);
+(function() {
+  // Função para carregar o Komentas
+  function loadKomentas() {
+    // Mostrar loading
+    const loadingEl = document.getElementById('komentas-loading');
+    const errorEl = document.getElementById('komentas-error');
+    const widgetEl = document.getElementById('komentas-widget');
+    
+    if (!widgetEl) return;
+    
+    // Gerar versão com cache-busting
+    const v = new Date().toISOString().slice(0,13).replace(/[-T:]/g,'') + '00';
+    
+    // Criar e carregar script
+    const script = document.createElement('script');
+    script.src = 'https://cdn.komentas.com/komentas-widget.umd.js?v=' + v;
+    
+    script.onload = function() {
+      // Garantir que o widget existe
+      if (!window.KomentasWidget) {
+        console.error('KomentasWidget não carregou');
+        if (loadingEl) loadingEl.style.display = 'none';
+        if (errorEl) errorEl.style.display = 'block';
         return;
       }
       
-      // Gerar versão com cache-busting (a cada hora)
-      const v = new Date().toISOString().slice(0,13).replace(/[-T:]/g,'') + '00';
-      
-      // Carregar script
-      const script = document.createElement('script');
-      script.src = 'https://cdn.komentas.com/komentas-widget.umd.js?v=' + v;
-      
-      script.onload = function() {
-        // Inicializar widget com dados do produto
-        window.KomentasWidget.init({
-          apiUrl: 'https://api.komentas.com',
-          portalUrl: 'https://portal.komentas.com',
-          projectId: '882248f3-f36f-4c8c-b578-640fc0852d53', // ← SUBSTITUA
-          articleUrl: window.location.href,
-          articleTitle: currentProduct.nome,
-          articleId: `produto-${currentProduct.id}`,
-          articleImage: currentProduct.imagens && currentProduct.imagens.length > 0 
-            ? window.location.origin + '/' + currentProduct.imagens[0] 
-            : '',
-          theme: {
-            backgroundColor: '#fef9f2',
-            primaryColor: '#b28b6f',
-            textColor: '#3e2e23',
-            borderRadius: '20px',
-            fontFamily: "'Inter', sans-serif"
-          },
-          allowAnonymous: true,
-          enableReactions: true,
-          reactionsOnlyMode: false,
-          showArticleReactions: true,
-          availableEmotions: ["like", "dislike", "love", "laugh"],
-          enableStarRatings: true,
-          starRatingDisplayMode: 'large',
-          allowStarRatingUpdate: false,
-          enableCommentStarRatings: true,
-          commentStarRatingDisplayMode: 'compact',
-          allowCommentStarRatingUpdate: false,
-          maxCommentLength: 500,
-          sortBy: 'popular',
-          showLogoutButton: true,
-          language: 'pt-BR',
-          
-          // Callbacks
-          onLoad: function() {
-            document.getElementById('komentas-loading').style.display = 'none';
-            console.log('Komentas carregado com sucesso');
-          },
-          onError: function(error) {
-            console.error('Erro no Komentas:', error);
-            document.getElementById('komentas-loading').innerHTML = `
-              <i class="fas fa-exclamation-triangle" style="color: #dc3545;"></i>
-              Erro ao carregar avaliações. Tente novamente mais tarde.
-            `;
+      // Configuração FORÇANDO anonimato
+      const config = {
+        apiUrl: 'https://api.komentas.com',
+        portalUrl: 'https://portal.komentas.com',
+        projectId: '882248f3-f36f-4c8c-b578-640fc0852d53', // ← SUBSTITUA
+        
+        // Dados da página
+        articleUrl: window.location.href,
+        articleTitle: document.title,
+        articleId: `produto-${currentProduct?.id || 'unknown'}`,
+        
+        // Tema
+        theme: {
+          backgroundColor: '#fef9f2',
+          primaryColor: '#b28b6f',
+          textColor: '#3e2e23',
+          borderRadius: '20px',
+          fontFamily: "'Inter', sans-serif"
+        },
+        
+        // ===== CONFIGURAÇÕES CRÍTICAS PARA ANONIMATO =====
+        allowAnonymous: true,                 // Permite anônimos
+        requireLogin: false,                  // NÃO requer login
+        enableAuthentication: false,           // Desabilita autenticação
+        forceLogin: false,                     // NÃO força login
+        allowGuestComments: true,               // Permite comentários como convidado
+        guestNamePlaceholder: 'Seu nome (opcional)', // Placeholder para nome
+        askForName: true,                       // Pergunta nome mas não obriga
+        askForEmail: false,                      // Não pergunta email
+        requireEmail: false,                     // Email não obrigatório
+        enableVerification: false,                // Sem verificação
+        
+        // Outras configurações
+        enableReactions: true,
+        reactionsOnlyMode: false,
+        showArticleReactions: true,
+        availableEmotions: ["like", "dislike", "love", "laugh"],
+        
+        // Ratings com estrelas
+        enableStarRatings: true,
+        starRatingDisplayMode: 'large',
+        allowStarRatingUpdate: false,
+        enableCommentStarRatings: true,
+        commentStarRatingDisplayMode: 'compact',
+        allowCommentStarRatingUpdate: false,
+        
+        // Comentários
+        maxCommentLength: 500,
+        sortBy: 'popular',
+        showLogoutButton: false,  // Esconder botão de logout
+        
+        // Callbacks
+        onLoad: function() {
+          console.log('✅ Komentas carregado com sucesso (modo anônimo)');
+          if (loadingEl) loadingEl.style.display = 'none';
+          if (errorEl) errorEl.style.display = 'none';
+        },
+        
+        onError: function(error) {
+          console.error('❌ Erro no Komentas:', error);
+          if (loadingEl) loadingEl.style.display = 'none';
+          if (errorEl) {
+            errorEl.style.display = 'block';
+            errorEl.querySelector('span').textContent = 
+              'Erro ao carregar avaliações. Tente novamente mais tarde.';
           }
-        });
+        },
+        
+        // Evento quando um comentário é enviado
+        onCommentSubmitted: function(comment) {
+          console.log('Comentário enviado com sucesso:', comment);
+        }
       };
       
-      script.onerror = function() {
-        document.getElementById('komentas-loading').innerHTML = `
-          <i class="fas fa-exclamation-triangle" style="color: #dc3545;"></i>
-          Erro ao carregar sistema de avaliações. Verifique sua conexão.
-        `;
-      };
-      
-      document.head.appendChild(script);
-    }
+      // Inicializar
+      window.KomentasWidget.init(config);
+    };
     
-    // Iniciar quando a página carregar
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initKomentas);
+    script.onerror = function() {
+      console.error('❌ Erro ao carregar script do Komentas');
+      if (loadingEl) loadingEl.style.display = 'none';
+      if (errorEl) {
+        errorEl.style.display = 'block';
+        errorEl.querySelector('span').textContent = 
+          'Erro de rede ao carregar avaliações. Verifique sua conexão.';
+      }
+    };
+    
+    document.head.appendChild(script);
+  }
+  
+  // Aguardar o produto carregar
+  function waitForProduct() {
+    if (window.currentProduct || document.querySelector('.product-title-detail')) {
+      loadKomentas();
     } else {
-      initKomentas();
+      setTimeout(waitForProduct, 200);
     }
-  })();
-</script>                         
+  }
+  
+  // Iniciar
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', waitForProduct);
+  } else {
+    waitForProduct();
+  }
+})();
+</script>          
               
               
               
