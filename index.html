@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Ateliê de marcenaria e artesanato sob medida - Peças únicas em madeira, gesso e argamassa">
-  <meta name="keywords" content="marcenaria, madeira sob medida, tabua de corte, moveis, suporte para plantas, casa de passaro, vasos de gesso">
-  <meta name="author" content="Ateliê Madeira Viva">
+  <meta name="description" content="Wood & Art - Artesanato em madeira sob medida, peças únicas e artesanais">
+  <meta name="keywords" content="marcenaria, madeira sob medida, moveis artesanais, decoração em madeira">
+  <meta name="author" content="Wood & Art">
   <meta name="theme-color" content="#b28b6f">
   
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Ateliê Madeira Viva - Artesanato em Madeira">
+  <meta property="og:title" content="Wood & Art - Artesanato em Madeira">
   <meta property="og:description" content="Peças únicas em madeira, gesso e argamassa feitas à mão">
+  <meta property="og:image" content="assets/images/og-image.jpg">
   
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/icons/favicon.svg">
@@ -66,144 +67,229 @@
   </header>
 
   <main id="main-content">
-    <!-- HOME com slider (mesmo código anterior) -->
-    <section id="home" aria-label="Home e destaques">
-      <div class="slider-container">
-        <div class="slider" id="slider" role="region" aria-label="Destaques em madeira">
-          <div class="slide">
-            <img src="assets/images/hero-1.jpg" 
-                 srcset="assets/images/hero-1-small.jpg 480w, assets/images/hero-1.jpg 1200w"
-                 sizes="(max-width: 480px) 480px, 1200px"
-                 alt="Mesa de madeira rústica com detalhes artesanais" 
-                 loading="eager">
-            <div class="slide-caption">
-              <h2>Artigos em madeira</h2>
-              <p>Rústico · minimalista · natural</p>
+    <!-- HERO SLIDER COM VÍDEO -->
+    <section class="hero-slider-section">
+      <div class="hero-slider-container">
+        <!-- Slide 1 - Vídeo -->
+        <div class="hero-slide active" id="slide-video">
+          <div class="video-container">
+            <!-- Vídeo do YouTube incorporado com controles -->
+            <iframe 
+              id="youtube-video"
+              src="https://www.youtube.com/embed/seu-video-id?enablejsapi=1&rel=0&modestbranding=1&playsinline=1"
+              title="Wood & Art - Processo Artesanal"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+            
+            <!-- Overlay com controles customizados -->
+            <div class="video-controls">
+              <button class="video-btn" id="video-play-pause">
+                <i class="fas fa-pause"></i>
+              </button>
+              <button class="video-btn" id="video-mute">
+                <i class="fas fa-volume-up"></i>
+              </button>
             </div>
           </div>
-          <div class="slide">
-            <img src="assets/images/hero-2.jpg" 
-                 srcset="assets/images/hero-2-small.jpg 480w, assets/images/hero-2.jpg 1200w"
-                 sizes="(max-width: 480px) 480px, 1200px"
-                 alt="Suporte rústico para pia em madeira maciça" 
-                 loading="lazy">
-            <div class="slide-caption">
-              <h2>Suportes para pia</h2>
-              <p>rústicos e funcionais</p>
-            </div>
-          </div>
-          <div class="slide">
-            <img src="assets/images/hero-3.jpg" 
-                 srcset="assets/images/hero-3-small.jpg 480w, assets/images/hero-3.jpg 1200w"
-                 sizes="(max-width: 480px) 480px, 1200px"
-                 alt="Peças de decoração em madeira com plantas" 
-                 loading="lazy">
-            <div class="slide-caption">
-              <h2>Decoração e plantas</h2>
-              <p>suportes, bancadas, banheiro</p>
-            </div>
+          
+          <div class="hero-caption">
+            <h2>Artesanato em Madeira</h2>
+            <p>Cada peça conta uma história</p>
           </div>
         </div>
         
-        <button class="slider-btn prev" id="prevBtn" aria-label="Slide anterior">
-          <i class="fas fa-chevron-left" aria-hidden="true"></i>
-        </button>
-        <button class="slider-btn next" id="nextBtn" aria-label="Próximo slide">
-          <i class="fas fa-chevron-right" aria-hidden="true"></i>
-        </button>
+        <!-- Slide 2 - Imagem 1 -->
+        <div class="hero-slide" id="slide-1">
+          <div class="hero-image" style="background-image: url('assets/images/hero-1.jpg');">
+            <div class="hero-overlay"></div>
+          </div>
+          <div class="hero-caption">
+            <h2>Peças Únicas</h2>
+            <p>Feitas à mão com madeira de reflorestamento</p>
+          </div>
+        </div>
         
-        <div class="slider-pause" aria-label="Pausar slideshow">
-          <button id="pauseBtn" aria-label="Pausar"><i class="fas fa-pause"></i></button>
+        <!-- Slide 3 - Imagem 2 -->
+        <div class="hero-slide" id="slide-2">
+          <div class="hero-image" style="background-image: url('assets/images/hero-2.jpg');">
+            <div class="hero-overlay"></div>
+          </div>
+          <div class="hero-caption">
+            <h2>Móveis Sob Medida</h2>
+            <p>Para seu espaço, do seu jeito</p>
+          </div>
+        </div>
+        
+        <!-- Slide 4 - Imagem 3 -->
+        <div class="hero-slide" id="slide-3">
+          <div class="hero-image" style="background-image: url('assets/images/hero-3.jpg');">
+            <div class="hero-overlay"></div>
+          </div>
+          <div class="hero-caption">
+            <h2>Decoração e Jardinagem</h2>
+            <p>Suportes, vasos e muito mais</p>
+          </div>
         </div>
       </div>
       
-      <div class="dots" id="dotsContainer" role="tablist" aria-label="Indicadores de slide"></div>
-      <!-- ... slider existente ... -->
-    </section>
-
-    <!-- Categorias em destaque (novo) -->
-    <section class="featured-categories">
-      <h2 class="section-title"><span>🌳 Nossas Categorias</span></h2>
+      <!-- Controles do slider -->
+      <button class="hero-slider-btn prev" id="hero-prev">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="hero-slider-btn next" id="hero-next">
+        <i class="fas fa-chevron-right"></i>
+      </button>
       
-      <div class="categories-grid">
-        <a href="produtos.html?categoria=utensilios" class="category-card">
-          <div class="category-icon">
-            <i class="fas fa-utensils"></i>
-          </div>
-          <h3>Utensílios</h3>
-          <p>Tabuas de corte, servir e mais</p>
-        </a>
-        
-        <a href="produtos.html?categoria=mobiliario" class="category-card">
-          <div class="category-icon">
-            <i class="fas fa-chair"></i>
-          </div>
-          <h3>Mobiliário</h3>
-          <p>Mesas, cadeiras, bancos, poltronas</p>
-        </a>
-        
-        <a href="produtos.html?categoria=organizacao" class="category-card">
-          <div class="category-icon">
-            <i class="fas fa-book"></i>
-          </div>
-          <h3>Organização</h3>
-          <p>Prateleiras, nichos, móveis</p>
-        </a>
-        
-        <a href="produtos.html?categoria=jardinagem" class="category-card">
-          <div class="category-icon">
-            <i class="fas fa-seedling"></i>
-          </div>
-          <h3>Jardinagem</h3>
-          <p>Suportes, vasos, casas de pássaro</p>
-        </a>
-        
-        <a href="produtos.html?categoria=decoracao" class="category-card">
-          <div class="category-icon">
-            <i class="fas fa-paint-brush"></i>
-          </div>
-          <h3>Decoração</h3>
-          <p>Peças em gesso e argamassa</p>
-        </a>
-        
-        <a href="produtos.html?categoria=plantas-vivas" class="category-card" id="plantas-vivas-link">
-          <div class="category-icon">
-            <i class="fas fa-leaf"></i>
-          </div>
-          <h3>Plantas Vivas</h3>
-          <p>Arranjos - apenas região</p>
-          <span class="region-badge">📍 consultar CEP</span>
-        </a>
+      <!-- Indicadores -->
+      <div class="hero-slider-dots" id="hero-dots">
+        <span class="hero-dot active" data-slide="0"></span>
+        <span class="hero-dot" data-slide="1"></span>
+        <span class="hero-dot" data-slide="2"></span>
+        <span class="hero-dot" data-slide="3"></span>
       </div>
     </section>
 
-    <!-- Produtos em Destaque -->
-    <section class="featured-products">
-      <h2 class="section-title"><span>✨ Produtos em Destaque</span></h2>
-      
-      <div class="products-grid" id="featured-products">
-        <!-- Produtos serão carregados via JavaScript -->
-      </div>
-      
-      <div class="view-more">
-        <a href="produtos.html" class="btn-secondary">
-          <i class="fas fa-search"></i> Ver todos os produtos
-        </a>
+    <!-- CATEGORIAS COM IMAGENS -->
+    <section class="categories-section">
+      <div class="container">
+        <h2 class="section-title"><span>🌳 Nossas Categorias</span></h2>
+        
+        <div class="categories-grid" id="categories-grid">
+          <!-- Utensílios -->
+          <a href="produtos.html?categoria=utensilios" class="category-card">
+            <div class="category-image">
+              <img src="assets/images/categorias/utensilios.jpg" alt="Utensílios em madeira" loading="lazy">
+              <div class="category-overlay"></div>
+            </div>
+            <div class="category-content">
+              <i class="fas fa-utensils"></i>
+              <h3>Utensílios</h3>
+              <p>28 produtos</p>
+            </div>
+          </a>
+          
+          <!-- Mobiliário -->
+          <a href="produtos.html?categoria=mobiliario" class="category-card">
+            <div class="category-image">
+              <img src="assets/images/categorias/mobiliario.jpg" alt="Móveis em madeira" loading="lazy">
+              <div class="category-overlay"></div>
+            </div>
+            <div class="category-content">
+              <i class="fas fa-chair"></i>
+              <h3>Mobiliário</h3>
+              <p>15 produtos</p>
+            </div>
+          </a>
+          
+          <!-- Organização -->
+          <a href="produtos.html?categoria=organizacao" class="category-card">
+            <div class="category-image">
+              <img src="assets/images/categorias/organizacao.jpg" alt="Organização em madeira" loading="lazy">
+              <div class="category-overlay"></div>
+            </div>
+            <div class="category-content">
+              <i class="fas fa-boxes"></i>
+              <h3>Organização</h3>
+              <p>12 produtos</p>
+            </div>
+          </a>
+          
+          <!-- Jardinagem -->
+          <a href="produtos.html?categoria=jardinagem" class="category-card">
+            <div class="category-image">
+              <img src="assets/images/categorias/jardinagem.jpg" alt="Jardinagem em madeira" loading="lazy">
+              <div class="category-overlay"></div>
+            </div>
+            <div class="category-content">
+              <i class="fas fa-seedling"></i>
+              <h3>Jardinagem</h3>
+              <p>9 produtos</p>
+            </div>
+          </a>
+          
+          <!-- Decoração -->
+          <a href="produtos.html?categoria=decoracao" class="category-card">
+            <div class="category-image">
+              <img src="assets/images/categorias/decoracao.jpg" alt="Decoração em madeira" loading="lazy">
+              <div class="category-overlay"></div>
+            </div>
+            <div class="category-content">
+              <i class="fas fa-paint-brush"></i>
+              <h3>Decoração</h3>
+              <p>18 produtos</p>
+            </div>
+          </a>
+          
+          <!-- Plantas Vivas -->
+          <a href="produtos.html?categoria=plantas-vivas" class="category-card">
+            <div class="category-image">
+              <img src="assets/images/categorias/plantas-vivas.jpg" alt="Plantas vivas" loading="lazy">
+              <div class="category-overlay"></div>
+              <span class="category-badge">📍 Regional</span>
+            </div>
+            <div class="category-content">
+              <i class="fas fa-leaf"></i>
+              <h3>Plantas Vivas</h3>
+              <p>6 produtos</p>
+            </div>
+          </a>
+        </div>
       </div>
     </section>
 
-    <!-- Depoimentos na Home -->
-    <section class="home-depoimentos">
-      <h2 class="section-title"><span>💬 O que Nossos Clientes dizem</span></h2>
-      
-      <div class="depoimentos-slider" id="home-depoimentos">
-        <!-- Depoimentos serão carregados via JavaScript -->
+    <!-- PRODUTOS EM DESTAQUE (CARROSSEL) -->
+    <section class="featured-products-section">
+      <div class="container">
+        <h2 class="section-title"><span>✨ Produtos em Destaque</span></h2>
+        
+        <div class="carousel-container">
+          <div class="carousel-wrapper">
+            <div class="carousel-track" id="products-track">
+              <!-- Produtos serão inseridos via JS -->
+            </div>
+          </div>
+          
+          <button class="carousel-btn prev" id="products-prev" aria-label="Produtos anteriores">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="carousel-btn next" id="products-next" aria-label="Próximos produtos">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        
+        <div class="carousel-dots" id="products-dots"></div>
       </div>
-      
-      <div class="view-more">
-        <a href="depoimentos.html" class="btn-secondary">
-          <i class="fas fa-star"></i> Ver todos os depoimentos
-        </a>
+    </section>
+
+    <!-- DEPOIMENTOS EM CARROSSEL -->
+    <section class="testimonials-carousel-section">
+      <div class="container">
+        <h2 class="section-title"><span>💬 O que nossos clientes dizem</span></h2>
+        
+        <div class="testimonials-carousel-container">
+          <div class="testimonials-carousel-wrapper">
+            <div class="testimonials-carousel-track" id="testimonials-track">
+              <!-- Depoimentos serão inseridos via JS -->
+            </div>
+          </div>
+          
+          <button class="carousel-btn prev" id="testimonials-prev" aria-label="Depoimentos anteriores">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="carousel-btn next" id="testimonials-next" aria-label="Próximos depoimentos">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        
+        <div class="carousel-dots" id="testimonials-dots"></div>
+        
+        <div class="view-more">
+          <a href="depoimentos.html" class="btn-secondary">
+            <i class="fas fa-star"></i> Ver todos os depoimentos
+          </a>
+        </div>
       </div>
     </section>
 
@@ -213,7 +299,6 @@
       
       <div class="form-container">
         <form id="quoteForm" class="quote-form" novalidate>
-          <!-- ... formulário existente ... -->
           <div class="form-group">
             <label for="nome">
               <i class="fas fa-user" aria-hidden="true"></i>
@@ -241,12 +326,10 @@
                 <i class="fas fa-phone" aria-hidden="true"></i>
                 Telefone
               </label>
-              <input type="tel" id="telefone" name="telefone" placeholder="(11) 99999-9999" 
+              <input type="tel" id="telefone" name="telefone" placeholder="(71) 99999-9999" 
                      pattern="\([0-9]{2}\) [0-9]{4,5}-[0-9]{4}">
             </div>
 
-            <!-- Campo CEP adicionado -->
-          <div class="form-row">
             <div class="form-group">
               <label for="cep">
                 <i class="fas fa-map-marker-alt"></i>
@@ -255,16 +338,9 @@
               <input type="text" id="cep" name="cep" placeholder="00000-000" 
                      pattern="[0-9]{5}-?[0-9]{3}" maxlength="9">
             </div>
-            
-            <div class="form-group">
-              <label for="cidade">
-                <i class="fas fa-city"></i>
-                Cidade
-              </label>
-              <input type="text" id="cidade" name="cidade" readonly>
-            </div>
           </div>
 
+          <div class="form-row">
             <div class="form-group">
               <label for="tipo-peca">
                 <i class="fas fa-tag" aria-hidden="true"></i>
@@ -272,14 +348,22 @@
               </label>
               <select id="tipo-peca" name="tipo-peca" required>
                 <option value="" disabled selected>Selecione</option>
-                <option value="suporte-pia">Suporte para pia rústico</option>
-                <option value="mesa-rustica">Mesa rústica</option>
-                <option value="bancada">Bancada sob medida</option>
-                <option value="movel-banheiro">Móvel para banheiro</option>
-                <option value="suporte-plantas">Suporte para plantas</option>
-                <option value="decoracao">Decoração em madeira</option>
+                <option value="utensilio">Utensílio (tábua, etc)</option>
+                <option value="movel">Móvel (mesa, cadeira, etc)</option>
+                <option value="organizacao">Organização (prateleira, nicho)</option>
+                <option value="jardinagem">Jardinagem (suporte, vaso)</option>
+                <option value="decoracao">Decoração</option>
+                <option value="planta">Planta viva</option>
                 <option value="outro">Outro</option>
               </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="cidade">
+                <i class="fas fa-city"></i>
+                Cidade (auto)
+              </label>
+              <input type="text" id="cidade" name="cidade" readonly placeholder="Digite o CEP primeiro">
             </div>
           </div>
 
@@ -289,7 +373,7 @@
               <span class="required">Medidas e observações</span>
             </label>
             <textarea id="observacoes" name="observacoes" rows="4" required
-                      placeholder="Descreva o estilo desejado, medidas aproximadas e detalhes importantes..." 
+                      placeholder="Descreva o estilo desejado (rústico, minimalista, natural), medidas aproximadas e detalhes importantes..." 
                       minlength="10" maxlength="1000"></textarea>
             <div class="error-message">Por favor, forneça detalhes sobre sua solicitação</div>
           </div>
@@ -310,11 +394,6 @@
           </p>
         </form>
       </div>
-          
-          
-          <!-- Restante do formulário -->
-        </form>
-      </div>
     </section>
 
     <!-- CONTATO -->
@@ -328,14 +407,14 @@
           <div class="info-line">
             <i class="fas fa-phone-alt" aria-hidden="true"></i>
             <div>
-              <a href="tel:+5511975321894">(71) 9 8180-4578</a>
+              <a href="tel:+5571981804578">(71) 9 8180-4578</a>
             </div>
           </div>
           
           <div class="info-line">
             <i class="fas fa-envelope-open-text" aria-hidden="true"></i>
             <div>
-              <a href="mailto:madeira.viva@atelie.com">woodeart@woodeart.com.br</a>
+              <a href="mailto:contato@woodeart.com.br">contato@woodeart.com.br</a>
             </div>
           </div>
           
@@ -350,7 +429,6 @@
             <i class="fas fa-clock" aria-hidden="true"></i>
             <div>Seg–Sex 9h–18h | Sáb sob consulta</div>
           </div>
-          
           
           <div class="social-links">
             <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -371,14 +449,12 @@
           </iframe>
         </div>
       </div>
-      <!-- ... contato existente ... -->
     </section>
   </main>
 
   <!-- FOOTER -->
   <footer>
-    <!-- ... footer existente ... -->
-      <div class="footer-content">
+    <div class="footer-content">
       <div class="footer-logo">
         <i class="fas fa-tree"></i> WOOD & ART
       </div>
@@ -388,8 +464,8 @@
       </div>
       <div class="footer-links">
         <a href="#home">Home</a> | 
-        <a href="#galeria">Galeria</a> | 
-        <a href="#orcamento">Orçamento</a> | 
+        <a href="produtos.html">Produtos</a> | 
+        <a href="depoimentos.html">Depoimentos</a> | 
         <a href="#contato">Contato</a>
       </div>
     </div>
