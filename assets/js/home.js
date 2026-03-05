@@ -1,286 +1,207 @@
 // ========================================
-// HOME.JS - Versão Final com Grid
+// HOME.JS - Versão Ultra Simplificada
 // ========================================
 
 document.addEventListener('DOMContentLoaded', function() {
   console.log('🚀 Home.js iniciado');
   
-  // Inicializa componentes
-  setTimeout(() => {
-    initHeroSlider();
-    initVideoControls();
-    loadFeaturedProducts();
-    loadHomeTestimonials();
-  }, 500);
+  // Carrega produtos e depoimentos imediatamente
+  carregarProdutosDestaque();
+  carregarDepoimentosHome();
+  
+  // Inicia slider se existir
+  iniciarSlider();
 });
 
 // ========================================
-// 1. HERO SLIDER
+// CARREGAR PRODUTOS (VERSÃO SIMPLIFICADA)
 // ========================================
 
-let currentSlide = 0;
-let slideInterval;
-const slides = document.querySelectorAll('.hero-slide');
-const dots = document.querySelectorAll('.hero-dot');
-const totalSlides = slides.length;
-
-function initHeroSlider() {
-  if (slides.length === 0) return;
+function carregarProdutosDestaque() {
+  console.log('🔍 Procurando grid de produtos...');
   
-  const prevBtn = document.getElementById('hero-prev');
-  const nextBtn = document.getElementById('hero-next');
-  
-  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
-  
-  dots.forEach((dot, index) => {
-    dot.addEventListener('click', () => goToSlide(index));
-  });
-  
-  startSlideAutoplay();
-  
-  const slider = document.querySelector('.hero-slider-section');
-  if (slider) {
-    slider.addEventListener('mouseenter', stopSlideAutoplay);
-    slider.addEventListener('mouseleave', startSlideAutoplay);
-  }
-}
-
-function goToSlide(index) {
-  slides.forEach(slide => slide.classList.remove('active'));
-  dots.forEach(dot => dot.classList.remove('active'));
-  slides[index].classList.add('active');
-  dots[index].classList.add('active');
-  currentSlide = index;
-}
-
-function nextSlide() {
-  goToSlide((currentSlide + 1) % totalSlides);
-}
-
-function prevSlide() {
-  goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
-}
-
-function startSlideAutoplay() {
-  if (slideInterval) clearInterval(slideInterval);
-  slideInterval = setInterval(nextSlide, 7000);
-}
-
-function stopSlideAutoplay() {
-  if (slideInterval) {
-    clearInterval(slideInterval);
-    slideInterval = null;
-  }
-}
-
-// ========================================
-// 2. VÍDEO
-// ========================================
-
-let player;
-let isPlaying = true;
-let isMuted = true;
-
-function loadYouTubeAPI() {
-  if (typeof YT === 'undefined') {
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    document.head.appendChild(tag);
-  }
-}
-
-window.onYouTubeIframeAPIReady = function() {
-  const videoElement = document.getElementById('youtube-video');
-  if (!videoElement) return;
-  
-  player = new YT.Player('youtube-video', {
-    events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange
-    }
-  });
-};
-
-function onPlayerReady(event) {
-  const playPauseBtn = document.getElementById('video-play-pause');
-  const muteBtn = document.getElementById('video-mute');
-  
-  if (playPauseBtn) playPauseBtn.addEventListener('click', togglePlay);
-  if (muteBtn) muteBtn.addEventListener('click', toggleMute);
-  
-  player.mute();
-}
-
-function onPlayerStateChange(event) {
-  const playPauseBtn = document.getElementById('video-play-pause');
-  if (!playPauseBtn) return;
-  
-  const icon = playPauseBtn.querySelector('i');
-  icon.className = event.data === YT.PlayerState.PLAYING ? 'fas fa-pause' : 'fas fa-play';
-  isPlaying = event.data === YT.PlayerState.PLAYING;
-}
-
-function togglePlay() {
-  if (player) {
-    isPlaying ? player.pauseVideo() : player.playVideo();
-  }
-}
-
-function toggleMute() {
-  if (player) {
-    const muteBtn = document.getElementById('video-mute');
-    const icon = muteBtn.querySelector('i');
-    
-    if (isMuted) {
-      player.unMute();
-      icon.className = 'fas fa-volume-up';
-    } else {
-      player.mute();
-      icon.className = 'fas fa-volume-mute';
-    }
-    isMuted = !isMuted;
-  }
-}
-
-loadYouTubeAPI();
-
-// ========================================
-// 3. PRODUTOS EM DESTAQUE - GRID
-// ========================================
-
-function loadFeaturedProducts() {
   const grid = document.getElementById('home-products-grid');
   
   if (!grid) {
-    console.error('❌ Grid de produtos não encontrado!');
+    console.error('❌ Grid de produtos NÃO ENCONTRADO!');
+    console.log('Criando grid automaticamente...');
+    criarGridProdutos();
     return;
   }
   
-  console.log('📦 Carregando produtos em destaque...');
+  console.log('✅ Grid de produtos encontrado!');
   
   // Verifica se productsDB existe
   if (typeof productsDB === 'undefined') {
-    console.error('❌ productsDB não está definido!');
-    grid.innerHTML = '<div class="error-message">Erro ao carregar produtos</div>';
+    console.error('❌ productsDB não existe!');
+    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:2rem; color:#dc3545;">Erro: Banco de produtos não carregado</div>';
     return;
   }
   
-  console.log('✅ productsDB encontrado com', productsDB.length, 'produtos');
+  console.log('📦 productsDB tem', productsDB.length, 'produtos');
   
-  // Filtra produtos com destaque = true
-  let featuredProducts = productsDB.filter(p => p.destaque === true);
+  // Pega os primeiros 4 produtos (independente de destaque)
+  const produtosParaMostrar = productsDB.slice(0, 4);
   
-  console.log('✨ Produtos com destaque encontrados:', featuredProducts.length);
+  console.log('📦 Mostrando', produtosParaMostrar.length, 'produtos');
   
-  // Se não tiver produtos com destaque, usa os primeiros 4
-  if (featuredProducts.length === 0) {
-    console.log('📌 Nenhum produto com destaque, usando primeiros 4');
-    featuredProducts = productsDB.slice(0, 4);
-  } else {
-    featuredProducts = featuredProducts.slice(0, 4);
-  }
+  // Monta o HTML
+  let html = '';
   
-  if (featuredProducts.length === 0) {
-    grid.innerHTML = '<div class="empty-message">Nenhum produto disponível</div>';
-    return;
-  }
-  
-  renderFeaturedProducts(grid, featuredProducts);
-}
-
-function renderFeaturedProducts(grid, products) {
-  grid.innerHTML = products.map(product => {
-    const categoriaNome = getCategoriaNome(product.categoria);
+  for (let i = 0; i < produtosParaMostrar.length; i++) {
+    const p = produtosParaMostrar[i];
     
-    // Pega a primeira imagem ou usa gradiente
-    const imagem = product.imagens && product.imagens.length > 0 
-      ? product.imagens[0] 
-      : null;
-    
-    const imageStyle = imagem 
-      ? `style="background-image: url('${imagem}'); background-size: cover; background-position: center;"`
-      : `style="background: linear-gradient(145deg, #d9c5b0, #b28b6f);"`;
-    
-    return `
-      <div class="product-card" onclick="window.location.href='produto.html?id=${product.id}'">
-        <span class="product-badge">Destaque</span>
-        <div class="product-image" ${imageStyle}></div>
-        <div class="product-info">
-          <div class="product-category">${categoriaNome}</div>
-          <h3 class="product-title">${product.nome}</h3>
-          <p class="product-description">${product.descricao.substring(0, 60)}...</p>
-          <div class="product-price">
-            R$ ${product.preco.toFixed(2)}
-          </div>
+    html += `
+      <div onclick="window.location.href='produto.html?id=${p.id}'" style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.3s; border: 1px solid #e2cfbc;">
+        <div style="height: 200px; background: linear-gradient(145deg, #d9c5b0, #b28b6f); position: relative;">
+          <span style="position: absolute; top: 10px; right: 10px; background: #b28b6f; color: white; padding: 0.3rem 0.8rem; border-radius: 30px; font-size: 0.8rem;">Destaque</span>
+        </div>
+        <div style="padding: 1.5rem;">
+          <div style="color: #b28b6f; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem;">${getCategoriaNome(p.categoria)}</div>
+          <h3 style="font-size: 1.2rem; color: #6b4f3a; margin-bottom: 0.5rem;">${p.nome}</h3>
+          <p style="color: #5a4a3a; font-size: 0.9rem; margin-bottom: 0.5rem;">${p.descricao.substring(0, 60)}...</p>
+          <div style="font-size: 1.3rem; font-weight: 600; color: #6b4f3a;">R$ ${p.preco.toFixed(2)}</div>
         </div>
       </div>
     `;
-  }).join('');
+  }
   
-  console.log('✅ Produtos renderizados:', products.length);
+  grid.innerHTML = html;
+  console.log('✅ Produtos renderizados com sucesso!');
 }
 
 // ========================================
-// 4. DEPOIMENTOS - GRID
+// CARREGAR DEPOIMENTOS (VERSÃO SIMPLIFICADA)
 // ========================================
 
-function loadHomeTestimonials() {
+function carregarDepoimentosHome() {
+  console.log('🔍 Procurando grid de depoimentos...');
+  
   const grid = document.getElementById('home-testimonials-grid');
   
   if (!grid) {
-    console.error('❌ Grid de depoimentos não encontrado!');
+    console.error('❌ Grid de depoimentos NÃO ENCONTRADO!');
     return;
   }
   
-  console.log('💬 Carregando depoimentos...');
+  console.log('✅ Grid de depoimentos encontrado!');
   
   if (typeof testimonialsDB === 'undefined') {
-    console.error('❌ testimonialsDB não está definido!');
-    grid.innerHTML = '<div class="error-message">Erro ao carregar depoimentos</div>';
+    console.error('❌ testimonialsDB não existe!');
+    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:2rem; color:#dc3545;">Erro: Banco de depoimentos não carregado</div>';
     return;
   }
   
-  console.log('✅ testimonialsDB encontrado com', testimonialsDB.length, 'depoimentos');
+  console.log('💬 testimonialsDB tem', testimonialsDB.length, 'depoimentos');
   
   // Pega os 3 primeiros depoimentos
-  let recentes = testimonialsDB.slice(0, 3);
+  const depoimentosParaMostrar = testimonialsDB.slice(0, 3);
   
-  if (recentes.length === 0) {
-    grid.innerHTML = '<div class="empty-message">Nenhum depoimento ainda</div>';
-    return;
-  }
+  console.log('💬 Mostrando', depoimentosParaMostrar.length, 'depoimentos');
   
-  renderTestimonials(grid, recentes);
-}
-
-function renderTestimonials(grid, testimonials) {
-  grid.innerHTML = testimonials.map(test => {
-    const stars = '★'.repeat(test.avaliacao) + '☆'.repeat(5 - test.avaliacao);
-    const avatar = test.nome.charAt(0).toUpperCase();
+  let html = '';
+  
+  for (let i = 0; i < depoimentosParaMostrar.length; i++) {
+    const d = depoimentosParaMostrar[i];
+    const stars = '★'.repeat(d.avaliacao) + '☆'.repeat(5 - d.avaliacao);
     
-    return `
-      <div class="testimonial-card">
-        <div class="testimonial-header">
-          <div class="testimonial-avatar">${avatar}</div>
-          <div class="testimonial-author">
-            <h4>${test.nome}</h4>
-            <p>${test.cidade || 'Cliente'}</p>
+    html += `
+      <div style="background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1); border: 1px solid #e2cfbc;">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+          <div style="width: 50px; height: 50px; border-radius: 50%; background: #b28b6f; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: bold;">${d.nome.charAt(0).toUpperCase()}</div>
+          <div>
+            <h4 style="color: #6b4f3a; margin: 0;">${d.nome}</h4>
+            <p style="color: #8b6f58; margin: 0; font-size: 0.9rem;">${d.cidade || 'Cliente'}</p>
           </div>
         </div>
-        <div class="testimonial-rating">${stars}</div>
-        <div class="testimonial-product">${test.produtoNome}</div>
-        <div class="testimonial-content">"${test.comentario.substring(0, 100)}..."</div>
-        <div class="testimonial-footer">${formatDate(test.data)}</div>
+        <div style="color: #ffc107; font-size: 1.1rem; margin-bottom: 0.5rem;">${stars}</div>
+        <div style="background: #f9f2ea; padding: 0.3rem 1rem; border-radius: 30px; font-size: 0.9rem; display: inline-block; margin-bottom: 1rem;">${d.produtoNome}</div>
+        <p style="color: #5a4a3a; font-style: italic; line-height: 1.6;">"${d.comentario.substring(0, 100)}..."</p>
+        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2cfbc; color: #8b6f58; font-size: 0.9rem;">${formatarData(d.data)}</div>
       </div>
     `;
-  }).join('');
+  }
   
-  console.log('✅ Depoimentos renderizados:', testimonials.length);
+  grid.innerHTML = html;
+  console.log('✅ Depoimentos renderizados com sucesso!');
 }
 
 // ========================================
-// 5. HELPERS
+// SLIDER (OPCIONAL)
+// ========================================
+
+function iniciarSlider() {
+  const slides = document.querySelectorAll('.hero-slide');
+  if (slides.length === 0) return;
+  
+  let currentSlide = 0;
+  const totalSlides = slides.length;
+  const dots = document.querySelectorAll('.hero-dot');
+  const prevBtn = document.getElementById('hero-prev');
+  const nextBtn = document.getElementById('hero-next');
+  
+  function showSlide(index) {
+    slides.forEach(s => s.classList.remove('active'));
+    dots.forEach(d => d.classList.remove('active'));
+    slides[index].classList.add('active');
+    if (dots[index]) dots[index].classList.add('active');
+    currentSlide = index;
+  }
+  
+  if (prevBtn) prevBtn.addEventListener('click', () => {
+    showSlide((currentSlide - 1 + totalSlides) % totalSlides);
+  });
+  
+  if (nextBtn) nextBtn.addEventListener('click', () => {
+    showSlide((currentSlide + 1) % totalSlides);
+  });
+  
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => showSlide(index));
+  });
+  
+  // Autoplay
+  setInterval(() => {
+    showSlide((currentSlide + 1) % totalSlides);
+  }, 7000);
+}
+
+// ========================================
+// VÍDEO (OPCIONAL)
+// ========================================
+
+function initVideoControls() {
+  const playBtn = document.getElementById('video-play-pause');
+  const muteBtn = document.getElementById('video-mute');
+  const video = document.getElementById('youtube-video');
+  
+  if (playBtn) {
+    playBtn.addEventListener('click', () => {
+      const icon = playBtn.querySelector('i');
+      if (icon.classList.contains('fa-play')) {
+        icon.className = 'fas fa-pause';
+        // Aqui você adicionaria a lógica de play do vídeo
+      } else {
+        icon.className = 'fas fa-play';
+        // Aqui você adicionaria a lógica de pause
+      }
+    });
+  }
+  
+  if (muteBtn) {
+    muteBtn.addEventListener('click', () => {
+      const icon = muteBtn.querySelector('i');
+      if (icon.classList.contains('fa-volume-mute')) {
+        icon.className = 'fas fa-volume-up';
+      } else {
+        icon.className = 'fas fa-volume-mute';
+      }
+    });
+  }
+}
+
+// ========================================
+// FUNÇÕES AUXILIARES
 // ========================================
 
 function getCategoriaNome(cat) {
@@ -295,8 +216,45 @@ function getCategoriaNome(cat) {
   return nomes[cat] || cat;
 }
 
-function formatDate(date) {
-  if (!date) return '';
-  const d = new Date(date);
+function formatarData(data) {
+  if (!data) return '';
+  const d = new Date(data);
   return d.toLocaleDateString('pt-BR');
 }
+
+// Função de emergência para criar o grid se ele não existir
+function criarGridProdutos() {
+  console.log('🆘 Criando grid de produtos automaticamente...');
+  
+  const secao = document.querySelector('.featured-products-section');
+  if (!secao) return;
+  
+  const container = secao.querySelector('.container');
+  if (!container) return;
+  
+  // Remove loading antigo se existir
+  const oldGrid = document.getElementById('home-products-grid');
+  if (oldGrid) oldGrid.remove();
+  
+  // Cria novo grid
+  const novoGrid = document.createElement('div');
+  novoGrid.id = 'home-products-grid';
+  novoGrid.style.cssText = 'display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 2rem 0;';
+  novoGrid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:2rem;">Carregando...</div>';
+  
+  // Insere no lugar certo
+  const titulo = container.querySelector('h2');
+  if (titulo) {
+    titulo.insertAdjacentElement('afterend', novoGrid);
+  } else {
+    container.appendChild(novoGrid);
+  }
+  
+  console.log('✅ Grid criado com sucesso!');
+  
+  // Tenta carregar os produtos novamente
+  setTimeout(carregarProdutosDestaque, 100);
+}
+
+// Inicia controles de vídeo
+initVideoControls();
