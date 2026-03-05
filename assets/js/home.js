@@ -3,6 +3,7 @@
 // ========================================
 
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('Home.js carregado');
   initHeroSlider();
   initVideoControls();
   loadFeaturedProducts();
@@ -23,6 +24,8 @@ const totalSlides = slides.length;
 
 function initHeroSlider() {
   if (slides.length === 0) return;
+  
+  console.log('Inicializando hero slider');
   
   // Event listeners dos controles
   const prevBtn = document.getElementById('hero-prev');
@@ -84,18 +87,21 @@ function stopSlideAutoplay() {
 
 let player;
 let isPlaying = true;
-let isMuted = false;
+let isMuted = true; // Começa mudo para autoplay funcionar
 
 // Carrega API do YouTube
 function loadYouTubeAPI() {
-  const tag = document.createElement('script');
-  tag.src = 'https://www.youtube.com/iframe_api';
-  const firstScriptTag = document.getElementsByTagName('script')[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  if (typeof YT === 'undefined') {
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  }
 }
 
 // YouTube API ready
 window.onYouTubeIframeAPIReady = function() {
+  console.log('YouTube API ready');
   const videoElement = document.getElementById('youtube-video');
   if (!videoElement) return;
   
@@ -108,11 +114,15 @@ window.onYouTubeIframeAPIReady = function() {
 };
 
 function onPlayerReady(event) {
+  console.log('Player pronto');
   const playPauseBtn = document.getElementById('video-play-pause');
   const muteBtn = document.getElementById('video-mute');
   
   if (playPauseBtn) playPauseBtn.addEventListener('click', togglePlay);
   if (muteBtn) muteBtn.addEventListener('click', toggleMute);
+  
+  // Começa mudo
+  player.mute();
 }
 
 function onPlayerStateChange(event) {
@@ -165,17 +175,24 @@ loadYouTubeAPI();
 
 function loadFeaturedProducts() {
   const track = document.getElementById('products-track');
-  if (!track) return;
+  if (!track) {
+    console.error('Track de produtos não encontrado');
+    return;
+  }
+  
+  console.log('Carregando produtos em destaque');
   
   // Verifica se productsDB existe (vindo do produtos.js)
   if (typeof productsDB === 'undefined') {
-    console.error('productsDB não encontrado. Verifique se produtos.js foi carregado.');
+    console.error('productsDB não encontrado. Verifique se produtos.js foi carregado antes de home.js');
     track.innerHTML = '<div class="error-message">Erro ao carregar produtos</div>';
     return;
   }
   
   // Filtra apenas produtos com destaque = true
   const featuredProducts = productsDB.filter(p => p.destaque === true).slice(0, 8);
+  
+  console.log('Produtos em destaque encontrados:', featuredProducts.length);
   
   if (featuredProducts.length === 0) {
     track.innerHTML = '<div class="empty-message">Nenhum produto em destaque no momento</div>';
@@ -192,17 +209,17 @@ function renderFeaturedProducts(products) {
     // Pega a primeira imagem ou usa placeholder
     const imageUrl = product.imagens && product.imagens.length > 0 
       ? product.imagens[0] 
-      : (product.imagem || 'assets/images/placeholder.jpg');
+      : (product.imagem || '');
+    
+    // Se não tem imagem, usa um gradiente
+    const imageStyle = imageUrl ? 
+      `style="background-image: url('${imageUrl}'); background-size: cover; background-position: center;"` : 
+      `style="background: linear-gradient(145deg, #d9c5b0, #b28b6f);"`;
     
     return `
       <div class="product-card" onclick="window.location.href='produto.html?id=${product.id}'">
         ${product.destaque ? '<span class="product-badge">Destaque</span>' : ''}
-        <div class="product-image">
-          <img src="${imageUrl}" 
-               alt="${product.nome}" 
-               loading="lazy"
-               onerror="this.src='assets/images/placeholder.jpg'">
-        </div>
+        <div class="product-image" ${imageStyle}></div>
         <div class="product-info">
           <div class="product-category">${getCategoriaNome(product.categoria)}</div>
           <h3 class="product-title">${product.nome}</h3>
@@ -222,11 +239,16 @@ function renderFeaturedProducts(products) {
 
 function loadHomeTestimonials() {
   const track = document.getElementById('testimonials-track');
-  if (!track) return;
+  if (!track) {
+    console.error('Track de depoimentos não encontrado');
+    return;
+  }
+  
+  console.log('Carregando depoimentos');
   
   // Verifica se testimonialsDB existe (vindo do depoimentos.js)
   if (typeof testimonialsDB === 'undefined') {
-    console.error('testimonialsDB não encontrado. Verifique se depoimentos.js foi carregado.');
+    console.error('testimonialsDB não encontrado. Verifique se depoimentos.js foi carregado antes de home.js');
     track.innerHTML = '<div class="error-message">Erro ao carregar depoimentos</div>';
     return;
   }
@@ -242,6 +264,8 @@ function loadHomeTestimonials() {
   } else {
     featuredTestimonials = featuredTestimonials.slice(0, 6);
   }
+  
+  console.log('Depoimentos encontrados:', featuredTestimonials.length);
   
   if (featuredTestimonials.length === 0) {
     track.innerHTML = '<div class="empty-message">Nenhum depoimento no momento</div>';
@@ -269,7 +293,7 @@ function renderHomeTestimonials(testimonials) {
         </div>
         <div class="testimonial-rating">${stars}</div>
         <div class="testimonial-product">${escapeHTML(test.produtoNome)}</div>
-        <div class="testimonial-content">${escapeHTML(test.comentario.substring(0, 120))}...</div>
+        <div class="testimonial-content">"${escapeHTML(test.comentario.substring(0, 120))}..."</div>
         <div class="testimonial-footer">
           <span>${formatDate(test.data)}</span>
         </div>
@@ -283,8 +307,11 @@ function renderHomeTestimonials(testimonials) {
 // ========================================
 
 function initCarousels() {
-  setupCarousel('products');
-  setupCarousel('testimonials');
+  // Aguarda um pouco para os tracks serem preenchidos
+  setTimeout(() => {
+    setupCarousel('products');
+    setupCarousel('testimonials');
+  }, 500);
 }
 
 function setupCarousel(type) {
@@ -293,15 +320,26 @@ function setupCarousel(type) {
   const nextBtn = document.getElementById(`${type}-next`);
   const dotsContainer = document.getElementById(`${type}-dots`);
   
-  if (!track || !prevBtn || !nextBtn) return;
+  if (!track || !prevBtn || !nextBtn) {
+    console.log(`Carrossel ${type} não configurado: elementos faltando`);
+    return;
+  }
   
   let currentIndex = 0;
   const cards = track.children;
   
-  if (cards.length === 0) return;
+  if (cards.length === 0 || cards.length === 1) {
+    // Esconde botões se não houver cards suficientes
+    prevBtn.style.display = 'none';
+    nextBtn.style.display = 'none';
+    if (dotsContainer) dotsContainer.style.display = 'none';
+    return;
+  }
   
-  const cardStyle = window.getComputedStyle(cards[0]);
-  const cardWidth = cards[0].offsetWidth;
+  prevBtn.style.display = 'flex';
+  nextBtn.style.display = 'flex';
+  if (dotsContainer) dotsContainer.style.display = 'flex';
+  
   const gap = 20; // gap entre cards
   
   // Calcula quantos cards cabem na tela
@@ -314,6 +352,15 @@ function setupCarousel(type) {
   
   let cardsPerView = getCardsPerView();
   const maxIndex = Math.max(0, cards.length - cardsPerView);
+  
+  // Calcula a largura do card (incluindo gap)
+  function getCardWidth() {
+    if (cards.length === 0) return 0;
+    const firstCard = cards[0];
+    const style = window.getComputedStyle(firstCard);
+    const width = firstCard.offsetWidth;
+    return width;
+  }
   
   // Cria dots
   function createDots() {
@@ -335,15 +382,16 @@ function setupCarousel(type) {
   function goToPage(page) {
     currentIndex = Math.min(page * cardsPerView, maxIndex);
     updateCarousel();
-    updateDots(page);
+    updateDots();
   }
   
   function updateCarousel() {
+    const cardWidth = getCardWidth();
     const translateX = -(currentIndex * (cardWidth + gap));
     track.style.transform = `translateX(${translateX}px)`;
   }
   
-  function updateDots(currentPage) {
+  function updateDots() {
     if (!dotsContainer) return;
     
     const dots = dotsContainer.children;
@@ -395,6 +443,7 @@ function setupCarousel(type) {
     
     track.addEventListener('mouseenter', () => clearInterval(autoplayInterval));
     track.addEventListener('mouseleave', () => {
+      clearInterval(autoplayInterval);
       autoplayInterval = setInterval(() => {
         if (currentIndex < maxIndex) {
           currentIndex++;
