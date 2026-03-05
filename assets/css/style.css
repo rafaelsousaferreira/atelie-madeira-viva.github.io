@@ -1855,3 +1855,176 @@ footer {
     flex: 0 0 calc(100% - 0px);
   }
 }
+/* CARROSSÉIS DA HOME */
+.products-carousel-container,
+.testimonials-carousel-container {
+  position: relative;
+  margin: 2rem 0;
+  padding: 0 40px;
+}
+
+.products-carousel-wrapper,
+.testimonials-carousel-wrapper {
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.products-carousel-track,
+.testimonials-carousel-track {
+  display: flex;
+  transition: transform 0.5s ease;
+  gap: 20px;
+}
+
+/* Cards de produtos */
+.products-carousel-track .product-card {
+  flex: 0 0 calc(25% - 15px);
+  min-width: 250px;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px var(--sombra);
+  border: 1px solid var(--madeira-clara);
+  cursor: pointer;
+}
+
+.products-carousel-track .product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 30px rgba(0,0,0,0.15);
+}
+
+.products-carousel-track .product-image {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.products-carousel-track .product-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--madeira-media);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  z-index: 2;
+}
+
+.products-carousel-track .product-info {
+  padding: 1.5rem;
+}
+
+.products-carousel-track .product-category {
+  color: var(--madeira-media);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.products-carousel-track .product-title {
+  font-size: 1.2rem;
+  color: var(--madeira-escura);
+  margin-bottom: 0.5rem;
+}
+
+.products-carousel-track .product-description {
+  color: #5a4a3a;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.products-carousel-track .product-price {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--madeira-escura);
+}
+
+/* Cards de depoimentos */
+.testimonials-carousel-track .testimonial-card {
+  flex: 0 0 calc(33.333% - 14px);
+  min-width: 280px;
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 20px var(--sombra);
+  border: 1px solid var(--madeira-clara);
+}
+
+.testimonials-carousel-track .testimonial-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.testimonials-carousel-track .testimonial-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--madeira-media);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.testimonials-carousel-track .testimonial-rating {
+  color: #ffc107;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.testimonials-carousel-track .testimonial-product {
+  background: #f9f2ea;
+  padding: 0.3rem 1rem;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.testimonials-carousel-track .testimonial-content {
+  font-style: italic;
+  color: #5a4a3a;
+  margin-bottom: 1rem;
+}
+
+.testimonials-carousel-track .testimonial-footer {
+  color: #8b6f58;
+  font-size: 0.9rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--madeira-clara);
+}
+
+/* Responsivo */
+@media (max-width: 1200px) {
+  .products-carousel-track .product-card {
+    flex: 0 0 calc(33.333% - 14px);
+  }
+}
+
+@media (max-width: 992px) {
+  .testimonials-carousel-track .testimonial-card {
+    flex: 0 0 calc(50% - 10px);
+  }
+}
+
+@media (max-width: 768px) {
+  .products-carousel-track .product-card {
+    flex: 0 0 calc(50% - 10px);
+  }
+  
+  .testimonials-carousel-track .testimonial-card {
+    flex: 0 0 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .products-carousel-track .product-card {
+    flex: 0 0 100%;
+  }
+}
