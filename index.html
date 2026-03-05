@@ -12,7 +12,6 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Wood & Art - Artesanato em Madeira">
   <meta property="og:description" content="Peças únicas em madeira, gesso e argamassa feitas à mão">
-  <meta property="og:image" content="assets/images/og-image.jpg">
   
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/icons/favicon.svg">
@@ -73,27 +72,26 @@
         <!-- Slide 1 - Vídeo -->
         <div class="hero-slide active" id="slide-video">
           <div class="video-container">
-            <!-- Vídeo do YouTube incorporado com controles -->
             <iframe 
               id="youtube-video"
-              src="https://www.youtube.com/embed/seu-video-id?enablejsapi=1&rel=0&modestbranding=1&playsinline=1"
+              width="100%" 
+              height="100%" 
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&playlist=dQw4w9WgXcQ&enablejsapi=1&rel=0&modestbranding=1&playsinline=1" 
               title="Wood & Art - Processo Artesanal"
               frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen>
             </iframe>
             
-            <!-- Overlay com controles customizados -->
             <div class="video-controls">
               <button class="video-btn" id="video-play-pause">
                 <i class="fas fa-pause"></i>
               </button>
               <button class="video-btn" id="video-mute">
-                <i class="fas fa-volume-up"></i>
+                <i class="fas fa-volume-mute"></i>
               </button>
             </div>
           </div>
-          
           <div class="hero-caption">
             <h2>Artesanato em Madeira</h2>
             <p>Cada peça conta uma história</p>
@@ -102,7 +100,7 @@
         
         <!-- Slide 2 - Imagem 1 -->
         <div class="hero-slide" id="slide-1">
-          <div class="hero-image" style="background-image: url('assets/images/hero-1.jpg');">
+          <div class="hero-image" style="background-image: linear-gradient(145deg, #ac8e78, #7c6048);">
             <div class="hero-overlay"></div>
           </div>
           <div class="hero-caption">
@@ -113,7 +111,7 @@
         
         <!-- Slide 3 - Imagem 2 -->
         <div class="hero-slide" id="slide-2">
-          <div class="hero-image" style="background-image: url('assets/images/hero-2.jpg');">
+          <div class="hero-image" style="background-image: linear-gradient(145deg, #b89c84, #6b4f38);">
             <div class="hero-overlay"></div>
           </div>
           <div class="hero-caption">
@@ -124,7 +122,7 @@
         
         <!-- Slide 4 - Imagem 3 -->
         <div class="hero-slide" id="slide-3">
-          <div class="hero-image" style="background-image: url('assets/images/hero-3.jpg');">
+          <div class="hero-image" style="background-image: linear-gradient(145deg, #a58367, #5a4030);">
             <div class="hero-overlay"></div>
           </div>
           <div class="hero-caption">
@@ -151,93 +149,93 @@
       </div>
     </section>
 
-    <<!-- CATEGORIAS COM IMAGENS E LINKS CORRETOS -->
-<section class="categories-section">
-  <div class="container">
-    <h2 class="section-title"><span>🌳 Nossas Categorias</span></h2>
-    
-    <div class="categories-grid" id="categories-grid">
-      <!-- Utensílios -->
-      <a href="produtos.html?categoria=utensilios" class="category-card">
-        <div class="category-image">
-          <img src="assets/images/categorias/utensilios.jpg" alt="Utensílios em madeira" loading="lazy">
-          <div class="category-overlay"></div>
+    <!-- CATEGORIAS COM IMAGENS -->
+    <section class="categories-section">
+      <div class="container">
+        <h2 class="section-title"><span>🌳 Nossas Categorias</span></h2>
+        
+        <div class="categories-grid">
+          <!-- Utensílios -->
+          <a href="produtos.html?categoria=utensilios" class="category-card">
+            <div class="category-image">
+              <div style="width: 100%; height: 100%; background: linear-gradient(145deg, #d9c5b0, #b28b6f);"></div>
+              <div class="category-overlay"></div>
+            </div>
+            <div class="category-content">
+              <i class="fas fa-utensils"></i>
+              <h3>Utensílios</h3>
+              <p>Tábuas, cortadores e mais</p>
+            </div>
+          </a>
+          
+          <!-- Mobiliário -->
+          <a href="produtos.html?categoria=mobiliario" class="category-card">
+            <div class="category-image">
+              <div style="width: 100%; height: 100%; background: linear-gradient(145deg, #b28b6f, #6b4f3a);"></div>
+              <div class="category-overlay"></div>
+            </div>
+            <div class="category-content">
+              <i class="fas fa-chair"></i>
+              <h3>Mobiliário</h3>
+              <p>Mesas, cadeiras, bancos</p>
+            </div>
+          </a>
+          
+          <!-- Organização -->
+          <a href="produtos.html?categoria=organizacao" class="category-card">
+            <div class="category-image">
+              <div style="width: 100%; height: 100%; background: linear-gradient(145deg, #c4a27a, #8b6f58);"></div>
+              <div class="category-overlay"></div>
+            </div>
+            <div class="category-content">
+              <i class="fas fa-boxes"></i>
+              <h3>Organização</h3>
+              <p>Prateleiras, nichos, móveis</p>
+            </div>
+          </a>
+          
+          <!-- Jardinagem -->
+          <a href="produtos.html?categoria=jardinagem" class="category-card">
+            <div class="category-image">
+              <div style="width: 100%; height: 100%; background: linear-gradient(145deg, #9cb08b, #5a7d4e);"></div>
+              <div class="category-overlay"></div>
+            </div>
+            <div class="category-content">
+              <i class="fas fa-seedling"></i>
+              <h3>Jardinagem</h3>
+              <p>Suportes, vasos, casas de pássaro</p>
+            </div>
+          </a>
+          
+          <!-- Decoração -->
+          <a href="produtos.html?categoria=decoracao" class="category-card">
+            <div class="category-image">
+              <div style="width: 100%; height: 100%; background: linear-gradient(145deg, #c7aa8e, #9d7a5c);"></div>
+              <div class="category-overlay"></div>
+            </div>
+            <div class="category-content">
+              <i class="fas fa-paint-brush"></i>
+              <h3>Decoração</h3>
+              <p>Vasos de gesso e argamassa</p>
+            </div>
+          </a>
+          
+          <!-- Plantas Vivas -->
+          <a href="produtos.html?categoria=plantas-vivas" class="category-card">
+            <div class="category-image">
+              <div style="width: 100%; height: 100%; background: linear-gradient(145deg, #8ba88b, #3d6e3d);"></div>
+              <div class="category-overlay"></div>
+              <span class="category-badge">📍 Regional</span>
+            </div>
+            <div class="category-content">
+              <i class="fas fa-leaf"></i>
+              <h3>Plantas Vivas</h3>
+              <p>Arranjos e terrários</p>
+            </div>
+          </a>
         </div>
-        <div class="category-content">
-          <i class="fas fa-utensils"></i>
-          <h3>Utensílios</h3>
-          <p>Ver produtos →</p>
-        </div>
-      </a>
-      
-      <!-- Mobiliário -->
-      <a href="produtos.html?categoria=mobiliario" class="category-card">
-        <div class="category-image">
-          <img src="assets/images/categorias/mobiliario.jpg" alt="Móveis em madeira" loading="lazy">
-          <div class="category-overlay"></div>
-        </div>
-        <div class="category-content">
-          <i class="fas fa-chair"></i>
-          <h3>Mobiliário</h3>
-          <p>Ver produtos →</p>
-        </div>
-      </a>
-      
-      <!-- Organização -->
-      <a href="produtos.html?categoria=organizacao" class="category-card">
-        <div class="category-image">
-          <img src="assets/images/categorias/organizacao.jpg" alt="Organização em madeira" loading="lazy">
-          <div class="category-overlay"></div>
-        </div>
-        <div class="category-content">
-          <i class="fas fa-boxes"></i>
-          <h3>Organização</h3>
-          <p>Ver produtos →</p>
-        </div>
-      </a>
-      
-      <!-- Jardinagem -->
-      <a href="produtos.html?categoria=jardinagem" class="category-card">
-        <div class="category-image">
-          <img src="assets/images/categorias/jardinagem.jpg" alt="Jardinagem em madeira" loading="lazy">
-          <div class="category-overlay"></div>
-        </div>
-        <div class="category-content">
-          <i class="fas fa-seedling"></i>
-          <h3>Jardinagem</h3>
-          <p>Ver produtos →</p>
-        </div>
-      </a>
-      
-      <!-- Decoração -->
-      <a href="produtos.html?categoria=decoracao" class="category-card">
-        <div class="category-image">
-          <img src="assets/images/categorias/decoracao.jpg" alt="Decoração em madeira" loading="lazy">
-          <div class="category-overlay"></div>
-        </div>
-        <div class="category-content">
-          <i class="fas fa-paint-brush"></i>
-          <h3>Decoração</h3>
-          <p>Ver produtos →</p>
-        </div>
-      </a>
-      
-      <!-- Plantas Vivas -->
-      <a href="produtos.html?categoria=plantas-vivas" class="category-card">
-        <div class="category-image">
-          <img src="assets/images/categorias/plantas-vivas.jpg" alt="Plantas vivas" loading="lazy">
-          <div class="category-overlay"></div>
-          <span class="category-badge">📍 Regional</span>
-        </div>
-        <div class="category-content">
-          <i class="fas fa-leaf"></i>
-          <h3>Plantas Vivas</h3>
-          <p>Ver produtos →</p>
-        </div>
-      </a>
-    </div>
-  </div>
-</section>
+      </div>
+    </section>
 
     <!-- PRODUTOS EM DESTAQUE (CARROSSEL) -->
     <section class="featured-products-section">
@@ -247,7 +245,10 @@
         <div class="carousel-container">
           <div class="carousel-wrapper">
             <div class="carousel-track" id="products-track">
-              <!-- Produtos serão inseridos via JS -->
+              <!-- Loading -->
+              <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i> Carregando produtos...
+              </div>
             </div>
           </div>
           
@@ -260,6 +261,12 @@
         </div>
         
         <div class="carousel-dots" id="products-dots"></div>
+        
+        <div class="view-more">
+          <a href="produtos.html" class="btn-secondary">
+            <i class="fas fa-search"></i> Ver todos os produtos
+          </a>
+        </div>
       </div>
     </section>
 
@@ -271,7 +278,10 @@
         <div class="testimonials-carousel-container">
           <div class="testimonials-carousel-wrapper">
             <div class="testimonials-carousel-track" id="testimonials-track">
-              <!-- Depoimentos serão inseridos via JS -->
+              <!-- Loading -->
+              <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i> Carregando depoimentos...
+              </div>
             </div>
           </div>
           
@@ -373,7 +383,7 @@
               <span class="required">Medidas e observações</span>
             </label>
             <textarea id="observacoes" name="observacoes" rows="4" required
-                      placeholder="Descreva o estilo desejado (rústico, minimalista, natural), medidas aproximadas e detalhes importantes..." 
+                      placeholder="Descreva o estilo desejado, medidas aproximadas e detalhes importantes..." 
                       minlength="10" maxlength="1000"></textarea>
             <div class="error-message">Por favor, forneça detalhes sobre sua solicitação</div>
           </div>
@@ -477,7 +487,9 @@
     <span id="toast-message"></span>
   </div>
 
-  <!-- Scripts -->
+  <!-- Scripts (ORDEM CORRETA: produtos.js e depoimentos.js primeiro, depois home.js) -->
+  <script src="assets/js/produtos.js"></script>
+  <script src="assets/js/depoimentos.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="assets/js/home.js"></script>
 </body>
