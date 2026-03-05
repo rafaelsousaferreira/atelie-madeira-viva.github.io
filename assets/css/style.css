@@ -2028,3 +2028,40 @@ footer {
     flex: 0 0 100%;
   }
 }
+
+/* Grid da Home */
+#home-products-grid,
+#home-testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin: 2rem 0;
+}
+
+#home-testimonials-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+  #home-products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  #home-products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  #home-testimonials-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  #home-products-grid,
+  #home-testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+}
