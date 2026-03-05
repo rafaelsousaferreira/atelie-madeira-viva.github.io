@@ -1,5 +1,5 @@
 // ========================================
-// HOME.JS - Versão Corrigida com Acesso Direto
+// HOME.JS - Versão Final
 // ========================================
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
   console.log('📦 productsDB existe?', typeof productsDB !== 'undefined');
   console.log('📦 productsDB length:', productsDB ? productsDB.length : 0);
   
-  // Inicializa após um pequeno delay
+  // Inicializa componentes
   setTimeout(() => {
     initHeroSlider();
     initVideoControls();
@@ -40,6 +40,12 @@ function initHeroSlider() {
   });
   
   startSlideAutoplay();
+  
+  const slider = document.querySelector('.hero-slider-section');
+  if (slider) {
+    slider.addEventListener('mouseenter', stopSlideAutoplay);
+    slider.addEventListener('mouseleave', startSlideAutoplay);
+  }
 }
 
 function goToSlide(index) {
@@ -142,38 +148,35 @@ function toggleMute() {
 loadYouTubeAPI();
 
 // ========================================
-// 3. PRODUTOS EM DESTAQUE - ACESSO DIRETO
+// 3. PRODUTOS EM DESTAQUE
 // ========================================
 
 function loadFeaturedProducts() {
   const track = document.getElementById('products-carousel-track');
   if (!track) {
-    console.error('❌ Track de produtos não encontrado');
+    console.error('❌ Track de produtos não encontrado!');
     return;
   }
   
   console.log('📦 Carregando produtos em destaque...');
   
-  // ACESSO DIRETO ao productsDB (global)
+  // Verifica se productsDB existe
   if (typeof productsDB === 'undefined') {
     console.error('❌ productsDB não está definido!');
-    track.innerHTML = '<div class="error-message">Erro: Banco de produtos não carregado</div>';
+    track.innerHTML = '<div class="error-message">Erro ao carregar produtos</div>';
     return;
   }
   
   console.log('✅ productsDB encontrado com', productsDB.length, 'produtos');
   
-  // Mostra os primeiros produtos no console para debug
-  console.log('Primeiros produtos:', productsDB.slice(0, 3));
-  
   // Filtra produtos com destaque = true
   let featuredProducts = productsDB.filter(p => p.destaque === true);
   
-  console.log('✨ Produtos com destaque:', featuredProducts.length);
+  console.log('✨ Produtos com destaque encontrados:', featuredProducts.length);
   
-  // Se não tiver produtos com destaque, pega os primeiros
+  // Se não tiver produtos com destaque, usa os primeiros
   if (featuredProducts.length === 0) {
-    console.log('📌 Nenhum com destaque, mostrando primeiros 4');
+    console.log('📌 Usando primeiros 4 produtos');
     featuredProducts = productsDB.slice(0, 4);
   } else {
     featuredProducts = featuredProducts.slice(0, 4);
@@ -193,19 +196,13 @@ function renderFeaturedProducts(products) {
   track.innerHTML = products.map(product => {
     const categoriaNome = getCategoriaNome(product.categoria);
     
-    // Usa a primeira imagem se existir, senão gradiente
-    const imagem = product.imagens && product.imagens.length > 0 
-      ? product.imagens[0] 
-      : null;
-    
-    const imageStyle = imagem 
-      ? `background-image: url('${imagem}'); background-size: cover;` 
-      : `background: linear-gradient(145deg, #d9c5b0, #b28b6f);`;
+    // Usa gradiente em vez de imagem (mais confiável)
+    const gradient = `linear-gradient(145deg, #d9c5b0, #b28b6f)`;
     
     return `
       <div class="product-card" onclick="window.location.href='produto.html?id=${product.id}'">
         <span class="product-badge">Destaque</span>
-        <div class="product-image" style="${imageStyle}"></div>
+        <div class="product-image" style="background: ${gradient};"></div>
         <div class="product-info">
           <div class="product-category">${categoriaNome}</div>
           <h3 class="product-title">${product.nome}</h3>
@@ -218,18 +215,20 @@ function renderFeaturedProducts(products) {
     `;
   }).join('');
   
+  console.log('✅ Produtos renderizados:', products.length);
+  
   // Inicializa carrossel
   initProductsCarousel();
 }
 
 // ========================================
-// 4. DEPOIMENTOS - ACESSO DIRETO
+// 4. DEPOIMENTOS
 // ========================================
 
 function loadHomeTestimonials() {
   const track = document.getElementById('testimonials-carousel-track');
   if (!track) {
-    console.error('❌ Track de depoimentos não encontrado');
+    console.error('❌ Track de depoimentos não encontrado!');
     return;
   }
   
@@ -237,7 +236,7 @@ function loadHomeTestimonials() {
   
   if (typeof testimonialsDB === 'undefined') {
     console.error('❌ testimonialsDB não está definido!');
-    track.innerHTML = '<div class="error-message">Erro: Banco de depoimentos não carregado</div>';
+    track.innerHTML = '<div class="error-message">Erro ao carregar depoimentos</div>';
     return;
   }
   
@@ -278,6 +277,8 @@ function renderTestimonials(testimonials) {
     `;
   }).join('');
   
+  console.log('✅ Depoimentos renderizados:', testimonials.length);
+  
   // Inicializa carrossel
   initTestimonialsCarousel();
 }
@@ -314,6 +315,8 @@ function setupCarousel(trackId, prevId, nextId, dotsId) {
   
   const cards = track.children;
   if (cards.length === 0) return;
+  
+  console.log(`🔄 Configurando carrossel ${trackId} com ${cards.length} cards`);
   
   let currentIndex = 0;
   const gap = 20;
