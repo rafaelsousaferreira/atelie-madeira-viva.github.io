@@ -382,6 +382,38 @@ function loadProducts() {
   // Mostra loading
   grid.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Carregando produtos...</div>';
   
+  // ========================================
+// FILTROS CORRIGIDOS
+// ========================================
+
+// Carrega produtos baseado nos filtros (versão corrigida)
+function loadProducts() {
+  const grid = document.getElementById('products-grid');
+  const countElement = document.getElementById('products-total');
+  
+  if (!grid) {
+    console.error('Grid de produtos não encontrado');
+    return;
+  }
+  
+  // Mostra loading
+  grid.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Carregando produtos...</div>';
+  
+  // Pega parâmetros da URL (para filtro por categoria)
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlCategoria = urlParams.get('categoria');
+  
+  // Se veio da home com categoria, aplica o filtro
+  if (urlCategoria && !currentState.categoria) {
+    currentState.categoria = urlCategoria;
+    
+    // Atualiza o select de categoria
+    const categoriaSelect = document.getElementById('categoria-filter');
+    if (categoriaSelect) {
+      categoriaSelect.value = urlCategoria;
+    }
+  }
+  
   // Filtra produtos
   setTimeout(() => {
     let filtered = filterProducts();
@@ -402,35 +434,227 @@ function loadProducts() {
     
     // Renderiza paginação
     renderPagination(filtered.length);
+    
+    // Carrega subcategorias baseado na categoria atual
+    loadSubcategorias();
   }, 300);
 }
 
-// Filtra produtos
+// Filtra produtos (versão corrigida)
 function filterProducts() {
   return productsDB.filter(product => {
     // Filtro de busca
     if (currentState.searchTerm) {
-      const term = currentState.searchTerm.toLowerCase();
+      const term = currentState.searchTerm.toLowerCase().trim();
+      if (term === '') return true;
+      
       const match = product.nome.toLowerCase().includes(term) ||
                    product.descricao.toLowerCase().includes(term) ||
-                   product.tags.some(tag => tag.toLowerCase().includes(term));
+                   (product.tags && product.tags.some(tag => tag.toLowerCase().includes(term)));
       if (!match) return false;
     }
     
     // Filtro de categoria
-    if (currentState.categoria && product.categoria !== currentState.categoria) {
-      return false;
+    if (currentState.categoria && currentState.categoria !== '') {
+      if (product.categoria !== currentState.categoria) {
+        return false;
+      }
     }
     
     // Filtro de subcategoria
-    if (currentState.subcategoria && product.subcategoria !== currentState.subcategoria) {
-      return false;
+    if (currentState.subcategoria && currentState.subcategoria !== '') {
+      if (product.subcategoria !== currentState.subcategoria) {
+        return false;
+      }
     }
     
     return true;
   });
 }
 
+// Event Listeners corrigidos
+function setupEventListeners() {
+  // Busca - submit do formulário
+  const searchForm = document.getElementById('search-form');
+  if (searchForm) {
+    searchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const searchInput = document.getElementById('product-search');
+      if (searchInput) {
+        currentState.searchTerm = searchInput.value;
+        currentState.page = 1;
+        loadProducts();
+        updateActiveFilters();
+      }
+    });
+  }
+  
+  // Categoria - ao mudar
+  const categoriaFilter = document.getElementById('categoria-filter');
+  if (categoriaFilter) {
+    categoriaFilter.addEventListener('change', (e) => {
+      const newCategoria = e.target.value;
+      currentState.categoria = newCategoria;
+      currentState.subcategoria = ''; // Reseta subcategoria
+      currentState.page = 1;
+      
+      // Atualiza URL sem recarregar a página
+      const url = new URL(window.location);
+      if (newCategoria) {
+        url.searchParams.set('categoria', newCategoria);
+      } else {
+        url.searchParams.delete('categoria');
+      }
+      window.history.pushState({}, '', url);
+      
+      loadSubcategorias(); // Recarrega subcategorias
+      loadProducts();
+      updateActiveFilters();
+    });
+  }
+  
+  // Subcategoria - ao mudar
+  const subcategoriaFilter = document.getElementById('subcategoria-filter');
+  if (subcategoriaFilter) {
+    subcategoriaFilter.addEventListener('change', (e) => {
+      currentState.subcategoria = e.target.value;
+      currentState.page = 1;
+      loadProducts();
+      updateActiveFilters();
+    });
+  }
+  
+  // Ordenação - ao mudar
+  const sortFilter = document.getElementById('sort-filter');
+  if (sortFilter) {
+    sortFilter.addEventListener('change', (e) => {
+      currentState.sortBy = e.target.value;
+      loadProducts();
+    });
+  }
+  
+  // Input de busca com debounce
+  const searchInput = document.getElementById('product-search');
+  if (searchInput) {
+    let searchTimeout;
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        currentState.searchTerm = e.target.value;
+        currentState.page = 1;
+        loadProducts();
+        updateActiveFilters();
+      }, 500);
+    });
+  }
+}
+
+// Carrega subcategorias baseado na categoria selecionada (corrigido)
+function loadSubcategorias() {
+  const categoria = currentState.categoria;
+  const subGroup = document.getElementById('subcategoria-group');
+  const subSelect = document.getElementById('subcategoria-filter');
+  
+  if (!subGroup || !subSelect) return;
+  
+  // Se não tem categoria selecionada, esconde o grupo de subcategoria
+  if (!categoria || categoria === '') {
+    subGroup.style.display = 'none';
+    return;
+  }
+  
+  // Filtra produtos da categoria selecionada
+  const produtosDaCategoria = productsDB.filter(p => p.categoria === categoria);
+  
+  // Pega subcategorias únicas
+  const subcategorias = [...new Set(
+    produtosDaCategoria
+      .map(p => p.subcategoria)
+      .filter(Boolean) // Remove null/undefined
+  )];
+  
+  if (subcategorias.length > 0) {
+    subGroup.style.display = 'block';
+    subSelect.innerHTML = '<option value="">Todas as subcategorias</option>' +
+      subcategorias.map(sub => {
+        const nome = getSubcategoriaNome(sub);
+        return `<option value="${sub}" ${currentState.subcategoria === sub ? 'selected' : ''}>${nome}</option>`;
+      }).join('');
+  } else {
+    subGroup.style.display = 'none';
+  }
+}
+
+// Atualiza tags de filtros ativos (corrigido)
+function updateActiveFilters() {
+  const container = document.getElementById('active-filters');
+  if (!container) return;
+  
+  const filters = [];
+  
+  if (currentState.searchTerm && currentState.searchTerm.trim() !== '') {
+    filters.push({
+      type: 'Busca',
+      value: currentState.searchTerm,
+      remove: () => {
+        currentState.searchTerm = '';
+        const input = document.getElementById('product-search');
+        if (input) input.value = '';
+        loadProducts();
+        updateActiveFilters();
+      }
+    });
+  }
+  
+  if (currentState.categoria && currentState.categoria !== '') {
+    filters.push({
+      type: 'Categoria',
+      value: getCategoriaNome(currentState.categoria),
+      remove: () => {
+        currentState.categoria = '';
+        currentState.subcategoria = '';
+        const select = document.getElementById('categoria-filter');
+        if (select) select.value = '';
+        
+        // Remove da URL
+        const url = new URL(window.location);
+        url.searchParams.delete('categoria');
+        window.history.pushState({}, '', url);
+        
+        loadSubcategorias();
+        loadProducts();
+        updateActiveFilters();
+      }
+    });
+  }
+  
+  if (currentState.subcategoria && currentState.subcategoria !== '') {
+    filters.push({
+      type: 'Subcategoria',
+      value: getSubcategoriaNome(currentState.subcategoria),
+      remove: () => {
+        currentState.subcategoria = '';
+        const select = document.getElementById('subcategoria-filter');
+        if (select) select.value = '';
+        loadProducts();
+        updateActiveFilters();
+      }
+    });
+  }
+  
+  if (filters.length === 0) {
+    container.innerHTML = '';
+  } else {
+    container.innerHTML = filters.map(filter => `
+      <span class="filter-tag">
+        ${filter.type}: ${escapeHTML(filter.value)}
+        <button onclick="(${filter.remove})()" aria-label="Remover filtro">
+          <i class="fas fa-times"></i>
+        </button>
+      </span>
+    `).join('');
+  }
+}
 // Renderiza produtos com <img src>
 function renderProducts(grid, products) {
   grid.innerHTML = products.map(product => {
