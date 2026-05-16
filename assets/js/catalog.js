@@ -87,6 +87,7 @@
     }
 
     $grid.innerHTML = pageItems.map(cardHTML).join('');
+    WA.applyImgFallbacks($grid);
     bindCardActions();
     renderPagination(totalPages);
   }
@@ -108,7 +109,7 @@
       '<a class="card" href="produto.html?id=' + p.id + '" aria-label="Ver detalhes de ' + WA.escapeHTML(p.nome) + '">' +
         tags +
         '<div class="card-media">' +
-          '<img src="' + WA.escapeHTML(img) + '" alt="" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=\'' + placeholder + '\';">' +
+          '<img src="' + WA.escapeHTML(img) + '" data-fallback="' + placeholder + '" alt="" loading="lazy" decoding="async">' +
         '</div>' +
         '<div class="card-body">' +
           '<div class="card-cat">' + WA.escapeHTML(WA.getCategoria(p.categoria)) + '</div>' +

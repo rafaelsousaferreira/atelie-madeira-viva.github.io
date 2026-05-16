@@ -103,7 +103,8 @@
     if (!mainEl) return;
     var src = images[currentIdx] || WA.productPlaceholder(product);
     var ph = WA.productPlaceholder(product).replace(/"/g, '&quot;');
-    mainEl.innerHTML = '<img id="main-image" src="' + WA.escapeHTML(src) + '" alt="' + WA.escapeHTML(product.nome) + '" onerror="this.onerror=null;this.src=\'' + ph + '\';">';
+    mainEl.innerHTML = '<img id="main-image" src="' + WA.escapeHTML(src) + '" data-fallback="' + ph + '" alt="' + WA.escapeHTML(product.nome) + '">';
+    WA.applyImgFallbacks(mainEl);
     mainEl.onclick = openZoom;
   }
   function renderThumbs() {
@@ -113,8 +114,9 @@
     var ph = WA.productPlaceholder(product).replace(/"/g, '&quot;');
     thumbsEl.innerHTML = images.map(function (img, i) {
       return '<button type="button" class="gallery-thumb ' + (i === currentIdx ? 'active' : '') + '" data-idx="' + i + '" aria-label="Imagem ' + (i + 1) + '">' +
-             '<img src="' + WA.escapeHTML(img) + '" alt="" loading="lazy" onerror="this.onerror=null;this.src=\'' + ph + '\';"></button>';
+             '<img src="' + WA.escapeHTML(img) + '" data-fallback="' + ph + '" alt="" loading="lazy"></button>';
     }).join('');
+    WA.applyImgFallbacks(thumbsEl);
     thumbsEl.querySelectorAll('[data-idx]').forEach(function (b) {
       b.addEventListener('click', function () {
         currentIdx = parseInt(b.dataset.idx, 10);
@@ -188,13 +190,14 @@
       var ph = WA.productPlaceholder(p).replace(/"/g, '&quot;');
       return '<a class="card" href="produto.html?id=' + p.id + '">' +
         (p.destaque ? '<span class="card-tag tag-rust">Destaque</span>' : '') +
-        '<div class="card-media"><img src="' + WA.escapeHTML(img) + '" alt="" loading="lazy" onerror="this.onerror=null;this.src=\'' + ph + '\';"></div>' +
+        '<div class="card-media"><img src="' + WA.escapeHTML(img) + '" data-fallback="' + ph + '" alt="" loading="lazy"></div>' +
         '<div class="card-body">' +
         '<div class="card-cat">' + WA.escapeHTML(WA.getCategoria(p.categoria)) + '</div>' +
         '<h3>' + WA.escapeHTML(p.nome) + '</h3>' +
         '<div class="card-foot"><div class="card-price">' + WA.formatCurrency(p.preco) + '<small>à vista</small></div></div>' +
         '</div></a>';
     }).join('');
+    WA.applyImgFallbacks(relEl);
   }
 
   // Tudo pronto — mostra conteúdo

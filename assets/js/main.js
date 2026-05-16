@@ -75,6 +75,33 @@ WA.formatCEP = function (raw) {
   return d.slice(0, 5) + '-' + d.slice(5);
 };
 
+/**
+ * Anexa fallback de erro às imagens dentro de `root`, sem usar
+ * `onerror="…"` inline (que é bloqueado por CSP `script-src 'self'`).
+ *
+ * Uso no HTML gerado:
+ *   <img src="..." data-fallback="data:image/svg+xml;..." alt="">
+ *
+ * Depois de inserir o HTML, chame:
+ *   WA.applyImgFallbacks(container);
+ */
+WA.applyImgFallbacks = function (root) {
+  if (!root) root = document;
+  var imgs = root.querySelectorAll('img[data-fallback]');
+  imgs.forEach(function (img) {
+    if (img.dataset.fbBound) return;
+    img.dataset.fbBound = '1';
+    img.addEventListener('error', function handle() {
+      img.removeEventListener('error', handle);
+      img.src = img.dataset.fallback;
+    });
+    // Trata o caso em que o erro já aconteceu antes do listener
+    if (img.complete && img.naturalWidth === 0) {
+      img.src = img.dataset.fallback;
+    }
+  });
+};
+
 /* ---------- UTIL: TOAST ---------- */
 WA.toast = function (message, type) {
   var el = document.getElementById('toast');

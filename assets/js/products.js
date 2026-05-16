@@ -268,7 +268,8 @@ window.SUBCATEGORIAS = {
 };
 
 /* ---------- Helpers expostos ---------- */
-WA = window.WA || {};
+window.WA = window.WA || {};
+var WA = window.WA;
 
 WA.getCategoria = function (k) { return window.CATEGORIAS[k] || k; };
 WA.getSubcategoria = function (k) { return window.SUBCATEGORIAS[k] || k; };
