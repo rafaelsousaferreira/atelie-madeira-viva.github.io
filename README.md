@@ -11,6 +11,8 @@ cg-planejados/
 ├── index.html           Página inicial (hero, sobre, categorias, destaques, depoimentos, orçamento, contato)
 ├── produtos.html        Catálogo com busca, filtros e paginação
 ├── produto.html         Detalhe de um produto (?id=N)
+├── configurador.html    Wizard de orçamento sob medida
+├── madeiras.html        Guia das 7 madeiras (Pinus a Demolição)
 ├── depoimentos.html     Lista e formulário de depoimentos
 ├── 404.html             Página de erro
 ├── sitemap.xml          Sitemap para crawlers de busca
