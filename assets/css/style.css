@@ -1530,3 +1530,357 @@ footer {
   }
   .cfg-cta-visual { order: -1; }
 }
+
+/* =====================================================================
+   PÁGINA DE MADEIRAS — guia das 7 espécies
+   ===================================================================== */
+
+/* HERO */
+.mad-hero {
+  padding: clamp(2.5rem, 5vw, 4.5rem) 0 clamp(2rem, 4vw, 3rem);
+  background: var(--paper);
+}
+.mad-hero h1 {
+  max-width: 14ch;
+  margin: 1.5rem 0 1.25rem;
+  font-size: clamp(2.5rem, 6vw, 4.25rem);
+  line-height: 1.02;
+}
+.mad-hero .lede {
+  max-width: 60ch;
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+}
+
+/* NAVEGAÇÃO DE CHIPS */
+.mad-nav-section {
+  padding: 1.5rem 0 1rem;
+  background: var(--paper-2);
+  border-top: 1px solid rgba(42, 31, 23, 0.08);
+  border-bottom: 1px solid rgba(42, 31, 23, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(8px);
+}
+.mad-nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.mad-nav-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.9rem;
+  background: var(--paper);
+  border: 1px solid rgba(42, 31, 23, 0.1);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  transition: all var(--t-fast);
+  font-family: var(--sans);
+}
+.mad-nav-chip:hover {
+  border-color: var(--rust);
+  color: var(--rust);
+  transform: translateY(-1px);
+}
+.mad-nav-swatch {
+  width: 14px; height: 14px;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+
+/* CARD DE MADEIRA — alterna texto/visual */
+.mad-card {
+  padding: clamp(3rem, 6vw, 5rem) 0;
+  position: relative;
+  scroll-margin-top: 80px; /* compensa nav sticky no anchor scroll */
+}
+.mad-card:nth-child(odd) {
+  background: var(--paper);
+}
+.mad-card:nth-child(even) {
+  background: var(--paper-2);
+}
+.mad-card-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+.mad-card-grid-alt {
+  grid-template-columns: 1fr 360px;
+}
+.mad-card-grid-alt .mad-visual { order: 2; }
+.mad-card-grid-alt .mad-text   { order: 1; }
+@media (max-width: 900px) {
+  .mad-card-grid,
+  .mad-card-grid-alt {
+    grid-template-columns: 1fr;
+  }
+  .mad-card-grid-alt .mad-visual { order: 0; }
+  .mad-card-grid-alt .mad-text   { order: 0; }
+}
+
+/* VISUAL: swatch + meta */
+.mad-visual { position: sticky; top: 100px; }
+@media (max-width: 900px) {
+  .mad-visual { position: static; }
+}
+.mad-swatch-big {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  aspect-ratio: 7 / 5;
+  box-shadow: var(--shadow-lg, 0 8px 24px rgba(42, 31, 23, 0.18));
+  margin-bottom: 1.5rem;
+}
+.mad-swatch-big svg {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+}
+.mad-swatch-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(to top, rgba(42, 31, 23, 0.85), transparent);
+  color: var(--paper);
+}
+.mad-swatch-name {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.1;
+}
+.mad-swatch-cientifico {
+  font-size: 0.78rem;
+  color: rgba(245, 236, 223, 0.78);
+  margin-top: 0.15rem;
+}
+
+.mad-meta-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+.mad-meta-item {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.5rem 0;
+  border-bottom: 1px dotted rgba(42, 31, 23, 0.12);
+}
+.mad-meta-item dt {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+.mad-meta-item dd {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+.mad-stars {
+  display: inline-flex;
+  gap: 0.18rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-3);
+  margin-right: 0.5rem;
+}
+.mad-star.filled { color: var(--rust); }
+.mad-stars-label {
+  font-size: 0.82rem;
+  color: var(--ink-2);
+}
+
+/* TEXTO DA MADEIRA */
+.mad-text { padding-top: 0.5rem; }
+.mad-card-title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin: 0.75rem 0 1.25rem;
+  line-height: 1.15;
+  max-width: 26ch;
+}
+.mad-desc {
+  color: var(--ink-2);
+  line-height: 1.7;
+  margin-bottom: 1.75rem;
+  font-size: 1rem;
+  max-width: 60ch;
+}
+
+/* INDICAÇÃO E EVITAR */
+.mad-use-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 700px) {
+  .mad-use-grid { grid-template-columns: 1fr; }
+}
+.mad-use h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
+}
+.mad-use-good h3 { color: var(--moss); }
+.mad-use-bad  h3 { color: var(--rust); }
+.mad-use ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.mad-use ul li {
+  font-size: 0.92rem;
+  color: var(--ink-2);
+  line-height: 1.5;
+  padding: 0.35rem 0;
+  border-bottom: 1px dotted rgba(42, 31, 23, 0.08);
+}
+.mad-use ul li:last-child { border-bottom: 0; }
+
+/* OBSERVAÇÃO DO ATELIÊ */
+.mad-note {
+  background: var(--paper);
+  border-left: 3px solid var(--rust);
+  padding: 1.25rem 1.25rem 1.25rem 1.5rem;
+  margin-bottom: 1.75rem;
+  border-radius: 0 4px 4px 0;
+}
+.mad-card:nth-child(odd) .mad-note { background: var(--paper-2); }
+.mad-note-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 0.4rem;
+}
+.mad-note p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--ink);
+  margin: 0;
+}
+
+/* CTA NO FIM DO CARD */
+.mad-cta {
+  margin-top: 0.5rem;
+}
+
+/* TABELA COMPARATIVA */
+.mad-table-wrap {
+  overflow-x: auto;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+}
+.mad-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--paper);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  min-width: 600px;
+}
+.mad-table th {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.85rem 1rem;
+  text-align: left;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+.mad-table td {
+  padding: 0.85rem 1rem;
+  font-size: 0.92rem;
+  color: var(--ink);
+  border-bottom: 1px solid rgba(42, 31, 23, 0.06);
+}
+.mad-table tbody tr:last-child td { border-bottom: 0; }
+.mad-table tbody tr:hover { background: var(--paper-2); }
+.mad-table a {
+  color: var(--ink);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  transition: color var(--t-fast);
+}
+.mad-table a:hover { color: var(--rust); }
+.mad-table-swatch {
+  width: 16px; height: 16px;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+}
+.mad-table-dots {
+  letter-spacing: 0.12em;
+  color: var(--rust);
+  font-size: 0.85rem;
+}
+
+/* FAQ */
+.mad-faq {
+  background: var(--paper-2);
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+  transition: all var(--t-fast);
+}
+.mad-faq[open] {
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+.mad-faq summary {
+  padding: 1.1rem 1.25rem;
+  cursor: pointer;
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--ink);
+  position: relative;
+  list-style: none;
+  padding-right: 3rem;
+}
+.mad-faq summary::-webkit-details-marker { display: none; }
+.mad-faq summary::after {
+  content: '+';
+  position: absolute;
+  right: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--rust);
+  transition: transform var(--t-fast);
+}
+.mad-faq[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+.mad-faq p {
+  padding: 0 1.25rem 1.25rem;
+  color: var(--ink-2);
+  line-height: 1.7;
+  margin: 0;
+}
+.mad-faq a { color: var(--rust); font-weight: 500; }
