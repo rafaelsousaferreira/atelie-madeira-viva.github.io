@@ -113,7 +113,7 @@
       <h1 class="hero-title">Móveis em<br><em>madeira maciça</em><br>feitos <span class="underline">à mão</span>.</h1>
       <p class="hero-lede">Mesas, tábuas, prateleiras, balcões — cada peça sai do nosso ateliê com o tempo e o cuidado que o ofício exige. Madeira de qualidade, encaixes precisos, acabamento à mão.</p>
       <div class="hero-actions">
-        <a href="#orcamento" class="btn btn-primary">Solicitar orçamento
+        <a href="configurador.html" class="btn btn-primary">Monte seu orçamento
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
         <a href="produtos.html" class="btn btn-ghost">Ver catálogo</a>
@@ -352,6 +352,60 @@
       <div class="testi-grid" id="home-testimonials"></div>
       <div style="margin-top:2.5rem;text-align:center;">
         <a href="depoimentos.html" class="btn btn-ghost">Ler todos os depoimentos</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== CONFIGURADOR (CTA) =================== -->
+  <section class="section" style="padding-bottom:3rem;">
+    <div class="container">
+      <div class="cfg-cta">
+        <div class="cfg-cta-text">
+          <div class="eyebrow">Novo: orçamento em 1 minuto</div>
+          <h2>Não sabe ainda<br>o que vai pedir?</h2>
+          <p class="lede" style="margin-top:1rem;">Use o configurador. Escolha tipo, madeira, acabamento e prazo — recebe uma estimativa de preço imediata e envia tudo pelo WhatsApp já preenchido.</p>
+          <div style="margin-top:1.75rem;">
+            <a href="configurador.html" class="btn btn-primary">Abrir configurador
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="cfg-cta-visual" aria-hidden="true">
+          <!-- Mini-preview ilustrativo do configurador -->
+          <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="ctaWood" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#a8784e"/>
+                <stop offset="1" stop-color="#6a4626"/>
+              </linearGradient>
+            </defs>
+            <rect width="400" height="320" fill="#ede0cb" rx="3"/>
+            <!-- progress bar mock -->
+            <circle cx="60" cy="50" r="14" fill="#a8552a"/>
+            <text x="60" y="55" text-anchor="middle" fill="#f5ecdf" font-family="Georgia,serif" font-size="14" font-weight="600">1</text>
+            <line x1="74" y1="50" x2="126" y2="50" stroke="#a8552a" stroke-width="2"/>
+            <circle cx="140" cy="50" r="14" fill="#a8552a"/>
+            <text x="140" y="55" text-anchor="middle" fill="#f5ecdf" font-family="Georgia,serif" font-size="14" font-weight="600">2</text>
+            <line x1="154" y1="50" x2="206" y2="50" stroke="rgba(42,31,23,0.15)" stroke-width="2"/>
+            <circle cx="220" cy="50" r="14" fill="#f5ecdf" stroke="rgba(42,31,23,0.15)" stroke-width="2"/>
+            <text x="220" y="55" text-anchor="middle" fill="#7a6249" font-family="Georgia,serif" font-size="14" font-weight="600">3</text>
+            <line x1="234" y1="50" x2="286" y2="50" stroke="rgba(42,31,23,0.15)" stroke-width="2"/>
+            <circle cx="300" cy="50" r="14" fill="#f5ecdf" stroke="rgba(42,31,23,0.15)" stroke-width="2"/>
+            <text x="300" y="55" text-anchor="middle" fill="#7a6249" font-family="Georgia,serif" font-size="14" font-weight="600">4</text>
+            <!-- card destacado -->
+            <rect x="40" y="100" width="160" height="100" rx="3" fill="#fffaf3" stroke="#a8552a" stroke-width="2"/>
+            <rect x="60" y="120" width="60" height="40" rx="2" fill="url(#ctaWood)"/>
+            <text x="60" y="180" fill="#2a1f17" font-family="Georgia,serif" font-size="14" font-weight="500">Mesa</text>
+            <!-- outros cards -->
+            <rect x="220" y="100" width="140" height="100" rx="3" fill="#fffaf3" stroke="rgba(42,31,23,0.1)"/>
+            <rect x="240" y="120" width="50" height="40" rx="2" fill="#a8784e" opacity="0.5"/>
+            <text x="240" y="180" fill="#7a6249" font-family="Georgia,serif" font-size="14">Estante</text>
+            <!-- caixa de preço -->
+            <rect x="40" y="220" width="320" height="60" rx="3" fill="#2a1f17"/>
+            <text x="200" y="245" text-anchor="middle" fill="#c89456" font-family="Manrope,sans-serif" font-size="9" font-weight="600" letter-spacing="3">ESTIMATIVA</text>
+            <text x="200" y="268" text-anchor="middle" fill="#f5ecdf" font-family="Georgia,serif" font-size="20" font-weight="500">R$ 1.800 a R$ 2.400</text>
+          </svg>
+        </div>
       </div>
     </div>
   </section>
