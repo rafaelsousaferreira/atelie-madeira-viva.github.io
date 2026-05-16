@@ -1150,3 +1150,383 @@ footer {
   }
   .fab-wa::before { display: none; }
 }
+
+/* =====================================================================
+   CONFIGURADOR DE ORÇAMENTO — wizard de etapas
+   ===================================================================== */
+.cfg-hero {
+  padding: clamp(3rem, 6vw, 5rem) 0 0;
+  text-align: center;
+}
+.cfg-hero h1 { max-width: 18ch; margin: 1.5rem auto 1rem; }
+.cfg-hero .lede { margin: 0 auto 2rem; max-width: 56ch; }
+
+#configurador {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 2rem clamp(1rem, 4vw, 2rem) 5rem;
+}
+
+/* PROGRESS BAR */
+.cfg-progress {
+  position: relative;
+  margin-bottom: 2.5rem;
+  padding-top: 0.5rem;
+}
+.cfg-progress-bar {
+  position: absolute;
+  top: 1.6rem; left: 1rem; right: 1rem;
+  height: 2px;
+  background: var(--rust);
+  transition: width 0.4s var(--ease);
+  z-index: 0;
+  border-radius: 1px;
+}
+.cfg-progress::before {
+  content: '';
+  position: absolute;
+  top: 1.6rem; left: 1rem; right: 1rem;
+  height: 2px;
+  background: rgba(42, 31, 23, 0.12);
+  z-index: -1;
+  border-radius: 1px;
+}
+.cfg-steps {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+.cfg-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 1;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ink-3);
+}
+.cfg-step-num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 2px solid rgba(42, 31, 23, 0.15);
+  display: grid;
+  place-items: center;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink-3);
+  transition: all var(--t-fast);
+}
+.cfg-step.current .cfg-step-num {
+  background: var(--rust);
+  border-color: var(--rust);
+  color: var(--paper);
+  transform: scale(1.1);
+}
+.cfg-step.done .cfg-step-num {
+  background: var(--rust);
+  border-color: var(--rust);
+  color: var(--paper);
+}
+.cfg-step.current,
+.cfg-step.done { color: var(--ink); }
+@media (max-width: 600px) {
+  .cfg-step-label { display: none; }
+  .cfg-progress { padding-top: 0; }
+  .cfg-progress-bar, .cfg-progress::before { top: 1rem; }
+}
+
+/* CONTENT */
+.cfg-content {
+  background: var(--paper-2);
+  border-radius: 4px;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+}
+.cfg-title {
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  margin-bottom: 0.5rem;
+}
+.cfg-help {
+  color: var(--ink-2);
+  max-width: 58ch;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+.cfg-aside {
+  font-size: 0.85rem;
+  color: var(--ink-3);
+  margin-top: 1.5rem;
+}
+
+/* CARD GRID */
+.cfg-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.85rem;
+}
+.cfg-cards-2 { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.cfg-cards-3 { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+
+.cfg-card {
+  background: var(--paper);
+  border: 2px solid transparent;
+  border-radius: 4px;
+  padding: 1.25rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: all var(--t-fast);
+  font-family: inherit;
+  color: var(--ink);
+}
+.cfg-card:hover {
+  border-color: rgba(168, 85, 42, 0.4);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+.cfg-card.selected {
+  border-color: var(--rust);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(168, 85, 42, 0.18);
+}
+.cfg-card-icon {
+  color: var(--ink);
+  width: 56px; height: 56px;
+}
+.cfg-card-icon svg { width: 100%; height: 100%; }
+.cfg-card.selected .cfg-card-icon { color: var(--rust); }
+.cfg-card-name {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+.cfg-card-desc, .cfg-card-hint {
+  font-size: 0.85rem;
+  color: var(--ink-3);
+  line-height: 1.4;
+}
+.cfg-card-small {
+  text-align: center;
+  align-items: center;
+  padding: 1.5rem 1rem;
+}
+.cfg-card-small .cfg-card-name { font-size: 1.1rem; }
+
+/* MADEIRAS — layout horizontal com swatch */
+.cfg-madeiras {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.85rem;
+}
+.cfg-madeira {
+  background: var(--paper);
+  border: 2px solid transparent;
+  border-radius: 4px;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--t-fast);
+  font-family: inherit;
+  color: var(--ink);
+}
+.cfg-madeira:hover {
+  border-color: rgba(168, 85, 42, 0.4);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+.cfg-madeira.selected {
+  border-color: var(--rust);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(168, 85, 42, 0.18);
+}
+.cfg-madeira-swatch {
+  width: 64px; height: 64px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+}
+.cfg-madeira-swatch svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cfg-madeira-nome {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+.cfg-madeira-desc {
+  font-size: 0.85rem;
+  color: var(--ink-3);
+  line-height: 1.4;
+}
+
+/* RESUMO */
+.cfg-resumo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(42, 31, 23, 0.12);
+}
+@media (max-width: 700px) {
+  .cfg-resumo { grid-template-columns: 1fr; }
+}
+.cfg-resumo-itens {
+  display: grid;
+  gap: 0.5rem;
+}
+.cfg-resumo-item {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  align-items: baseline;
+  padding: 0.5rem 0;
+  border-bottom: 1px dotted rgba(42, 31, 23, 0.08);
+}
+.cfg-resumo-item dt {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+.cfg-resumo-item dd {
+  margin: 0;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.cfg-price-box {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 1.5rem 1.25rem;
+  border-radius: 4px;
+  text-align: center;
+}
+.cfg-price-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--amber);
+  margin-bottom: 0.6rem;
+}
+.cfg-price-range {
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 3vw, 1.75rem);
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 0.6rem;
+}
+.cfg-price-range span {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: rgba(245, 236, 223, 0.65);
+  margin: 0 0.2rem;
+}
+.cfg-price-note {
+  font-size: 0.78rem;
+  color: rgba(245, 236, 223, 0.78);
+  line-height: 1.5;
+  max-width: 32ch;
+  margin: 0 auto;
+}
+
+.cfg-form {
+  display: grid;
+  gap: 1rem;
+}
+.cfg-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 600px) {
+  .cfg-form-row { grid-template-columns: 1fr; }
+}
+.cfg-field label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.4rem;
+  color: var(--ink);
+}
+.cfg-field .req { color: var(--rust); }
+.cfg-field input, .cfg-field textarea {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid rgba(42, 31, 23, 0.2);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--ink);
+  font-size: 0.95rem;
+  font-family: var(--sans);
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+.cfg-field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+.cfg-field input:focus, .cfg-field textarea:focus {
+  outline: none;
+  border-color: var(--rust);
+  box-shadow: 0 0 0 3px rgba(168, 85, 42, 0.15);
+}
+
+/* NAV BUTTONS */
+.cfg-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.cfg-nav .btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.cfg-nav .btn-wa { padding: 1rem 1.5rem; }
+
+/* CTA do configurador na home */
+.cfg-cta {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  background: var(--paper-2);
+  padding: clamp(2rem, 5vw, 4rem);
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+}
+.cfg-cta-text h2 {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  line-height: 1.05;
+}
+.cfg-cta-visual {
+  border-radius: 4px;
+  overflow: hidden;
+}
+.cfg-cta-visual svg {
+  width: 100%; height: auto;
+  display: block;
+}
+@media (max-width: 800px) {
+  .cfg-cta {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: left;
+  }
+  .cfg-cta-visual { order: -1; }
+}
