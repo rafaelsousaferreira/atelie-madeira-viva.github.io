@@ -1,5 +1,5 @@
 /* =====================================================================
-   WOOD & ART — catalog.js
+   C&G PLANEJADOS — catalog.js
    Lógica da página de catálogo: busca, filtros, paginação.
    Usa addEventListener (nunca onclick="${func}") — sem eval implícito.
    ===================================================================== */

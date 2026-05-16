@@ -1,5 +1,5 @@
 /* =====================================================================
-   WOOD & ART — testimonials.js
+   C&G PLANEJADOS — testimonials.js
    Depoimentos de clientes. O envio de novo depoimento abre o WhatsApp
    com a mensagem formatada (assim você modera antes de publicar).
    Em site estático isso é o caminho honesto — não dá pra "salvar" no servidor.

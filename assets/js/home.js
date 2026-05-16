@@ -1,5 +1,5 @@
 /* =====================================================================
-   WOOD & ART — home.js
+   C&G PLANEJADOS — home.js
    Render dos produtos em destaque na página inicial.
    ===================================================================== */
 'use strict';

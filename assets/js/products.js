@@ -1,5 +1,5 @@
 /* =====================================================================
-   WOOD & ART — products.js
+   C&G PLANEJADOS — products.js
    Banco de produtos. Estrutura preservada do site original.
    ===================================================================== */
 'use strict';

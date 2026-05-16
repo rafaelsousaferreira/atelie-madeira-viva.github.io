@@ -1,5 +1,5 @@
 /* =====================================================================
-   WOOD & ART — main.js
+   C&G PLANEJADOS — main.js
    Utilitários compartilhados, navegação, formulário de orçamento.
    Modo estrito; sem dependências externas; sem eval/innerHTML com user input.
    ===================================================================== */
@@ -12,8 +12,8 @@ WA.config = {
   // Formato internacional sem traços/espaços (único aceito por wa.me).
   // Para alterar, edite ESTE valor — único lugar.
   whatsappNumber: '5571981804578',
-  businessName: 'Wood & Art',
-  businessEmail: 'contato@woodeart.com.br',
+  businessName: 'C&G Planejados',
+  businessEmail: 'contato@cgplanejados.com.br',
 };
 
 /* ---------- UTIL: SANITIZAÇÃO E ESCAPE ---------- */
