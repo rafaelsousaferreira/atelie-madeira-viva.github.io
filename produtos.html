@@ -1,164 +1,93 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Produtos - Wood & Art</title>
-  <meta name="description" content="Conheça nossa linha completa de produtos artesanais em madeira, gesso e argamassa">
-  
-  <!-- CSS Global e Específico -->
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/produtos.css">
-  
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2a1f17">
+<meta name="description" content="Catálogo Wood &amp; Art — móveis, utensílios, organização, jardinagem e decoração em madeira maciça artesanal.">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Catálogo — Wood &amp; Art</title>
+
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232a1f17'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='600' fill='%23f5ecdf' text-anchor='middle' font-style='italic'%3EW%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-  <!-- WhatsApp Flutuante -->
-  <div class="whatsapp-float">
-    <a href="https://wa.me/557181804578?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20produtos" 
-       target="_blank" 
-       rel="noopener noreferrer">
-      <i class="fab fa-whatsapp"></i>
-    </a>
+<a href="#main" class="skip-link">Pular para o conteúdo</a>
+
+<div id="nav-slot" data-active="produtos"></div>
+
+<nav class="crumb" aria-label="Breadcrumb">
+  <div class="container">
+    <a href="index.html">Início</a> &rsaquo; <span>Catálogo</span>
   </div>
+</nav>
 
-  <!-- HEADER -->
-  <header>
-    <nav class="navbar">
-      <div class="nav-container">
-        <a href="index.html" class="logo">
-          <i class="fas fa-tree"></i>
-          <span>Wood & Art</span>
-        </a>
-        
-        <button class="mobile-menu-btn" aria-label="Menu">
-          <i class="fas fa-bars"></i>
-        </button>
-        
-        <ul class="menu">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="produtos.html" class="active">Produtos</a></li>
-          <li><a href="depoimentos.html">Depoimentos</a></li>
-          <li><a href="index.html#orcamento">Orçamento</a></li>
-          <li><a href="index.html#contato">Contato</a></li>
-        </ul>
+<main id="main">
+  <section class="section" style="padding-top:3rem;padding-bottom:2rem;">
+    <div class="container">
+      <div class="section-head" style="margin-bottom:2.5rem;">
+        <div class="eyebrow">Catálogo</div>
+        <h2>Todas as peças do ateliê.</h2>
+        <p class="lede">Peças prontas ou de referência para encomendas sob medida. Cada produto pode ser personalizado em madeira, tamanho e acabamento.</p>
       </div>
-    </nav>
-  </header>
 
-  <main>
-    <!-- Breadcrumb -->
-    <div class="breadcrumb">
-      <div class="container">
-        <a href="index.html">Home</a> &gt; 
-        <span>Produtos</span>
+      <form id="search-form" class="filters" role="search" aria-label="Filtrar produtos">
+        <div class="filter-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="search" id="product-search" placeholder="Buscar peça, material, tag…" aria-label="Buscar produtos" autocomplete="off">
+        </div>
+
+        <select id="categoria-filter" class="filter" aria-label="Filtrar por categoria">
+          <option value="">Todas as categorias</option>
+          <option value="utensilios">Utensílios</option>
+          <option value="mobiliario">Mobiliário</option>
+          <option value="organizacao">Organização</option>
+          <option value="jardinagem">Jardinagem</option>
+          <option value="decoracao">Decoração</option>
+          <option value="plantas-vivas">Plantas Vivas</option>
+        </select>
+
+        <div id="subcategoria-group" style="display:none;">
+          <select id="subcategoria-filter" class="filter" aria-label="Filtrar por subcategoria"></select>
+        </div>
+
+        <select id="sort-filter" class="filter" aria-label="Ordenar">
+          <option value="destaque">Em destaque</option>
+          <option value="nome-asc">Nome A–Z</option>
+          <option value="nome-desc">Nome Z–A</option>
+          <option value="preco-asc">Menor preço</option>
+          <option value="preco-desc">Maior preço</option>
+        </select>
+      </form>
+
+      <div id="active-filters" style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.5rem;"></div>
+
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.25rem;font-size:0.92rem;color:var(--ink-3);">
+        <span><span id="products-total">0</span> peças encontradas</span>
       </div>
+
+      <div class="grid" id="products-grid">
+        <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--ink-3);">Carregando…</div>
+      </div>
+
+      <div id="pagination" style="display:flex;gap:0.4rem;justify-content:center;flex-wrap:wrap;margin-top:3rem;"></div>
     </div>
+  </section>
+</main>
 
-    <!-- Título da Página -->
-    <section class="page-header">
-      <h1>Nossos Produtos</h1>
-      <p>Peças únicas feitas à mão com madeira de reflorestamento e materiais sustentáveis</p>
-    </section>
+<div id="footer-slot"></div>
+<div id="fab-slot"></div>
 
-    <!-- Barra de Pesquisa e Filtros -->
-    <section class="products-toolbar">
-      <div class="container">
-        <div class="search-bar">
-          <form id="search-form" role="search">
-            <div class="search-wrapper">
-              <i class="fas fa-search"></i>
-              <input type="search" 
-                     id="product-search" 
-                     placeholder="Buscar produtos..." 
-                     aria-label="Buscar produtos"
-                     autocomplete="off">
-              <button type="submit" class="search-btn">Buscar</button>
-            </div>
-          </form>
-        </div>
-        
-        <div class="filters-bar">
-          <div class="filter-group">
-            <label for="categoria-filter">Categoria:</label>
-            <select id="categoria-filter" class="filter-select">
-              <option value="">Todas as categorias</option>
-              <option value="utensilios">Utensílios</option>
-              <option value="mobiliario">Mobiliário</option>
-              <option value="organizacao">Organização</option>
-              <option value="jardinagem">Jardinagem</option>
-              <option value="decoracao">Decoração</option>
-              <option value="plantas-vivas">Plantas Vivas</option>
-            </select>
-          </div>
-          
-          <div class="filter-group" id="subcategoria-group" style="display: none;">
-            <label for="subcategoria-filter">Subcategoria:</label>
-            <select id="subcategoria-filter" class="filter-select">
-              <option value="">Todas as subcategorias</option>
-            </select>
-          </div>
-          
-          <div class="filter-group">
-            <label for="sort-filter">Ordenar:</label>
-            <select id="sort-filter" class="filter-select">
-              <option value="recentes">Mais recentes</option>
-              <option value="nome-asc">Nome (A-Z)</option>
-              <option value="nome-desc">Nome (Z-A)</option>
-            </select>
-          </div>
-        </div>
-        
-        <div class="active-filters" id="active-filters"></div>
-      </div>
-    </section>
-
-    <!-- Grid de Produtos -->
-    <section class="products-grid-section">
-      <div class="container">
-        <div class="products-count" id="products-count">
-          <span id="products-total">0</span> produtos encontrados
-        </div>
-        
-        <div class="products-grid" id="products-grid">
-          <!-- Loading inicial -->
-          <div class="loading-spinner">
-            <i class="fas fa-spinner fa-spin"></i> Carregando produtos...
-          </div>
-        </div>
-        
-        <!-- Paginação -->
-        <div class="pagination" id="pagination"></div>
-      </div>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-content">
-      <div class="footer-logo">
-        <i class="fas fa-tree"></i> Wood & Art
-      </div>
-      <div class="footer-info">
-        <p>© 2026 Todos os direitos reservados</p>
-      </div>
-      <div class="footer-links">
-        <a href="index.html">Home</a> | 
-        <a href="produtos.html">Produtos</a> | 
-        <a href="depoimentos.html">Depoimentos</a> | 
-        <a href="index.html#contato">Contato</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Scripts -->
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/produtos.js"></script>
+<script src="assets/js/products.js"></script>
+<script src="assets/js/partials.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/catalog.js"></script>
 </body>
 </html>

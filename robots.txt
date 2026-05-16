@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap (descomente quando tiver):
+# Sitemap: https://woodeart.com.br/sitemap.xml

@@ -1,355 +1,131 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Produto - Wood & Art</title>
-  <meta name="description" content="Detalhes do produto artesanal">
-  
-  <!-- CSS -->
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/produtos.css">
-  <link rel="stylesheet" href="assets/css/produto.css">
-  
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2a1f17">
+<meta name="description" content="Detalhes da peça — Wood &amp; Art.">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Produto — Wood &amp; Art</title>
+
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232a1f17'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='600' fill='%23f5ecdf' text-anchor='middle' font-style='italic'%3EW%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-  <!-- WhatsApp Flutuante -->
-  <div class="whatsapp-float">
-    <a href="https://wa.me/557181804578" 
-       target="_blank" 
-       rel="noopener noreferrer">
-      <i class="fab fa-whatsapp"></i>
-    </a>
-  </div>
+<a href="#main" class="skip-link">Pular para o conteúdo</a>
 
-  <!-- HEADER -->
-  <header>
-    <nav class="navbar">
-      <div class="nav-container">
-        <a href="index.html" class="logo">
-          <i class="fas fa-tree"></i>
-          <span>Wood & Art</span>
-        </a>
-        
-        <button class="mobile-menu-btn" aria-label="Menu">
-          <i class="fas fa-bars"></i>
-        </button>
-        
-        <ul class="menu">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="produtos.html">Produtos</a></li>
-          <li><a href="depoimentos.html">Depoimentos</a></li>
-          <li><a href="index.html#orcamento">Orçamento</a></li>
-          <li><a href="index.html#contato">Contato</a></li>
-        </ul>
-      </div>
-    </nav>
-  </header>
+<div id="nav-slot" data-active="produtos"></div>
 
-  <main>
-    <!-- Breadcrumb -->
-    <div class="breadcrumb">
-      <div class="container">
-        <a href="index.html">Home</a> &gt; 
-        <a href="produtos.html">Produtos</a> &gt;
-        <span id="product-name-breadcrumb">Carregando...</span>
-      </div>
-    </div>
-
-    <!-- Loading -->
-    <div id="loading" class="product-loading">
-      <i class="fas fa-spinner fa-spin"></i> Carregando produto...
-    </div>
-
-    <!-- Conteúdo do Produto (inicialmente oculto) -->
-    <div id="product-content" style="display: none;">
-      <!-- Seção do Produto -->
-      <section class="product-detail">
-        <div class="container">
-          <div class="product-detail-grid">
-            <!-- Galeria de Imagens -->
-            <div class="product-gallery">
-              <div class="main-image-container">
-                <img id="main-image" src="" alt="Imagem principal" class="main-image">
-                <button class="zoom-btn" id="zoom-btn">
-                  <i class="fas fa-search-plus"></i>
-                </button>
-              </div>
-              
-              <div class="thumbnail-slider" id="thumbnail-slider">
-                <!-- Thumbnails serão inseridos via JS -->
-              </div>
-            </div>
-            
-            <!-- Informações do Produto -->
-            <div class="product-info-detail">
-              <div class="product-header">
-                <span class="product-category-detail" id="product-category"></span>
-                <h1 id="product-title" class="product-title-detail"></h1>
-                
-                <div class="product-tags-detail" id="product-tags"></div>
-              </div>
-              
-              <div class="product-price-box">
-                <div class="product-price-detail" id="product-price"></div>
-                <div class="product-installments" id="product-installments"></div>
-                <div class="product-stock" id="product-stock"></div>
-              </div>
-
-              <div class="product-actions">
-                <button class="btn-product-large btn-whatsapp" id="btn-orcamento">
-                  <i class="fab fa-whatsapp"></i> Solicitar Orçamento
-                </button>
-                
-                <a href="#" id="btn-mercado-livre" class="btn-product-large btn-mercado-livre" target="_blank" rel="noopener noreferrer">
-                  <i class="fas fa-store"></i> Ver no Mercado Livre
-                </a>  
-              </div>
-              
-              <div class="product-description-detail">
-                <h3>Descrição do produto</h3>
-                <div id="product-description"></div>
-              </div>
-              <div class="product-specs" id="product-specs"></div>
-                <!-- Seção de Avaliações Komentas -->
-<section class="product-reviews-section">
+<nav class="crumb" aria-label="Breadcrumb">
   <div class="container">
-    <h2 class="section-title"><span>💬 Avaliações dos Clientes</span></h2>
-    
-    <!-- Loading -->
-    <div id="komentas-loading" class="komentas-loading">
-      <i class="fas fa-spinner fa-spin"></i> Carregando avaliações...
-    </div>
-    
-    <!-- Mensagem de erro (invisível inicialmente) -->
-    <div id="komentas-error" class="komentas-error" style="display: none;">
-      <i class="fas fa-exclamation-triangle"></i>
-      <span>Não foi possível carregar as avaliações. Tente novamente mais tarde.</span>
-    </div>
-    
-    <!-- Container do Widget -->
-    <div id="komentas-widget"></div>
+    <a href="index.html">Início</a> &rsaquo;
+    <a href="produtos.html">Catálogo</a> &rsaquo;
+    <span id="product-name-breadcrumb">Carregando…</span>
   </div>
-</section>
+</nav>
 
-<!-- Script do Komentas com configurações anônimas -->
-<script>
-(function() {
-  // Função para carregar o Komentas
-  function loadKomentas() {
-    // Mostrar loading
-    const loadingEl = document.getElementById('komentas-loading');
-    const errorEl = document.getElementById('komentas-error');
-    const widgetEl = document.getElementById('komentas-widget');
-    
-    if (!widgetEl) return;
-    
-    // Gerar versão com cache-busting
-    const v = new Date().toISOString().slice(0,13).replace(/[-T:]/g,'') + '00';
-    
-    // Criar e carregar script
-    const script = document.createElement('script');
-    script.src = 'https://cdn.komentas.com/komentas-widget.umd.js?v=' + v;
-    
-    script.onload = function() {
-      // Garantir que o widget existe
-      if (!window.KomentasWidget) {
-        console.error('KomentasWidget não carregou');
-        if (loadingEl) loadingEl.style.display = 'none';
-        if (errorEl) errorEl.style.display = 'block';
-        return;
-      }
-      
-      // Configuração FORÇANDO anonimato
-      const config = {
-        apiUrl: 'https://api.komentas.com',
-        portalUrl: 'https://portal.komentas.com',
-        projectId: '882248f3-f36f-4c8c-b578-640fc0852d53', // ← SUBSTITUA
-        
-        // Dados da página
-        articleUrl: window.location.href,
-        articleTitle: document.title,
-        articleId: `produto-${currentProduct?.id || 'unknown'}`,
-        
-        // Tema
-        theme: {
-          backgroundColor: '#fef9f2',
-          primaryColor: '#b28b6f',
-          textColor: '#3e2e23',
-          borderRadius: '20px',
-          fontFamily: "'Inter', sans-serif"
-        },
-        
-        // ===== CONFIGURAÇÕES CRÍTICAS PARA ANONIMATO =====
-        allowAnonymous: true,                 // Permite anônimos
-        requireLogin: false,                  // NÃO requer login
-        enableAuthentication: false,           // Desabilita autenticação
-        forceLogin: false,                     // NÃO força login
-        allowGuestComments: true,               // Permite comentários como convidado
-        guestNamePlaceholder: 'Seu nome (opcional)', // Placeholder para nome
-        askForName: true,                       // Pergunta nome mas não obriga
-        askForEmail: false,                      // Não pergunta email
-        requireEmail: false,                     // Email não obrigatório
-        enableVerification: false,                // Sem verificação
-        
-        // Outras configurações
-        enableReactions: true,
-        reactionsOnlyMode: false,
-        showArticleReactions: true,
-        availableEmotions: ["like", "dislike", "love", "laugh"],
-        
-        // Ratings com estrelas
-        enableStarRatings: true,
-        starRatingDisplayMode: 'large',
-        allowStarRatingUpdate: false,
-        enableCommentStarRatings: true,
-        commentStarRatingDisplayMode: 'compact',
-        allowCommentStarRatingUpdate: false,
-        
-        // Comentários
-        maxCommentLength: 500,
-        sortBy: 'popular',
-        showLogoutButton: false,  // Esconder botão de logout
-        
-        // Callbacks
-        onLoad: function() {
-          console.log('✅ Komentas carregado com sucesso (modo anônimo)');
-          if (loadingEl) loadingEl.style.display = 'none';
-          if (errorEl) errorEl.style.display = 'none';
-        },
-        
-        onError: function(error) {
-          console.error('❌ Erro no Komentas:', error);
-          if (loadingEl) loadingEl.style.display = 'none';
-          if (errorEl) {
-            errorEl.style.display = 'block';
-            errorEl.querySelector('span').textContent = 
-              'Erro ao carregar avaliações. Tente novamente mais tarde.';
-          }
-        },
-        
-        // Evento quando um comentário é enviado
-        onCommentSubmitted: function(comment) {
-          console.log('Comentário enviado com sucesso:', comment);
-        }
-      };
-      
-      // Inicializar
-      window.KomentasWidget.init(config);
-    };
-    
-    script.onerror = function() {
-      console.error('❌ Erro ao carregar script do Komentas');
-      if (loadingEl) loadingEl.style.display = 'none';
-      if (errorEl) {
-        errorEl.style.display = 'block';
-        errorEl.querySelector('span').textContent = 
-          'Erro de rede ao carregar avaliações. Verifique sua conexão.';
-      }
-    };
-    
-    document.head.appendChild(script);
-  }
-  
-  // Aguardar o produto carregar
-  function waitForProduct() {
-    if (window.currentProduct || document.querySelector('.product-title-detail')) {
-      loadKomentas();
-    } else {
-      setTimeout(waitForProduct, 200);
-    }
-  }
-  
-  // Iniciar
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', waitForProduct);
-  } else {
-    waitForProduct();
-  }
-})();
-</script>          
-              
-              
-              
-              
-              
-              <div class="product-share">
-                <span>Compartilhar:</span>
-                <button class="share-btn" onclick="shareProduct('facebook')" aria-label="Compartilhar no Facebook">
-                  <i class="fab fa-facebook-f"></i>
-                </button>
-                <button class="share-btn" onclick="shareProduct('twitter')" aria-label="Compartilhar no Twitter">
-                  <i class="fab fa-twitter"></i>
-                </button>
-                <button class="share-btn" onclick="shareProduct('pinterest')" aria-label="Compartilhar no Pinterest">
-                  <i class="fab fa-pinterest"></i>
-                </button>
-                <button class="share-btn" onclick="shareProduct('whatsapp')" aria-label="Compartilhar no WhatsApp">
-                  <i class="fab fa-whatsapp"></i>
-                </button>
-                <button class="share-btn" onclick="copyLink()" aria-label="Copiar link">
-                  <i class="fas fa-link"></i>
-                </button>
-              </div>
-            </div>
+<main id="main">
+  <div id="loading" style="text-align:center;padding:6rem 2rem;color:var(--ink-3);">
+    <p style="font-family:var(--serif);font-size:1.6rem;color:var(--ink);">Carregando peça…</p>
+  </div>
+
+  <div id="product-content" style="display:none;">
+    <div class="container">
+      <div class="product-detail">
+        <!-- Galeria -->
+        <div>
+          <div class="gallery-main" id="gallery-main" role="button" tabindex="0" aria-label="Ampliar imagem"></div>
+          <div class="gallery-thumbs" id="gallery-thumbs"></div>
+        </div>
+
+        <!-- Info -->
+        <div>
+          <div class="product-meta" id="product-category"></div>
+          <h1 class="product-title" id="product-title"></h1>
+          <div class="product-tags" id="product-tags"></div>
+
+          <div class="price-box">
+            <div class="price" id="product-price"></div>
+            <div class="installments" id="product-installments"></div>
+            <div class="stock" id="product-stock"></div>
+            <div class="delivery-info" id="delivery-info"></div>
+          </div>
+
+          <div class="product-actions">
+            <button type="button" id="btn-quote" class="btn btn-wa">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.9 1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-1.9-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2.1-.4 0-.5C9.3 9 8.8 7.6 8.6 7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 .9-1 2.3s1 2.7 1.1 2.8c.1.2 2 3 4.8 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.3c1.4.7 3 1.1 4.7 1.1 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+              Solicitar pelo WhatsApp
+            </button>
+            <a href="#" id="btn-ml" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+              Ver no Mercado Livre
+            </a>
+          </div>
+
+          <div class="description">
+            <h3>Sobre esta peça</h3>
+            <div id="product-description"></div>
+          </div>
+
+          <h3 style="font-family:var(--sans);font-size:0.82rem;letter-spacing:0.16em;text-transform:uppercase;margin:2rem 0 1rem;color:var(--ink-3);font-weight:600;">Especificações</h3>
+          <div class="specs" id="product-specs"></div>
+
+          <div class="share">
+            <span class="share-label">Compartilhar</span>
+            <button type="button" class="card-btn" data-share="whatsapp" aria-label="Compartilhar no WhatsApp">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.9 1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-1.9-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2.1-.4 0-.5C9.3 9 8.8 7.6 8.6 7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 .9-1 2.3s1 2.7 1.1 2.8c.1.2 2 3 4.8 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.3c1.4.7 3 1.1 4.7 1.1 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+            </button>
+            <button type="button" class="card-btn" data-share="facebook" aria-label="Compartilhar no Facebook">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </button>
+            <button type="button" class="card-btn" data-share="twitter" aria-label="Compartilhar no Twitter">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.8a8.5 8.5 0 0 1-2.4.7 4.1 4.1 0 0 0 1.8-2.3 8.3 8.3 0 0 1-2.6 1 4.1 4.1 0 0 0-7 3.7A11.6 11.6 0 0 1 3 4.7a4.1 4.1 0 0 0 1.3 5.5 4.1 4.1 0 0 1-1.9-.5v.1a4.1 4.1 0 0 0 3.3 4 4.1 4.1 0 0 1-1.9.1 4.1 4.1 0 0 0 3.8 2.9A8.2 8.2 0 0 1 2 18.4a11.6 11.6 0 0 0 6.3 1.8c7.5 0 11.7-6.3 11.7-11.7v-.5A8.4 8.4 0 0 0 22 5.8z"/></svg>
+            </button>
+            <button type="button" class="card-btn" data-share="pinterest" aria-label="Compartilhar no Pinterest">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12c0 5.1 3.2 9.4 7.6 11.2-.1-.9-.2-2.4 0-3.4.2-.9 1.4-5.7 1.4-5.7s-.4-.7-.4-1.8c0-1.7 1-3 2.2-3 1 0 1.5.8 1.5 1.7 0 1-.7 2.6-1 4-.3 1.2.6 2.1 1.7 2.1 2.1 0 3.7-2.2 3.7-5.4 0-2.8-2-4.8-4.9-4.8-3.4 0-5.4 2.5-5.4 5.2 0 1 .4 2.1.9 2.7.1.1.1.2.1.3-.1.3-.3 1.2-.3 1.4 0 .2-.2.3-.4.2-1.5-.7-2.4-2.9-2.4-4.6 0-3.8 2.7-7.2 7.9-7.2 4.1 0 7.4 3 7.4 6.9 0 4.1-2.6 7.4-6.2 7.4-1.2 0-2.4-.6-2.7-1.4 0 0-.6 2.3-.7 2.9-.3 1-1 2.4-1.4 3.2 1.1.3 2.2.5 3.4.5 6.6 0 12-5.4 12-12S18.6 0 12 0z"/></svg>
+            </button>
+            <button type="button" class="card-btn" data-share="copy" aria-label="Copiar link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            </button>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
 
-      <!-- Produtos Relacionados -->
-      <section class="related-products">
-        <div class="container">
-          <h2 class="section-title"><span>Produtos Relacionados</span></h2>
-          <div class="products-grid" id="related-products"></div>
+    <!-- Produtos relacionados -->
+    <section class="section section-alt related-products">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">Veja também</div>
+          <h2>Outras peças desta categoria.</h2>
         </div>
-      </section>
-    </div>
-  </main>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-content">
-      <div class="footer-logo">
-        <i class="fas fa-tree"></i> Wood & Art
+        <div class="grid" id="related-products"></div>
       </div>
-      <div class="footer-info">
-        <p>© 2026 Todos os direitos reservados</p>
-      </div>
-      <div class="footer-links">
-        <a href="index.html">Home</a> | 
-        <a href="produtos.html">Produtos</a> | 
-        <a href="depoimentos.html">Depoimentos</a> | 
-        <a href="index.html#contato">Contato</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Modal de Zoom -->
-  <div id="zoom-modal" class="zoom-modal">
-    <span class="zoom-modal-close">&times;</span>
-    <div class="zoom-modal-content">
-      <img id="zoom-modal-image" src="" alt="Zoom">
-      <button class="zoom-modal-prev" id="zoom-prev"><i class="fas fa-chevron-left"></i></button>
-      <button class="zoom-modal-next" id="zoom-next"><i class="fas fa-chevron-right"></i></button>
-    </div>
+    </section>
   </div>
+</main>
 
-  <!-- Toast de notificação -->
-  <div class="toast" id="toast">
-    <i class="fas fa-check-circle"></i>
-    <span id="toast-message">Link copiado!</span>
-  </div>
+<!-- Modal de zoom -->
+<div class="zoom-modal" id="zoom-modal" aria-hidden="true">
+  <button type="button" class="zoom-close" aria-label="Fechar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <img src="" alt="">
+</div>
 
-  <!-- Scripts -->
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/produtos.js"></script>
-  <script src="assets/js/produto.js"></script>
+<div id="footer-slot"></div>
+<div id="fab-slot"></div>
+
+<script src="assets/js/products.js"></script>
+<script src="assets/js/partials.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/product.js"></script>
 </body>
 </html>

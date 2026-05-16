@@ -1,215 +1,212 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Depoimentos - Wood & Art</title>
-  <meta name="description" content="Veja o que nossos clientes dizem sobre as peças artesanais da Wood & Art">
-  
-  <!-- CSS -->
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/depoimentos.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2a1f17">
+<meta name="description" content="Depoimentos de clientes Wood &amp; Art — histórias de quem levou uma peça pra casa.">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Depoimentos — Wood &amp; Art</title>
+
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232a1f17'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='600' fill='%23f5ecdf' text-anchor='middle' font-style='italic'%3EW%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  /* Stats simples */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    background: var(--paper);
+    padding: 1.5rem 2rem;
+    border-radius: 3px;
+    margin-bottom: 2.5rem;
+    align-items: center;
+  }
+  .stats .stat {
+    text-align: left;
+    border-right: 1px solid rgba(42, 31, 23, 0.1);
+    padding-right: 1rem;
+  }
+  .stats .stat:last-child { border-right: 0; }
+  .stats strong {
+    display: block;
+    font-family: var(--serif);
+    font-size: 2.6rem;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+  .stats span {
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 600;
+  }
+  /* Rating buttons no formulário */
+  .rating {
+    display: flex;
+    gap: 0.4rem;
+    font-size: 1.8rem;
+    color: var(--amber);
+  }
+  .rating-btn {
+    background: none;
+    border: 0;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0.1rem;
+    color: inherit;
+    transition: transform var(--t-fast);
+  }
+  .rating-btn:hover { transform: scale(1.15); }
+</style>
 </head>
 <body>
-  <!-- WhatsApp Flutuante -->
-  <div class="whatsapp-float">
-    <a href="https://wa.me/55718180-4578" target="_blank" rel="noopener noreferrer">
-      <i class="fab fa-whatsapp"></i>
-    </a>
+<a href="#main" class="skip-link">Pular para o conteúdo</a>
+
+<div id="nav-slot" data-active="depoimentos"></div>
+
+<nav class="crumb" aria-label="Breadcrumb">
+  <div class="container">
+    <a href="index.html">Início</a> &rsaquo; <span>Depoimentos</span>
   </div>
+</nav>
 
-  <!-- HEADER -->
-  <header>
-    <nav class="navbar">
-      <div class="nav-container">
-        <a href="index.html" class="logo">
-          <i class="fas fa-tree"></i>
-          <span>Wood & Art</span>
-        </a>
-        
-        <button class="mobile-menu-btn" aria-label="Menu">
-          <i class="fas fa-bars"></i>
-        </button>
-        
-        <ul class="menu">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="produtos.html">Produtos</a></li>
-          <li><a href="depoimentos.html" class="active">Depoimentos</a></li>
-          <li><a href="index.html#orcamento">Orçamento</a></li>
-          <li><a href="index.html#contato">Contato</a></li>
-        </ul>
+<main id="main">
+  <section class="section" style="padding-top:3rem;padding-bottom:3rem;">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">Quem levou uma peça pra casa</div>
+        <h2>Histórias dos clientes.</h2>
+        <p class="lede">Coletados ao longo dos últimos meses, com permissão de cada pessoa.</p>
       </div>
-    </nav>
-  </header>
 
-  <main>
-    <div class="breadcrumb">
-      <div class="container">
-        <a href="index.html">Home</a> &gt; 
-        <span>Depoimentos</span>
+      <div class="stats">
+        <div class="stat">
+          <strong id="avg-rating">—</strong>
+          <span>Nota média</span>
+        </div>
+        <div class="stat">
+          <strong id="total-reviews">0</strong>
+          <span>Depoimentos</span>
+        </div>
+        <div class="stat" style="border-right:0;">
+          <strong>★★★★★</strong>
+          <span>Em sua maioria</span>
+        </div>
+      </div>
+
+      <div class="filters">
+        <select id="filter-produto" class="filter" aria-label="Filtrar por produto"></select>
+        <select id="filter-rating" class="filter" aria-label="Filtrar por nota">
+          <option value="0">Todas as notas</option>
+          <option value="5">Só 5 estrelas</option>
+          <option value="4">4 estrelas ou mais</option>
+          <option value="3">3 estrelas ou mais</option>
+        </select>
+      </div>
+
+      <div class="testi-grid" id="testimonials-grid"></div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <div class="form-wrap">
+        <div class="form-side">
+          <div class="eyebrow">Deixe seu depoimento</div>
+          <h2>Comprou uma peça?<br>Conte como foi.</h2>
+          <p class="lede" style="margin-top:1.25rem;">Seu depoimento será enviado via WhatsApp para a gente revisar antes de publicar. Sem fotos por aqui — se quiser mandar imagens, envie direto pela conversa depois.</p>
+        </div>
+
+        <form id="testimonial-form" novalidate aria-label="Enviar depoimento">
+          <div class="field-row">
+            <div class="field">
+              <label for="nome">Nome <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="nome" name="nome" required minlength="3" maxlength="80" autocomplete="name">
+              <div class="field-error">Informe seu nome.</div>
+            </div>
+            <div class="field">
+              <label for="cidade">Cidade</label>
+              <input type="text" id="cidade" name="cidade" maxlength="80" autocomplete="address-level2">
+              <div class="field-error"></div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="produto">Produto adquirido</label>
+            <select id="produto" name="produto">
+              <option value="">Selecione…</option>
+              <option>Tábua de Corte Profissional</option>
+              <option>Tábua de Servir com Alça</option>
+              <option>Poltrona Rústica</option>
+              <option>Banco Orgânico</option>
+              <option>Mesa de Jantar 6 lugares</option>
+              <option>Cadeira Retrô</option>
+              <option>Prateleira Flutuante</option>
+              <option>Móvel Multiuso</option>
+              <option>Nicho Decorativo</option>
+              <option>Suporte para Plantas Triplo</option>
+              <option>Casa de Pássaro Decorativa</option>
+              <option>Vaso de Gesso Natural</option>
+              <option>Vaso de Argamassa</option>
+              <option>Arranjo de Suculentas</option>
+              <option>Mini Jardim Terrário</option>
+              <option>Outra peça sob medida</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Sua avaliação <span class="req" aria-hidden="true">*</span></label>
+            <div class="rating" role="group" aria-label="Avaliação por estrelas">
+              <button type="button" class="rating-btn" aria-pressed="false">☆</button>
+              <button type="button" class="rating-btn" aria-pressed="false">☆</button>
+              <button type="button" class="rating-btn" aria-pressed="false">☆</button>
+              <button type="button" class="rating-btn" aria-pressed="false">☆</button>
+              <button type="button" class="rating-btn" aria-pressed="false">☆</button>
+            </div>
+            <input type="hidden" name="avaliacao" value="0">
+          </div>
+
+          <div class="field">
+            <label for="comentario">Comentário <span class="req" aria-hidden="true">*</span></label>
+            <textarea id="comentario" name="comentario" required minlength="10" maxlength="500" rows="4" placeholder="Conte como foi a experiência com a peça."></textarea>
+            <div class="field-error">Conte um pouco mais (mínimo 10 caracteres).</div>
+          </div>
+
+          <div class="hp" aria-hidden="true">
+            <label for="website-d">Não preencher</label>
+            <input type="text" id="website-d" name="website" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="form-foot">
+            <span class="form-note">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Revisamos antes de publicar.
+            </span>
+            <button type="submit" class="btn btn-primary">Enviar depoimento</button>
+          </div>
+        </form>
       </div>
     </div>
+  </section>
+</main>
 
-    <section class="page-header">
-      <h1>Depoimentos de Clientes</h1>
-      <p>Compartilhe sua experiência com nossas peças artesanais</p>
-    </section>
+<div id="footer-slot"></div>
+<div id="fab-slot"></div>
 
-    <!-- Formulário de Novo Depoimento -->
-    <section class="new-testimonial">
-      <div class="container">
-        <div class="testimonial-form-card">
-          <h2><i class="fas fa-pen"></i> Deixe seu depoimento</h2>
-          
-          <form id="testimonial-form" class="testimonial-form" novalidate>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="nome" class="required">Nome</label>
-                <input type="text" id="nome-dep" name="nome" required minlength="3" maxlength="80">
-              </div>
-              
-              <div class="form-group">
-                <label for="cidade">Cidade</label>
-                <input type="text" id="cidade-dep" name="cidade">
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <label for="produto" class="required">Produto adquirido</label>
-              <select id="produto-dep" name="produto" required>
-                <option value="">Selecione um produto</option>
-                <option value="tabua-corte">Tábua de corte</option>
-                <option value="tabua-servir">Tábua de servir</option>
-                <option value="poltrona">Poltrona</option>
-                <option value="banco">Banco</option>
-                <option value="mesa">Mesa</option>
-                <option value="cadeira">Cadeira</option>
-                <option value="prateleira">Prateleira</option>
-                <option value="moveis">Móveis sob medida</option>
-                <option value="nicho">Nicho</option>
-                <option value="suporte-planta">Suporte para planta</option>
-                <option value="casa-passaro">Casa de pássaro</option>
-                <option value="vaso-gesso">Vaso de gesso</option>
-                <option value="vaso-argamassa">Vaso de argamassa</option>
-                <option value="arranjo-vivo">Arranjo de planta viva</option>
-                <option value="outro">Outro</option>
-              </select>
-            </div>
-            
-            <div class="form-group">
-              <label for="avaliacao" class="required">Avaliação</label>
-              <div class="rating-input">
-                <div class="stars">
-                  <i class="far fa-star" data-rating="1"></i>
-                  <i class="far fa-star" data-rating="2"></i>
-                  <i class="far fa-star" data-rating="3"></i>
-                  <i class="far fa-star" data-rating="4"></i>
-                  <i class="far fa-star" data-rating="5"></i>
-                </div>
-                <input type="hidden" id="avaliacao" name="avaliacao" required>
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <label for="comentario" class="required">Comentário</label>
-              <textarea id="comentario" name="comentario" rows="4" required minlength="10" maxlength="500"></textarea>
-            </div>
-            
-            <div class="form-group">
-              <label for="fotos">Fotos do produto (opcional)</label>
-              <div class="file-upload">
-                <input type="file" id="fotos" name="fotos" accept="image/*" multiple>
-                <div class="upload-area">
-                  <i class="fas fa-cloud-upload-alt"></i>
-                  <p>Arraste fotos ou clique para enviar</p>
-                  <small>Máximo 5 fotos · PNG, JPG até 5MB cada</small>
-                </div>
-              </div>
-              <div class="preview-fotos" id="preview-fotos"></div>
-            </div>
-            
-            <!-- Honeypot anti-spam -->
-            <div class="honeypot">
-              <label for="website-dep">Não preencher</label>
-              <input type="text" id="website-dep" name="website" tabindex="-1" autocomplete="off">
-            </div>
-            
-            <div class="form-consent">
-              <label>
-                <input type="checkbox" name="consent" required>
-                <span>Concordo em compartilhar meu depoimento e fotos no site</span>
-              </label>
-            </div>
-            
-            <button type="submit" class="btn-enviar">
-              <i class="fas fa-paper-plane"></i> Enviar depoimento
-            </button>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- Filtros de Depoimentos -->
-    <section class="testimonials-filter">
-      <div class="container">
-        <div class="filter-bar">
-          <div class="filter-group">
-            <label for="filter-produto">Filtrar por produto:</label>
-            <select id="filter-produto" class="filter-select">
-              <option value="">Todos os produtos</option>
-            </select>
-          </div>
-          
-          <div class="filter-group">
-            <label for="filter-rating">Nota mínima:</label>
-            <select id="filter-rating" class="filter-select">
-              <option value="0">Todas</option>
-              <option value="3">3+ estrelas</option>
-              <option value="4">4+ estrelas</option>
-              <option value="5">5 estrelas</option>
-            </select>
-          </div>
-          
-          <div class="filter-group">
-            <label for="filter-photos">Com fotos:</label>
-            <select id="filter-photos" class="filter-select">
-              <option value="all">Todos</option>
-              <option value="with-photos">Com fotos</option>
-            </select>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Grid de Depoimentos -->
-    <section class="testimonials-grid-section">
-      <div class="container">
-        <div class="testimonials-stats">
-          <div class="rating-summary">
-            <div class="average-rating">
-              <span class="rating-value" id="avg-rating">4.8</span>
-              <div class="stars" id="avg-stars"></div>
-              <span class="total-reviews" id="total-reviews">0 avaliações</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="testimonials-grid" id="testimonials-grid">
-          <!-- Depoimentos carregados via JS -->
-          <div class="loading-spinner">Carregando depoimentos...</div>
-        </div>
-        
-        <div class="pagination" id="testimonials-pagination"></div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <!-- ... footer ... -->
-  </footer>
-
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/depoimentos.js"></script>
+<script src="assets/js/products.js"></script>
+<script src="assets/js/testimonials.js"></script>
+<script src="assets/js/partials.js"></script>
+<script src="assets/js/main.js"></script>
 </body>
 </html>

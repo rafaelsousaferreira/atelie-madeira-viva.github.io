@@ -1,83 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Página não encontrada - Wood & Art</title>
-  <link rel="stylesheet" href="assets/css/style.css">
-  <style>
-    .error-page {
-      min-height: 80vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
-    }
-    
-    .error-content {
-      max-width: 600px;
-    }
-    
-    .error-code {
-      font-size: 8rem;
-      font-family: var(--fonte-titulo);
-      color: var(--madeira-media);
-      line-height: 1;
-    }
-    
-    .error-message {
-      font-size: 2rem;
-      margin: 2rem 0;
-      color: var(--madeira-escura);
-    }
-    
-    .wood-divider {
-      width: 100px;
-      height: 4px;
-      background: var(--madeira-media);
-      margin: 2rem auto;
-    }
-    
-    .btn-home {
-      display: inline-block;
-      background: var(--madeira-media);
-      color: white;
-      padding: 1rem 2.5rem;
-      border-radius: 40px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s;
-    }
-    
-    .btn-home:hover {
-      background: var(--madeira-escura);
-      transform: translateY(-2px);
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2a1f17">
+<meta name="description" content="Página não encontrada — Wood &amp; Art.">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Página não encontrada — Wood &amp; Art</title>
+
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232a1f17'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='600' fill='%23f5ecdf' text-anchor='middle' font-style='italic'%3EW%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="/" class="logo">
-        <i class="fas fa-tree"></i>
-        <span>Wood & Art</span>
+<div id="nav-slot"></div>
+
+<main id="main">
+  <section class="err-page">
+    <div class="container">
+      <div class="err-num">404</div>
+      <h1>Esta página não existe.</h1>
+      <p>O caminho que você seguiu deu em galho seco. Volte pro tronco principal — tem peça boa esperando.</p>
+      <a href="index.html" class="btn btn-primary">
+        Voltar ao início
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
     </div>
-  </nav>
-  
-  <main class="error-page">
-    <div class="error-content">
-      <div class="error-code">404</div>
-      <h1 class="error-message">Página não encontrada</h1>
-      <div class="wood-divider"></div>
-      <p style="font-size: 1.2rem; margin-bottom: 2rem;">A madeira que você procura não está aqui...<br>mas temos muitas outras esperando por você.</p>
-      <a href="/" class="btn-home">
-        <i class="fas fa-home"></i> Voltar para Home
-      </a>
-    </div>
-  </main>
-  
-  <script src="assets/js/main.js"></script>
+  </section>
+</main>
+
+<div id="footer-slot"></div>
+<div id="fab-slot"></div>
+
+<script src="assets/js/partials.js"></script>
+<script src="assets/js/main.js"></script>
 </body>
 </html>
