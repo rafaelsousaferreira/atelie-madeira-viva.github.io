@@ -598,18 +598,32 @@ main { position: relative; z-index: 2; padding-top: 64px; }
   flex-direction: column;
   transition: transform var(--t), box-shadow var(--t);
   position: relative;
-  text-decoration: none;
   color: inherit;
 }
 .card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+
+/* Link que cobre toda a área do card (acessível via teclado/screen reader).
+   z-index 1; os elementos interativos do card (botões) ficam em z-index 2. */
+.card-link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  text-decoration: none;
+  color: inherit;
+  /* Acessibilidade: o link tem text content vazio (label via aria-label).
+     Foco visível: outline herda do :focus-visible global. */
+}
+.card-link:focus-visible { outline: 2px solid var(--rust); outline-offset: -3px; }
 
 .card-media {
   aspect-ratio: 4 / 3;
   background: var(--paper-3);
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;     /* Não deixar a media encolher no flex */
 }
 .card-media img, .card-media svg {
+  display: block;
   width: 100%; height: 100%;
   object-fit: cover;
   transition: transform var(--t-slow);
@@ -630,7 +644,7 @@ main { position: relative; z-index: 2; padding-top: 64px; }
   text-transform: uppercase;
   color: var(--ink);
   border-radius: 100px;
-  z-index: 2;
+  z-index: 2;            /* acima do card-link */
 }
 .card-tag.tag-rust { background: var(--rust); color: var(--paper); }
 .card-tag.tag-region { background: var(--moss); color: var(--paper); }
@@ -640,7 +654,13 @@ main { position: relative; z-index: 2; padding-top: 64px; }
   flex: 1;
   display: flex;
   flex-direction: column;
+  position: relative;    /* contexto pro z-index */
+  z-index: 1;
+  pointer-events: none;  /* deixa cliques caírem no card-link por baixo */
 }
+.card-body > * { pointer-events: auto; }  /* texto selecionável */
+.card-body .card-actions { pointer-events: auto; }
+.card-body .card-actions .card-btn { position: relative; z-index: 2; }
 .card-cat {
   font-size: 0.7rem;
   font-weight: 600;
@@ -734,16 +754,28 @@ label {
 }
 label .req { color: var(--rust); }
 
+/* Labels dentro do <form> mantém cor escura porque o form tem fundo claro
+   mesmo dentro de seções escuras. Não precisa de override. */
+
 input, select, textarea {
   width: 100%;
   padding: 0.85rem 1rem;
   border: 1px solid rgba(42, 31, 23, 0.2);
   border-radius: var(--radius);
   background: var(--white);
+  color: var(--ink);              /* Texto preto, mesmo em section-dark */
   font-size: 0.95rem;
   transition: border-color var(--t-fast), box-shadow var(--t-fast);
   font-family: var(--sans);
 }
+/* Placeholder com cor mais clara (legível) */
+input::placeholder, textarea::placeholder {
+  color: var(--ink-3);
+  opacity: 1;       /* normaliza Firefox que aplica opacity por padrão */
+}
+/* Select sempre com texto escuro, mesmo no Chrome/Safari */
+select { color: var(--ink); }
+select option { color: var(--ink); background: var(--white); }
 textarea { resize: vertical; min-height: 110px; line-height: 1.5; }
 input:focus, select:focus, textarea:focus {
   outline: none;
