@@ -1,6 +1,6 @@
-# Wood & Art
+# C&G Planejados
 
-Site institucional da marcenaria **Wood & Art** (Camaçari/BA) — catálogo, depoimentos e formulário de orçamento que envia direto pro WhatsApp.
+Site institucional da marcenaria **C&G Planejados** (Camaçari/BA) — catálogo, depoimentos e formulário de orçamento que envia direto pro WhatsApp.
 
 Site 100% estático: roda em GitHub Pages, Netlify, Vercel ou qualquer servidor web simples. Sem backend, sem banco, sem dependências de build.
 
