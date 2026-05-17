@@ -1,5 +1,5 @@
-# robots.txt — C&G Planejados
-# https://cgplanejados.com.br/robots.txt
+# robots.txt — C&G Madeira Decor
+# https://cgmadeiradecor.com.br/robots.txt
 
 User-agent: *
 Allow: /
@@ -20,4 +20,4 @@ User-agent: DuckDuckBot
 Allow: /
 
 # Sitemap
-Sitemap: https://cgplanejados.com.br/sitemap.xml
+Sitemap: https://cgmadeiradecor.com.br/sitemap.xml

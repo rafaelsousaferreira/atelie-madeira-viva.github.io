@@ -1,13 +1,13 @@
-# C&G Planejados
+# C&G Madeira Decor
 
-Site institucional da marcenaria **C&G Planejados** (Camaçari/BA) — catálogo, depoimentos e formulário de orçamento que envia direto pro WhatsApp.
+Site institucional da **C&G Madeira Decor** (Camaçari/BA) — pequenos móveis e peças de decoração em madeira maciça. Catálogo, depoimentos e formulário de orçamento que envia direto pro WhatsApp.
 
 Site 100% estático: roda em GitHub Pages, Netlify, Vercel ou qualquer servidor web simples. Sem backend, sem banco, sem dependências de build.
 
 ## Estrutura
 
 ```
-cg-planejados/
+cg-madeira-decor/
 ├── index.html           Página inicial (hero, sobre, categorias, destaques, depoimentos, orçamento, contato)
 ├── produtos.html        Catálogo com busca, filtros e paginação
 ├── produto.html         Detalhe de um produto (?id=N)
@@ -179,12 +179,12 @@ O site tem SEO completo configurado:
 ### Após subir para produção
 
 1. **Google Search Console** (https://search.google.com/search-console):
-   - Adicione a propriedade `https://cgplanejados.com.br`
+   - Adicione a propriedade `https://cgmadeiradecor.com.br`
    - Confirme propriedade (DNS ou HTML tag)
-   - Submeta o sitemap: `https://cgplanejados.com.br/sitemap.xml`
+   - Submeta o sitemap: `https://cgmadeiradecor.com.br/sitemap.xml`
 
 2. **Google Business Profile** (https://www.google.com/business):
-   - Reivindique/crie o perfil de C&G Planejados em Camaçari
+   - Reivindique/crie o perfil de C&G Madeira Decor em Camaçari
    - Use os dados do JSON-LD `LocalBusiness` para preencher
 
 3. **Bing Webmaster Tools** (opcional): submeta o sitemap também.
