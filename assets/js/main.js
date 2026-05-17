@@ -129,9 +129,15 @@ WA.toast = function (message, type) {
 /* ---------- NAV: scroll + mobile menu ---------- */
 function initNav() {
   var nav = document.querySelector('.nav');
+  if (!nav) return;
+  // Guarda: se já foi inicializada nessa nav, sai. main.js chama uma vez
+  // (a nav pode ainda não existir, então não faz nada); partials.js chama
+  // de novo depois de renderizar a nav (aí entra). Idempotente.
+  if (nav.dataset.navInit === '1') return;
+  nav.dataset.navInit = '1';
+
   var toggle = document.querySelector('.nav-toggle');
   var menu = document.querySelector('.mobile-menu');
-  if (!nav) return;
 
   // Sombra ao rolar
   var onScroll = function () {

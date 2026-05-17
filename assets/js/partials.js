@@ -127,4 +127,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var footSlot = document.getElementById('footer-slot');
   if (footSlot) footSlot.outerHTML = WA.renderFooter();
+
+  // A nav é renderizada aqui (via outerHTML), então só agora os elementos
+  // `.nav-toggle` e `.mobile-menu` existem no DOM. Re-roda initNav pra
+  // amarrar os listeners do toggle (mobile) e do scroll (sombra do header).
+  // main.js chamou initNav antes da nav existir — isso é apenas a segunda
+  // chamada que de fato encontra os elementos.
+  if (typeof initNav === 'function') initNav();
 });
